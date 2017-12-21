@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+message FileMessage {
+    bytes file = 1;
+}
+
+message ResourceIdentifier {
+    string resource_id = 1;
+}
+
+message DockerRuntimeMessage {
+    string resource_id = 1;
+    repeated string property = 2;
+    bytes file = 3;
+}
+
+message StringResponse {
+    string response = 1;
+}
+
+message StartStopMessage{
+    string container_id = 1;
+}
+
+message Empty {
+
+}
+
+message Auth {
+        string auth_url = 1;
+        string username = 2;
+        string password = 3;
+        string project = 4;
+}
+
+message ResourceGroupCompose {
+
+    message PoPCompose {
+        string name = 1;
+        string interfaceEndpoint = 2;
+    }
+
+    message MetadataEntryCompose {
+        string key = 1;
+        string value = 2;
+    }
+
+    message NetworkCompose {
+        string name = 1;
+        string poPName = 2;
+        string cidr = 3;
+        string networkId = 4;
+    }
+
+    message VDUCompose {
+        string name = 1;
+        string imageName = 2;
+        string netName = 3;
+        string poPName = 4;
+        string computeId = 5;
+        string ip = 6;
+        repeated MetadataEntryCompose metadata = 7;
+    }
+
+    string name = 1;
+    repeated PoPCompose pops = 2;
+    repeated NetworkCompose networks = 3;
+    repeated VDUCompose vdus = 4;
+    Auth auth = 5;
+}
+
+service ComposeHandler {
+
+    rpc UpCompose(FileMessage) returns (ResourceGroupCompose) {}
+
+    rpc RemoveCompose(ResourceIdentifier) returns (Empty) {}
+
+    rpc StopContainer(ResourceIdentifier) returns (Empty) {}
+
+    rpc CheckIfContainerExists(ResourceIdentifier) returns (StringResponse) {}
+
+    rpc CheckIfContainerRunning(ResourceIdentifier) returns (StringResponse) {}
+
+    rpc StartContainer(ResourceIdentifier) returns (Empty) {}
+
+    rpc ExecuteCommand(DockerRuntimeMessage) returns (StringResponse) {}
+
+    rpc DownloadFile(DockerRuntimeMessage) returns (FileMessage) {}
+
+    rpc UploadFile(DockerRuntimeMessage) returns (Empty) {}
+}
