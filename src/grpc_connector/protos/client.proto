@@ -10,7 +10,7 @@ message ResourceIdentifier {
     string resource_id = 1;
 }
 
-message DockerRuntimeMessage {
+message RuntimeMessage {
     string resource_id = 1;
     repeated string property = 2;
     bytes file = 3;
@@ -35,47 +35,47 @@ message Auth {
         string project = 4;
 }
 
-message ResourceGroupCompose {
+message ResourceGroupProto {
 
-    message PoPCompose {
+    message PoP {
         string name = 1;
         string interfaceEndpoint = 2;
     }
 
-    message MetadataEntryCompose {
+    message MetadataEntry {
         string key = 1;
         string value = 2;
     }
 
-    message NetworkCompose {
+    message Network {
         string name = 1;
         string poPName = 2;
         string cidr = 3;
         string networkId = 4;
     }
 
-    message VDUCompose {
+    message VDU {
         string name = 1;
         string imageName = 2;
         string netName = 3;
         string poPName = 4;
         string computeId = 5;
         string ip = 6;
-        repeated MetadataEntryCompose metadata = 7;
+        repeated MetadataEntry metadata = 7;
     }
 
     string name = 1;
-    repeated PoPCompose pops = 2;
-    repeated NetworkCompose networks = 3;
-    repeated VDUCompose vdus = 4;
+    repeated PoP pops = 2;
+    repeated Network networks = 3;
+    repeated VDU vdus = 4;
     Auth auth = 5;
 }
 
-service ComposeHandler {
+service OperationHandler {
 
-    rpc UpCompose(FileMessage) returns (ResourceGroupCompose) {}
+    rpc Create(FileMessage) returns (ResourceGroupProto) {}
 
-    rpc RemoveCompose(ResourceIdentifier) returns (Empty) {}
+    rpc Remove(ResourceIdentifier) returns (Empty) {}
 
     rpc StopContainer(ResourceIdentifier) returns (Empty) {}
 
@@ -85,9 +85,9 @@ service ComposeHandler {
 
     rpc StartContainer(ResourceIdentifier) returns (Empty) {}
 
-    rpc ExecuteCommand(DockerRuntimeMessage) returns (StringResponse) {}
+    rpc ExecuteCommand(RuntimeMessage) returns (StringResponse) {}
 
-    rpc DownloadFile(DockerRuntimeMessage) returns (FileMessage) {}
+    rpc DownloadFile(RuntimeMessage) returns (FileMessage) {}
 
-    rpc UploadFile(DockerRuntimeMessage) returns (Empty) {}
+    rpc UploadFile(RuntimeMessage) returns (Empty) {}
 }

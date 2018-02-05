@@ -17,8 +17,8 @@ from src.handlers.plays import  *
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 
-class Runner(client_pb2_grpc.ComposeHandlerServicer):
-    def UpCompose(self, request, context):
+class Runner(client_pb2_grpc.OperationHandlerServicer):
+    def Create(self, request, context):
 
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.write(request.file)
@@ -53,7 +53,7 @@ class Runner(client_pb2_grpc.ComposeHandlerServicer):
 
     '''
 
-    def RemoveCompose(self, request, context):
+    def Remove(self, request, context):
 
         instance_id = request.resource_id
         ansible_executor.execute_play(
@@ -129,7 +129,7 @@ def serve(port="50052", register=False, ip="elastest-epm", adapter_ip="elastest-
         utils.register_pop(ip, adapter_ip)
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    client_pb2_grpc.add_ComposeHandlerServicer_to_server(
+    client_pb2_grpc.add_OperationHandlerServicer_to_server(
         Runner(), server)
     server.add_insecure_port('[::]:' + port)
     server.start()

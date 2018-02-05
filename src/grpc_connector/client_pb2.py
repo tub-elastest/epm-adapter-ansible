@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='client.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0c\x63lient.proto\"\x1b\n\x0b\x46ileMessage\x12\x0c\n\x04\x66ile\x18\x01 \x01(\x0c\")\n\x12ResourceIdentifier\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\"K\n\x14\x44ockerRuntimeMessage\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x10\n\x08property\x18\x02 \x03(\t\x12\x0c\n\x04\x66ile\x18\x03 \x01(\x0c\"\"\n\x0eStringResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"(\n\x10StartStopMessage\x12\x14\n\x0c\x63ontainer_id\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"M\n\x04\x41uth\x12\x10\n\x08\x61uth_url\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0f\n\x07project\x18\x04 \x01(\t\"\xbd\x04\n\x14ResourceGroupCompose\x12\x0c\n\x04name\x18\x01 \x01(\t\x12.\n\x04pops\x18\x02 \x03(\x0b\x32 .ResourceGroupCompose.PoPCompose\x12\x36\n\x08networks\x18\x03 \x03(\x0b\x32$.ResourceGroupCompose.NetworkCompose\x12.\n\x04vdus\x18\x04 \x03(\x0b\x32 .ResourceGroupCompose.VDUCompose\x12\x13\n\x04\x61uth\x18\x05 \x01(\x0b\x32\x05.Auth\x1a\x35\n\nPoPCompose\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x11interfaceEndpoint\x18\x02 \x01(\t\x1a\x32\n\x14MetadataEntryCompose\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x1aP\n\x0eNetworkCompose\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07poPName\x18\x02 \x01(\t\x12\x0c\n\x04\x63idr\x18\x03 \x01(\t\x12\x11\n\tnetworkId\x18\x04 \x01(\t\x1a\xac\x01\n\nVDUCompose\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x11\n\timageName\x18\x02 \x01(\t\x12\x0f\n\x07netName\x18\x03 \x01(\t\x12\x0f\n\x07poPName\x18\x04 \x01(\t\x12\x11\n\tcomputeId\x18\x05 \x01(\t\x12\n\n\x02ip\x18\x06 \x01(\t\x12<\n\x08metadata\x18\x07 \x03(\x0b\x32*.ResourceGroupCompose.MetadataEntryCompose2\xfc\x03\n\x0e\x43omposeHandler\x12\x32\n\tUpCompose\x12\x0c.FileMessage\x1a\x15.ResourceGroupCompose\"\x00\x12.\n\rRemoveCompose\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12.\n\rStopContainer\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12@\n\x16\x43heckIfContainerExists\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12\x41\n\x17\x43heckIfContainerRunning\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12/\n\x0eStartContainer\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12:\n\x0e\x45xecuteCommand\x12\x15.DockerRuntimeMessage\x1a\x0f.StringResponse\"\x00\x12\x35\n\x0c\x44ownloadFile\x12\x15.DockerRuntimeMessage\x1a\x0c.FileMessage\"\x00\x12-\n\nUploadFile\x12\x15.DockerRuntimeMessage\x1a\x06.Empty\"\x00\x42\x02P\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0c\x63lient.proto\"\x1b\n\x0b\x46ileMessage\x12\x0c\n\x04\x66ile\x18\x01 \x01(\x0c\")\n\x12ResourceIdentifier\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\"E\n\x0eRuntimeMessage\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x10\n\x08property\x18\x02 \x03(\t\x12\x0c\n\x04\x66ile\x18\x03 \x01(\x0c\"\"\n\x0eStringResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"(\n\x10StartStopMessage\x12\x14\n\x0c\x63ontainer_id\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"M\n\x04\x41uth\x12\x10\n\x08\x61uth_url\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0f\n\x07project\x18\x04 \x01(\t\"\xfb\x03\n\x12ResourceGroupProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12%\n\x04pops\x18\x02 \x03(\x0b\x32\x17.ResourceGroupProto.PoP\x12-\n\x08networks\x18\x03 \x03(\x0b\x32\x1b.ResourceGroupProto.Network\x12%\n\x04vdus\x18\x04 \x03(\x0b\x32\x17.ResourceGroupProto.VDU\x12\x13\n\x04\x61uth\x18\x05 \x01(\x0b\x32\x05.Auth\x1a.\n\x03PoP\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x11interfaceEndpoint\x18\x02 \x01(\t\x1a+\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x1aI\n\x07Network\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07poPName\x18\x02 \x01(\t\x12\x0c\n\x04\x63idr\x18\x03 \x01(\t\x12\x11\n\tnetworkId\x18\x04 \x01(\t\x1a\x9c\x01\n\x03VDU\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x11\n\timageName\x18\x02 \x01(\t\x12\x0f\n\x07netName\x18\x03 \x01(\t\x12\x0f\n\x07poPName\x18\x04 \x01(\t\x12\x11\n\tcomputeId\x18\x05 \x01(\t\x12\n\n\x02ip\x18\x06 \x01(\t\x12\x33\n\x08metadata\x18\x07 \x03(\x0b\x32!.ResourceGroupProto.MetadataEntry2\xe0\x03\n\x10OperationHandler\x12-\n\x06\x43reate\x12\x0c.FileMessage\x1a\x13.ResourceGroupProto\"\x00\x12\'\n\x06Remove\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12.\n\rStopContainer\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12@\n\x16\x43heckIfContainerExists\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12\x41\n\x17\x43heckIfContainerRunning\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12/\n\x0eStartContainer\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12\x34\n\x0e\x45xecuteCommand\x12\x0f.RuntimeMessage\x1a\x0f.StringResponse\"\x00\x12/\n\x0c\x44ownloadFile\x12\x0f.RuntimeMessage\x1a\x0c.FileMessage\"\x00\x12\'\n\nUploadFile\x12\x0f.RuntimeMessage\x1a\x06.Empty\"\x00\x42\x02P\x01\x62\x06proto3')
 )
 
 
@@ -87,29 +87,29 @@ _RESOURCEIDENTIFIER = _descriptor.Descriptor(
 )
 
 
-_DOCKERRUNTIMEMESSAGE = _descriptor.Descriptor(
-  name='DockerRuntimeMessage',
-  full_name='DockerRuntimeMessage',
+_RUNTIMEMESSAGE = _descriptor.Descriptor(
+  name='RuntimeMessage',
+  full_name='RuntimeMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='resource_id', full_name='DockerRuntimeMessage.resource_id', index=0,
+      name='resource_id', full_name='RuntimeMessage.resource_id', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='property', full_name='DockerRuntimeMessage.property', index=1,
+      name='property', full_name='RuntimeMessage.property', index=1,
       number=2, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='file', full_name='DockerRuntimeMessage.file', index=2,
+      name='file', full_name='RuntimeMessage.file', index=2,
       number=3, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -128,7 +128,7 @@ _DOCKERRUNTIMEMESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=88,
-  serialized_end=163,
+  serialized_end=157,
 )
 
 
@@ -158,8 +158,8 @@ _STRINGRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=165,
-  serialized_end=199,
+  serialized_start=159,
+  serialized_end=193,
 )
 
 
@@ -189,8 +189,8 @@ _STARTSTOPMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=201,
-  serialized_end=241,
+  serialized_start=195,
+  serialized_end=235,
 )
 
 
@@ -213,8 +213,8 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=243,
-  serialized_end=250,
+  serialized_start=237,
+  serialized_end=244,
 )
 
 
@@ -265,27 +265,27 @@ _AUTH = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=252,
-  serialized_end=329,
+  serialized_start=246,
+  serialized_end=323,
 )
 
 
-_RESOURCEGROUPCOMPOSE_POPCOMPOSE = _descriptor.Descriptor(
-  name='PoPCompose',
-  full_name='ResourceGroupCompose.PoPCompose',
+_RESOURCEGROUPPROTO_POP = _descriptor.Descriptor(
+  name='PoP',
+  full_name='ResourceGroupProto.PoP',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='ResourceGroupCompose.PoPCompose.name', index=0,
+      name='name', full_name='ResourceGroupProto.PoP.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='interfaceEndpoint', full_name='ResourceGroupCompose.PoPCompose.interfaceEndpoint', index=1,
+      name='interfaceEndpoint', full_name='ResourceGroupProto.PoP.interfaceEndpoint', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -303,26 +303,26 @@ _RESOURCEGROUPCOMPOSE_POPCOMPOSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=543,
-  serialized_end=596,
+  serialized_start=508,
+  serialized_end=554,
 )
 
-_RESOURCEGROUPCOMPOSE_METADATAENTRYCOMPOSE = _descriptor.Descriptor(
-  name='MetadataEntryCompose',
-  full_name='ResourceGroupCompose.MetadataEntryCompose',
+_RESOURCEGROUPPROTO_METADATAENTRY = _descriptor.Descriptor(
+  name='MetadataEntry',
+  full_name='ResourceGroupProto.MetadataEntry',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='ResourceGroupCompose.MetadataEntryCompose.key', index=0,
+      name='key', full_name='ResourceGroupProto.MetadataEntry.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='value', full_name='ResourceGroupCompose.MetadataEntryCompose.value', index=1,
+      name='value', full_name='ResourceGroupProto.MetadataEntry.value', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -340,40 +340,40 @@ _RESOURCEGROUPCOMPOSE_METADATAENTRYCOMPOSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=598,
-  serialized_end=648,
+  serialized_start=556,
+  serialized_end=599,
 )
 
-_RESOURCEGROUPCOMPOSE_NETWORKCOMPOSE = _descriptor.Descriptor(
-  name='NetworkCompose',
-  full_name='ResourceGroupCompose.NetworkCompose',
+_RESOURCEGROUPPROTO_NETWORK = _descriptor.Descriptor(
+  name='Network',
+  full_name='ResourceGroupProto.Network',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='ResourceGroupCompose.NetworkCompose.name', index=0,
+      name='name', full_name='ResourceGroupProto.Network.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='poPName', full_name='ResourceGroupCompose.NetworkCompose.poPName', index=1,
+      name='poPName', full_name='ResourceGroupProto.Network.poPName', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='cidr', full_name='ResourceGroupCompose.NetworkCompose.cidr', index=2,
+      name='cidr', full_name='ResourceGroupProto.Network.cidr', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='networkId', full_name='ResourceGroupCompose.NetworkCompose.networkId', index=3,
+      name='networkId', full_name='ResourceGroupProto.Network.networkId', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -391,61 +391,61 @@ _RESOURCEGROUPCOMPOSE_NETWORKCOMPOSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=650,
-  serialized_end=730,
+  serialized_start=601,
+  serialized_end=674,
 )
 
-_RESOURCEGROUPCOMPOSE_VDUCOMPOSE = _descriptor.Descriptor(
-  name='VDUCompose',
-  full_name='ResourceGroupCompose.VDUCompose',
+_RESOURCEGROUPPROTO_VDU = _descriptor.Descriptor(
+  name='VDU',
+  full_name='ResourceGroupProto.VDU',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='ResourceGroupCompose.VDUCompose.name', index=0,
+      name='name', full_name='ResourceGroupProto.VDU.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='imageName', full_name='ResourceGroupCompose.VDUCompose.imageName', index=1,
+      name='imageName', full_name='ResourceGroupProto.VDU.imageName', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='netName', full_name='ResourceGroupCompose.VDUCompose.netName', index=2,
+      name='netName', full_name='ResourceGroupProto.VDU.netName', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='poPName', full_name='ResourceGroupCompose.VDUCompose.poPName', index=3,
+      name='poPName', full_name='ResourceGroupProto.VDU.poPName', index=3,
       number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='computeId', full_name='ResourceGroupCompose.VDUCompose.computeId', index=4,
+      name='computeId', full_name='ResourceGroupProto.VDU.computeId', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='ip', full_name='ResourceGroupCompose.VDUCompose.ip', index=5,
+      name='ip', full_name='ResourceGroupProto.VDU.ip', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='metadata', full_name='ResourceGroupCompose.VDUCompose.metadata', index=6,
+      name='metadata', full_name='ResourceGroupProto.VDU.metadata', index=6,
       number=7, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -463,47 +463,47 @@ _RESOURCEGROUPCOMPOSE_VDUCOMPOSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=733,
-  serialized_end=905,
+  serialized_start=677,
+  serialized_end=833,
 )
 
-_RESOURCEGROUPCOMPOSE = _descriptor.Descriptor(
-  name='ResourceGroupCompose',
-  full_name='ResourceGroupCompose',
+_RESOURCEGROUPPROTO = _descriptor.Descriptor(
+  name='ResourceGroupProto',
+  full_name='ResourceGroupProto',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='ResourceGroupCompose.name', index=0,
+      name='name', full_name='ResourceGroupProto.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='pops', full_name='ResourceGroupCompose.pops', index=1,
+      name='pops', full_name='ResourceGroupProto.pops', index=1,
       number=2, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='networks', full_name='ResourceGroupCompose.networks', index=2,
+      name='networks', full_name='ResourceGroupProto.networks', index=2,
       number=3, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='vdus', full_name='ResourceGroupCompose.vdus', index=3,
+      name='vdus', full_name='ResourceGroupProto.vdus', index=3,
       number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='auth', full_name='ResourceGroupCompose.auth', index=4,
+      name='auth', full_name='ResourceGroupProto.auth', index=4,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -512,7 +512,7 @@ _RESOURCEGROUPCOMPOSE = _descriptor.Descriptor(
   ],
   extensions=[
   ],
-  nested_types=[_RESOURCEGROUPCOMPOSE_POPCOMPOSE, _RESOURCEGROUPCOMPOSE_METADATAENTRYCOMPOSE, _RESOURCEGROUPCOMPOSE_NETWORKCOMPOSE, _RESOURCEGROUPCOMPOSE_VDUCOMPOSE, ],
+  nested_types=[_RESOURCEGROUPPROTO_POP, _RESOURCEGROUPPROTO_METADATAENTRY, _RESOURCEGROUPPROTO_NETWORK, _RESOURCEGROUPPROTO_VDU, ],
   enum_types=[
   ],
   options=None,
@@ -521,27 +521,27 @@ _RESOURCEGROUPCOMPOSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=332,
-  serialized_end=905,
+  serialized_start=326,
+  serialized_end=833,
 )
 
-_RESOURCEGROUPCOMPOSE_POPCOMPOSE.containing_type = _RESOURCEGROUPCOMPOSE
-_RESOURCEGROUPCOMPOSE_METADATAENTRYCOMPOSE.containing_type = _RESOURCEGROUPCOMPOSE
-_RESOURCEGROUPCOMPOSE_NETWORKCOMPOSE.containing_type = _RESOURCEGROUPCOMPOSE
-_RESOURCEGROUPCOMPOSE_VDUCOMPOSE.fields_by_name['metadata'].message_type = _RESOURCEGROUPCOMPOSE_METADATAENTRYCOMPOSE
-_RESOURCEGROUPCOMPOSE_VDUCOMPOSE.containing_type = _RESOURCEGROUPCOMPOSE
-_RESOURCEGROUPCOMPOSE.fields_by_name['pops'].message_type = _RESOURCEGROUPCOMPOSE_POPCOMPOSE
-_RESOURCEGROUPCOMPOSE.fields_by_name['networks'].message_type = _RESOURCEGROUPCOMPOSE_NETWORKCOMPOSE
-_RESOURCEGROUPCOMPOSE.fields_by_name['vdus'].message_type = _RESOURCEGROUPCOMPOSE_VDUCOMPOSE
-_RESOURCEGROUPCOMPOSE.fields_by_name['auth'].message_type = _AUTH
+_RESOURCEGROUPPROTO_POP.containing_type = _RESOURCEGROUPPROTO
+_RESOURCEGROUPPROTO_METADATAENTRY.containing_type = _RESOURCEGROUPPROTO
+_RESOURCEGROUPPROTO_NETWORK.containing_type = _RESOURCEGROUPPROTO
+_RESOURCEGROUPPROTO_VDU.fields_by_name['metadata'].message_type = _RESOURCEGROUPPROTO_METADATAENTRY
+_RESOURCEGROUPPROTO_VDU.containing_type = _RESOURCEGROUPPROTO
+_RESOURCEGROUPPROTO.fields_by_name['pops'].message_type = _RESOURCEGROUPPROTO_POP
+_RESOURCEGROUPPROTO.fields_by_name['networks'].message_type = _RESOURCEGROUPPROTO_NETWORK
+_RESOURCEGROUPPROTO.fields_by_name['vdus'].message_type = _RESOURCEGROUPPROTO_VDU
+_RESOURCEGROUPPROTO.fields_by_name['auth'].message_type = _AUTH
 DESCRIPTOR.message_types_by_name['FileMessage'] = _FILEMESSAGE
 DESCRIPTOR.message_types_by_name['ResourceIdentifier'] = _RESOURCEIDENTIFIER
-DESCRIPTOR.message_types_by_name['DockerRuntimeMessage'] = _DOCKERRUNTIMEMESSAGE
+DESCRIPTOR.message_types_by_name['RuntimeMessage'] = _RUNTIMEMESSAGE
 DESCRIPTOR.message_types_by_name['StringResponse'] = _STRINGRESPONSE
 DESCRIPTOR.message_types_by_name['StartStopMessage'] = _STARTSTOPMESSAGE
 DESCRIPTOR.message_types_by_name['Empty'] = _EMPTY
 DESCRIPTOR.message_types_by_name['Auth'] = _AUTH
-DESCRIPTOR.message_types_by_name['ResourceGroupCompose'] = _RESOURCEGROUPCOMPOSE
+DESCRIPTOR.message_types_by_name['ResourceGroupProto'] = _RESOURCEGROUPPROTO
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FileMessage = _reflection.GeneratedProtocolMessageType('FileMessage', (_message.Message,), dict(
@@ -558,12 +558,12 @@ ResourceIdentifier = _reflection.GeneratedProtocolMessageType('ResourceIdentifie
   ))
 _sym_db.RegisterMessage(ResourceIdentifier)
 
-DockerRuntimeMessage = _reflection.GeneratedProtocolMessageType('DockerRuntimeMessage', (_message.Message,), dict(
-  DESCRIPTOR = _DOCKERRUNTIMEMESSAGE,
+RuntimeMessage = _reflection.GeneratedProtocolMessageType('RuntimeMessage', (_message.Message,), dict(
+  DESCRIPTOR = _RUNTIMEMESSAGE,
   __module__ = 'client_pb2'
-  # @@protoc_insertion_point(class_scope:DockerRuntimeMessage)
+  # @@protoc_insertion_point(class_scope:RuntimeMessage)
   ))
-_sym_db.RegisterMessage(DockerRuntimeMessage)
+_sym_db.RegisterMessage(RuntimeMessage)
 
 StringResponse = _reflection.GeneratedProtocolMessageType('StringResponse', (_message.Message,), dict(
   DESCRIPTOR = _STRINGRESPONSE,
@@ -593,70 +593,70 @@ Auth = _reflection.GeneratedProtocolMessageType('Auth', (_message.Message,), dic
   ))
 _sym_db.RegisterMessage(Auth)
 
-ResourceGroupCompose = _reflection.GeneratedProtocolMessageType('ResourceGroupCompose', (_message.Message,), dict(
+ResourceGroupProto = _reflection.GeneratedProtocolMessageType('ResourceGroupProto', (_message.Message,), dict(
 
-  PoPCompose = _reflection.GeneratedProtocolMessageType('PoPCompose', (_message.Message,), dict(
-    DESCRIPTOR = _RESOURCEGROUPCOMPOSE_POPCOMPOSE,
+  PoP = _reflection.GeneratedProtocolMessageType('PoP', (_message.Message,), dict(
+    DESCRIPTOR = _RESOURCEGROUPPROTO_POP,
     __module__ = 'client_pb2'
-    # @@protoc_insertion_point(class_scope:ResourceGroupCompose.PoPCompose)
+    # @@protoc_insertion_point(class_scope:ResourceGroupProto.PoP)
     ))
   ,
 
-  MetadataEntryCompose = _reflection.GeneratedProtocolMessageType('MetadataEntryCompose', (_message.Message,), dict(
-    DESCRIPTOR = _RESOURCEGROUPCOMPOSE_METADATAENTRYCOMPOSE,
+  MetadataEntry = _reflection.GeneratedProtocolMessageType('MetadataEntry', (_message.Message,), dict(
+    DESCRIPTOR = _RESOURCEGROUPPROTO_METADATAENTRY,
     __module__ = 'client_pb2'
-    # @@protoc_insertion_point(class_scope:ResourceGroupCompose.MetadataEntryCompose)
+    # @@protoc_insertion_point(class_scope:ResourceGroupProto.MetadataEntry)
     ))
   ,
 
-  NetworkCompose = _reflection.GeneratedProtocolMessageType('NetworkCompose', (_message.Message,), dict(
-    DESCRIPTOR = _RESOURCEGROUPCOMPOSE_NETWORKCOMPOSE,
+  Network = _reflection.GeneratedProtocolMessageType('Network', (_message.Message,), dict(
+    DESCRIPTOR = _RESOURCEGROUPPROTO_NETWORK,
     __module__ = 'client_pb2'
-    # @@protoc_insertion_point(class_scope:ResourceGroupCompose.NetworkCompose)
+    # @@protoc_insertion_point(class_scope:ResourceGroupProto.Network)
     ))
   ,
 
-  VDUCompose = _reflection.GeneratedProtocolMessageType('VDUCompose', (_message.Message,), dict(
-    DESCRIPTOR = _RESOURCEGROUPCOMPOSE_VDUCOMPOSE,
+  VDU = _reflection.GeneratedProtocolMessageType('VDU', (_message.Message,), dict(
+    DESCRIPTOR = _RESOURCEGROUPPROTO_VDU,
     __module__ = 'client_pb2'
-    # @@protoc_insertion_point(class_scope:ResourceGroupCompose.VDUCompose)
+    # @@protoc_insertion_point(class_scope:ResourceGroupProto.VDU)
     ))
   ,
-  DESCRIPTOR = _RESOURCEGROUPCOMPOSE,
+  DESCRIPTOR = _RESOURCEGROUPPROTO,
   __module__ = 'client_pb2'
-  # @@protoc_insertion_point(class_scope:ResourceGroupCompose)
+  # @@protoc_insertion_point(class_scope:ResourceGroupProto)
   ))
-_sym_db.RegisterMessage(ResourceGroupCompose)
-_sym_db.RegisterMessage(ResourceGroupCompose.PoPCompose)
-_sym_db.RegisterMessage(ResourceGroupCompose.MetadataEntryCompose)
-_sym_db.RegisterMessage(ResourceGroupCompose.NetworkCompose)
-_sym_db.RegisterMessage(ResourceGroupCompose.VDUCompose)
+_sym_db.RegisterMessage(ResourceGroupProto)
+_sym_db.RegisterMessage(ResourceGroupProto.PoP)
+_sym_db.RegisterMessage(ResourceGroupProto.MetadataEntry)
+_sym_db.RegisterMessage(ResourceGroupProto.Network)
+_sym_db.RegisterMessage(ResourceGroupProto.VDU)
 
 
 DESCRIPTOR.has_options = True
 DESCRIPTOR._options = _descriptor._ParseOptions(descriptor_pb2.FileOptions(), _b('P\001'))
 
-_COMPOSEHANDLER = _descriptor.ServiceDescriptor(
-  name='ComposeHandler',
-  full_name='ComposeHandler',
+_OPERATIONHANDLER = _descriptor.ServiceDescriptor(
+  name='OperationHandler',
+  full_name='OperationHandler',
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=908,
-  serialized_end=1416,
+  serialized_start=836,
+  serialized_end=1316,
   methods=[
   _descriptor.MethodDescriptor(
-    name='UpCompose',
-    full_name='ComposeHandler.UpCompose',
+    name='Create',
+    full_name='OperationHandler.Create',
     index=0,
     containing_service=None,
     input_type=_FILEMESSAGE,
-    output_type=_RESOURCEGROUPCOMPOSE,
+    output_type=_RESOURCEGROUPPROTO,
     options=None,
   ),
   _descriptor.MethodDescriptor(
-    name='RemoveCompose',
-    full_name='ComposeHandler.RemoveCompose',
+    name='Remove',
+    full_name='OperationHandler.Remove',
     index=1,
     containing_service=None,
     input_type=_RESOURCEIDENTIFIER,
@@ -665,7 +665,7 @@ _COMPOSEHANDLER = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='StopContainer',
-    full_name='ComposeHandler.StopContainer',
+    full_name='OperationHandler.StopContainer',
     index=2,
     containing_service=None,
     input_type=_RESOURCEIDENTIFIER,
@@ -674,7 +674,7 @@ _COMPOSEHANDLER = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CheckIfContainerExists',
-    full_name='ComposeHandler.CheckIfContainerExists',
+    full_name='OperationHandler.CheckIfContainerExists',
     index=3,
     containing_service=None,
     input_type=_RESOURCEIDENTIFIER,
@@ -683,7 +683,7 @@ _COMPOSEHANDLER = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='CheckIfContainerRunning',
-    full_name='ComposeHandler.CheckIfContainerRunning',
+    full_name='OperationHandler.CheckIfContainerRunning',
     index=4,
     containing_service=None,
     input_type=_RESOURCEIDENTIFIER,
@@ -692,7 +692,7 @@ _COMPOSEHANDLER = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='StartContainer',
-    full_name='ComposeHandler.StartContainer',
+    full_name='OperationHandler.StartContainer',
     index=5,
     containing_service=None,
     input_type=_RESOURCEIDENTIFIER,
@@ -701,35 +701,35 @@ _COMPOSEHANDLER = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ExecuteCommand',
-    full_name='ComposeHandler.ExecuteCommand',
+    full_name='OperationHandler.ExecuteCommand',
     index=6,
     containing_service=None,
-    input_type=_DOCKERRUNTIMEMESSAGE,
+    input_type=_RUNTIMEMESSAGE,
     output_type=_STRINGRESPONSE,
     options=None,
   ),
   _descriptor.MethodDescriptor(
     name='DownloadFile',
-    full_name='ComposeHandler.DownloadFile',
+    full_name='OperationHandler.DownloadFile',
     index=7,
     containing_service=None,
-    input_type=_DOCKERRUNTIMEMESSAGE,
+    input_type=_RUNTIMEMESSAGE,
     output_type=_FILEMESSAGE,
     options=None,
   ),
   _descriptor.MethodDescriptor(
     name='UploadFile',
-    full_name='ComposeHandler.UploadFile',
+    full_name='OperationHandler.UploadFile',
     index=8,
     containing_service=None,
-    input_type=_DOCKERRUNTIMEMESSAGE,
+    input_type=_RUNTIMEMESSAGE,
     output_type=_EMPTY,
     options=None,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_COMPOSEHANDLER)
+_sym_db.RegisterServiceDescriptor(_OPERATIONHANDLER)
 
-DESCRIPTOR.services_by_name['ComposeHandler'] = _COMPOSEHANDLER
+DESCRIPTOR.services_by_name['OperationHandler'] = _OPERATIONHANDLER
 
 try:
   # THESE ELEMENTS WILL BE DEPRECATED.
@@ -741,7 +741,7 @@ try:
   from grpc.framework.interfaces.face import utilities as face_utilities
 
 
-  class ComposeHandlerStub(object):
+  class OperationHandlerStub(object):
     # missing associated documentation comment in .proto file
     pass
 
@@ -751,65 +751,65 @@ try:
       Args:
         channel: A grpc.Channel.
       """
-      self.UpCompose = channel.unary_unary(
-          '/ComposeHandler/UpCompose',
+      self.Create = channel.unary_unary(
+          '/OperationHandler/Create',
           request_serializer=FileMessage.SerializeToString,
-          response_deserializer=ResourceGroupCompose.FromString,
+          response_deserializer=ResourceGroupProto.FromString,
           )
-      self.RemoveCompose = channel.unary_unary(
-          '/ComposeHandler/RemoveCompose',
+      self.Remove = channel.unary_unary(
+          '/OperationHandler/Remove',
           request_serializer=ResourceIdentifier.SerializeToString,
           response_deserializer=Empty.FromString,
           )
       self.StopContainer = channel.unary_unary(
-          '/ComposeHandler/StopContainer',
+          '/OperationHandler/StopContainer',
           request_serializer=ResourceIdentifier.SerializeToString,
           response_deserializer=Empty.FromString,
           )
       self.CheckIfContainerExists = channel.unary_unary(
-          '/ComposeHandler/CheckIfContainerExists',
+          '/OperationHandler/CheckIfContainerExists',
           request_serializer=ResourceIdentifier.SerializeToString,
           response_deserializer=StringResponse.FromString,
           )
       self.CheckIfContainerRunning = channel.unary_unary(
-          '/ComposeHandler/CheckIfContainerRunning',
+          '/OperationHandler/CheckIfContainerRunning',
           request_serializer=ResourceIdentifier.SerializeToString,
           response_deserializer=StringResponse.FromString,
           )
       self.StartContainer = channel.unary_unary(
-          '/ComposeHandler/StartContainer',
+          '/OperationHandler/StartContainer',
           request_serializer=ResourceIdentifier.SerializeToString,
           response_deserializer=Empty.FromString,
           )
       self.ExecuteCommand = channel.unary_unary(
-          '/ComposeHandler/ExecuteCommand',
-          request_serializer=DockerRuntimeMessage.SerializeToString,
+          '/OperationHandler/ExecuteCommand',
+          request_serializer=RuntimeMessage.SerializeToString,
           response_deserializer=StringResponse.FromString,
           )
       self.DownloadFile = channel.unary_unary(
-          '/ComposeHandler/DownloadFile',
-          request_serializer=DockerRuntimeMessage.SerializeToString,
+          '/OperationHandler/DownloadFile',
+          request_serializer=RuntimeMessage.SerializeToString,
           response_deserializer=FileMessage.FromString,
           )
       self.UploadFile = channel.unary_unary(
-          '/ComposeHandler/UploadFile',
-          request_serializer=DockerRuntimeMessage.SerializeToString,
+          '/OperationHandler/UploadFile',
+          request_serializer=RuntimeMessage.SerializeToString,
           response_deserializer=Empty.FromString,
           )
 
 
-  class ComposeHandlerServicer(object):
+  class OperationHandlerServicer(object):
     # missing associated documentation comment in .proto file
     pass
 
-    def UpCompose(self, request, context):
+    def Create(self, request, context):
       # missing associated documentation comment in .proto file
       pass
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
 
-    def RemoveCompose(self, request, context):
+    def Remove(self, request, context):
       # missing associated documentation comment in .proto file
       pass
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -866,15 +866,15 @@ try:
       raise NotImplementedError('Method not implemented!')
 
 
-  def add_ComposeHandlerServicer_to_server(servicer, server):
+  def add_OperationHandlerServicer_to_server(servicer, server):
     rpc_method_handlers = {
-        'UpCompose': grpc.unary_unary_rpc_method_handler(
-            servicer.UpCompose,
+        'Create': grpc.unary_unary_rpc_method_handler(
+            servicer.Create,
             request_deserializer=FileMessage.FromString,
-            response_serializer=ResourceGroupCompose.SerializeToString,
+            response_serializer=ResourceGroupProto.SerializeToString,
         ),
-        'RemoveCompose': grpc.unary_unary_rpc_method_handler(
-            servicer.RemoveCompose,
+        'Remove': grpc.unary_unary_rpc_method_handler(
+            servicer.Remove,
             request_deserializer=ResourceIdentifier.FromString,
             response_serializer=Empty.SerializeToString,
         ),
@@ -900,26 +900,26 @@ try:
         ),
         'ExecuteCommand': grpc.unary_unary_rpc_method_handler(
             servicer.ExecuteCommand,
-            request_deserializer=DockerRuntimeMessage.FromString,
+            request_deserializer=RuntimeMessage.FromString,
             response_serializer=StringResponse.SerializeToString,
         ),
         'DownloadFile': grpc.unary_unary_rpc_method_handler(
             servicer.DownloadFile,
-            request_deserializer=DockerRuntimeMessage.FromString,
+            request_deserializer=RuntimeMessage.FromString,
             response_serializer=FileMessage.SerializeToString,
         ),
         'UploadFile': grpc.unary_unary_rpc_method_handler(
             servicer.UploadFile,
-            request_deserializer=DockerRuntimeMessage.FromString,
+            request_deserializer=RuntimeMessage.FromString,
             response_serializer=Empty.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'ComposeHandler', rpc_method_handlers)
+        'OperationHandler', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
-  class BetaComposeHandlerServicer(object):
+  class BetaOperationHandlerServicer(object):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
@@ -927,11 +927,11 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
-    def UpCompose(self, request, context):
+    def Create(self, request, context):
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def RemoveCompose(self, request, context):
+    def Remove(self, request, context):
       # missing associated documentation comment in .proto file
       pass
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
@@ -965,7 +965,7 @@ try:
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
-  class BetaComposeHandlerStub(object):
+  class BetaOperationHandlerStub(object):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
@@ -973,16 +973,16 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     # missing associated documentation comment in .proto file
     pass
-    def UpCompose(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    def Create(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
       raise NotImplementedError()
-    UpCompose.future = None
-    def RemoveCompose(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
+    Create.future = None
+    def Remove(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
       raise NotImplementedError()
-    RemoveCompose.future = None
+    Remove.future = None
     def StopContainer(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       # missing associated documentation comment in .proto file
       pass
@@ -1020,90 +1020,90 @@ try:
     UploadFile.future = None
 
 
-  def beta_create_ComposeHandler_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  def beta_create_OperationHandler_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
-      ('ComposeHandler', 'CheckIfContainerExists'): ResourceIdentifier.FromString,
-      ('ComposeHandler', 'CheckIfContainerRunning'): ResourceIdentifier.FromString,
-      ('ComposeHandler', 'DownloadFile'): DockerRuntimeMessage.FromString,
-      ('ComposeHandler', 'ExecuteCommand'): DockerRuntimeMessage.FromString,
-      ('ComposeHandler', 'RemoveCompose'): ResourceIdentifier.FromString,
-      ('ComposeHandler', 'StartContainer'): ResourceIdentifier.FromString,
-      ('ComposeHandler', 'StopContainer'): ResourceIdentifier.FromString,
-      ('ComposeHandler', 'UpCompose'): FileMessage.FromString,
-      ('ComposeHandler', 'UploadFile'): DockerRuntimeMessage.FromString,
+      ('OperationHandler', 'CheckIfContainerExists'): ResourceIdentifier.FromString,
+      ('OperationHandler', 'CheckIfContainerRunning'): ResourceIdentifier.FromString,
+      ('OperationHandler', 'Create'): FileMessage.FromString,
+      ('OperationHandler', 'DownloadFile'): RuntimeMessage.FromString,
+      ('OperationHandler', 'ExecuteCommand'): RuntimeMessage.FromString,
+      ('OperationHandler', 'Remove'): ResourceIdentifier.FromString,
+      ('OperationHandler', 'StartContainer'): ResourceIdentifier.FromString,
+      ('OperationHandler', 'StopContainer'): ResourceIdentifier.FromString,
+      ('OperationHandler', 'UploadFile'): RuntimeMessage.FromString,
     }
     response_serializers = {
-      ('ComposeHandler', 'CheckIfContainerExists'): StringResponse.SerializeToString,
-      ('ComposeHandler', 'CheckIfContainerRunning'): StringResponse.SerializeToString,
-      ('ComposeHandler', 'DownloadFile'): FileMessage.SerializeToString,
-      ('ComposeHandler', 'ExecuteCommand'): StringResponse.SerializeToString,
-      ('ComposeHandler', 'RemoveCompose'): Empty.SerializeToString,
-      ('ComposeHandler', 'StartContainer'): Empty.SerializeToString,
-      ('ComposeHandler', 'StopContainer'): Empty.SerializeToString,
-      ('ComposeHandler', 'UpCompose'): ResourceGroupCompose.SerializeToString,
-      ('ComposeHandler', 'UploadFile'): Empty.SerializeToString,
+      ('OperationHandler', 'CheckIfContainerExists'): StringResponse.SerializeToString,
+      ('OperationHandler', 'CheckIfContainerRunning'): StringResponse.SerializeToString,
+      ('OperationHandler', 'Create'): ResourceGroupProto.SerializeToString,
+      ('OperationHandler', 'DownloadFile'): FileMessage.SerializeToString,
+      ('OperationHandler', 'ExecuteCommand'): StringResponse.SerializeToString,
+      ('OperationHandler', 'Remove'): Empty.SerializeToString,
+      ('OperationHandler', 'StartContainer'): Empty.SerializeToString,
+      ('OperationHandler', 'StopContainer'): Empty.SerializeToString,
+      ('OperationHandler', 'UploadFile'): Empty.SerializeToString,
     }
     method_implementations = {
-      ('ComposeHandler', 'CheckIfContainerExists'): face_utilities.unary_unary_inline(servicer.CheckIfContainerExists),
-      ('ComposeHandler', 'CheckIfContainerRunning'): face_utilities.unary_unary_inline(servicer.CheckIfContainerRunning),
-      ('ComposeHandler', 'DownloadFile'): face_utilities.unary_unary_inline(servicer.DownloadFile),
-      ('ComposeHandler', 'ExecuteCommand'): face_utilities.unary_unary_inline(servicer.ExecuteCommand),
-      ('ComposeHandler', 'RemoveCompose'): face_utilities.unary_unary_inline(servicer.RemoveCompose),
-      ('ComposeHandler', 'StartContainer'): face_utilities.unary_unary_inline(servicer.StartContainer),
-      ('ComposeHandler', 'StopContainer'): face_utilities.unary_unary_inline(servicer.StopContainer),
-      ('ComposeHandler', 'UpCompose'): face_utilities.unary_unary_inline(servicer.UpCompose),
-      ('ComposeHandler', 'UploadFile'): face_utilities.unary_unary_inline(servicer.UploadFile),
+      ('OperationHandler', 'CheckIfContainerExists'): face_utilities.unary_unary_inline(servicer.CheckIfContainerExists),
+      ('OperationHandler', 'CheckIfContainerRunning'): face_utilities.unary_unary_inline(servicer.CheckIfContainerRunning),
+      ('OperationHandler', 'Create'): face_utilities.unary_unary_inline(servicer.Create),
+      ('OperationHandler', 'DownloadFile'): face_utilities.unary_unary_inline(servicer.DownloadFile),
+      ('OperationHandler', 'ExecuteCommand'): face_utilities.unary_unary_inline(servicer.ExecuteCommand),
+      ('OperationHandler', 'Remove'): face_utilities.unary_unary_inline(servicer.Remove),
+      ('OperationHandler', 'StartContainer'): face_utilities.unary_unary_inline(servicer.StartContainer),
+      ('OperationHandler', 'StopContainer'): face_utilities.unary_unary_inline(servicer.StopContainer),
+      ('OperationHandler', 'UploadFile'): face_utilities.unary_unary_inline(servicer.UploadFile),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
 
 
-  def beta_create_ComposeHandler_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  def beta_create_OperationHandler_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
-      ('ComposeHandler', 'CheckIfContainerExists'): ResourceIdentifier.SerializeToString,
-      ('ComposeHandler', 'CheckIfContainerRunning'): ResourceIdentifier.SerializeToString,
-      ('ComposeHandler', 'DownloadFile'): DockerRuntimeMessage.SerializeToString,
-      ('ComposeHandler', 'ExecuteCommand'): DockerRuntimeMessage.SerializeToString,
-      ('ComposeHandler', 'RemoveCompose'): ResourceIdentifier.SerializeToString,
-      ('ComposeHandler', 'StartContainer'): ResourceIdentifier.SerializeToString,
-      ('ComposeHandler', 'StopContainer'): ResourceIdentifier.SerializeToString,
-      ('ComposeHandler', 'UpCompose'): FileMessage.SerializeToString,
-      ('ComposeHandler', 'UploadFile'): DockerRuntimeMessage.SerializeToString,
+      ('OperationHandler', 'CheckIfContainerExists'): ResourceIdentifier.SerializeToString,
+      ('OperationHandler', 'CheckIfContainerRunning'): ResourceIdentifier.SerializeToString,
+      ('OperationHandler', 'Create'): FileMessage.SerializeToString,
+      ('OperationHandler', 'DownloadFile'): RuntimeMessage.SerializeToString,
+      ('OperationHandler', 'ExecuteCommand'): RuntimeMessage.SerializeToString,
+      ('OperationHandler', 'Remove'): ResourceIdentifier.SerializeToString,
+      ('OperationHandler', 'StartContainer'): ResourceIdentifier.SerializeToString,
+      ('OperationHandler', 'StopContainer'): ResourceIdentifier.SerializeToString,
+      ('OperationHandler', 'UploadFile'): RuntimeMessage.SerializeToString,
     }
     response_deserializers = {
-      ('ComposeHandler', 'CheckIfContainerExists'): StringResponse.FromString,
-      ('ComposeHandler', 'CheckIfContainerRunning'): StringResponse.FromString,
-      ('ComposeHandler', 'DownloadFile'): FileMessage.FromString,
-      ('ComposeHandler', 'ExecuteCommand'): StringResponse.FromString,
-      ('ComposeHandler', 'RemoveCompose'): Empty.FromString,
-      ('ComposeHandler', 'StartContainer'): Empty.FromString,
-      ('ComposeHandler', 'StopContainer'): Empty.FromString,
-      ('ComposeHandler', 'UpCompose'): ResourceGroupCompose.FromString,
-      ('ComposeHandler', 'UploadFile'): Empty.FromString,
+      ('OperationHandler', 'CheckIfContainerExists'): StringResponse.FromString,
+      ('OperationHandler', 'CheckIfContainerRunning'): StringResponse.FromString,
+      ('OperationHandler', 'Create'): ResourceGroupProto.FromString,
+      ('OperationHandler', 'DownloadFile'): FileMessage.FromString,
+      ('OperationHandler', 'ExecuteCommand'): StringResponse.FromString,
+      ('OperationHandler', 'Remove'): Empty.FromString,
+      ('OperationHandler', 'StartContainer'): Empty.FromString,
+      ('OperationHandler', 'StopContainer'): Empty.FromString,
+      ('OperationHandler', 'UploadFile'): Empty.FromString,
     }
     cardinalities = {
       'CheckIfContainerExists': cardinality.Cardinality.UNARY_UNARY,
       'CheckIfContainerRunning': cardinality.Cardinality.UNARY_UNARY,
+      'Create': cardinality.Cardinality.UNARY_UNARY,
       'DownloadFile': cardinality.Cardinality.UNARY_UNARY,
       'ExecuteCommand': cardinality.Cardinality.UNARY_UNARY,
-      'RemoveCompose': cardinality.Cardinality.UNARY_UNARY,
+      'Remove': cardinality.Cardinality.UNARY_UNARY,
       'StartContainer': cardinality.Cardinality.UNARY_UNARY,
       'StopContainer': cardinality.Cardinality.UNARY_UNARY,
-      'UpCompose': cardinality.Cardinality.UNARY_UNARY,
       'UploadFile': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'ComposeHandler', cardinalities, options=stub_options)
+    return beta_implementations.dynamic_stub(channel, 'OperationHandler', cardinalities, options=stub_options)
 except ImportError:
   pass
 # @@protoc_insertion_point(module_scope)

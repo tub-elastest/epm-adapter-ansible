@@ -4,7 +4,7 @@ import grpc
 import client_pb2 as client__pb2
 
 
-class ComposeHandlerStub(object):
+class OperationHandlerStub(object):
   # missing associated documentation comment in .proto file
   pass
 
@@ -14,65 +14,65 @@ class ComposeHandlerStub(object):
     Args:
       channel: A grpc.Channel.
     """
-    self.UpCompose = channel.unary_unary(
-        '/ComposeHandler/UpCompose',
+    self.Create = channel.unary_unary(
+        '/OperationHandler/Create',
         request_serializer=client__pb2.FileMessage.SerializeToString,
-        response_deserializer=client__pb2.ResourceGroupCompose.FromString,
+        response_deserializer=client__pb2.ResourceGroupProto.FromString,
         )
-    self.RemoveCompose = channel.unary_unary(
-        '/ComposeHandler/RemoveCompose',
+    self.Remove = channel.unary_unary(
+        '/OperationHandler/Remove',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.Empty.FromString,
         )
     self.StopContainer = channel.unary_unary(
-        '/ComposeHandler/StopContainer',
+        '/OperationHandler/StopContainer',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.Empty.FromString,
         )
     self.CheckIfContainerExists = channel.unary_unary(
-        '/ComposeHandler/CheckIfContainerExists',
+        '/OperationHandler/CheckIfContainerExists',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.StringResponse.FromString,
         )
     self.CheckIfContainerRunning = channel.unary_unary(
-        '/ComposeHandler/CheckIfContainerRunning',
+        '/OperationHandler/CheckIfContainerRunning',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.StringResponse.FromString,
         )
     self.StartContainer = channel.unary_unary(
-        '/ComposeHandler/StartContainer',
+        '/OperationHandler/StartContainer',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.Empty.FromString,
         )
     self.ExecuteCommand = channel.unary_unary(
-        '/ComposeHandler/ExecuteCommand',
-        request_serializer=client__pb2.DockerRuntimeMessage.SerializeToString,
+        '/OperationHandler/ExecuteCommand',
+        request_serializer=client__pb2.RuntimeMessage.SerializeToString,
         response_deserializer=client__pb2.StringResponse.FromString,
         )
     self.DownloadFile = channel.unary_unary(
-        '/ComposeHandler/DownloadFile',
-        request_serializer=client__pb2.DockerRuntimeMessage.SerializeToString,
+        '/OperationHandler/DownloadFile',
+        request_serializer=client__pb2.RuntimeMessage.SerializeToString,
         response_deserializer=client__pb2.FileMessage.FromString,
         )
     self.UploadFile = channel.unary_unary(
-        '/ComposeHandler/UploadFile',
-        request_serializer=client__pb2.DockerRuntimeMessage.SerializeToString,
+        '/OperationHandler/UploadFile',
+        request_serializer=client__pb2.RuntimeMessage.SerializeToString,
         response_deserializer=client__pb2.Empty.FromString,
         )
 
 
-class ComposeHandlerServicer(object):
+class OperationHandlerServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
-  def UpCompose(self, request, context):
+  def Create(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def RemoveCompose(self, request, context):
+  def Remove(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -129,15 +129,15 @@ class ComposeHandlerServicer(object):
     raise NotImplementedError('Method not implemented!')
 
 
-def add_ComposeHandlerServicer_to_server(servicer, server):
+def add_OperationHandlerServicer_to_server(servicer, server):
   rpc_method_handlers = {
-      'UpCompose': grpc.unary_unary_rpc_method_handler(
-          servicer.UpCompose,
+      'Create': grpc.unary_unary_rpc_method_handler(
+          servicer.Create,
           request_deserializer=client__pb2.FileMessage.FromString,
-          response_serializer=client__pb2.ResourceGroupCompose.SerializeToString,
+          response_serializer=client__pb2.ResourceGroupProto.SerializeToString,
       ),
-      'RemoveCompose': grpc.unary_unary_rpc_method_handler(
-          servicer.RemoveCompose,
+      'Remove': grpc.unary_unary_rpc_method_handler(
+          servicer.Remove,
           request_deserializer=client__pb2.ResourceIdentifier.FromString,
           response_serializer=client__pb2.Empty.SerializeToString,
       ),
@@ -163,20 +163,20 @@ def add_ComposeHandlerServicer_to_server(servicer, server):
       ),
       'ExecuteCommand': grpc.unary_unary_rpc_method_handler(
           servicer.ExecuteCommand,
-          request_deserializer=client__pb2.DockerRuntimeMessage.FromString,
+          request_deserializer=client__pb2.RuntimeMessage.FromString,
           response_serializer=client__pb2.StringResponse.SerializeToString,
       ),
       'DownloadFile': grpc.unary_unary_rpc_method_handler(
           servicer.DownloadFile,
-          request_deserializer=client__pb2.DockerRuntimeMessage.FromString,
+          request_deserializer=client__pb2.RuntimeMessage.FromString,
           response_serializer=client__pb2.FileMessage.SerializeToString,
       ),
       'UploadFile': grpc.unary_unary_rpc_method_handler(
           servicer.UploadFile,
-          request_deserializer=client__pb2.DockerRuntimeMessage.FromString,
+          request_deserializer=client__pb2.RuntimeMessage.FromString,
           response_serializer=client__pb2.Empty.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'ComposeHandler', rpc_method_handlers)
+      'OperationHandler', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

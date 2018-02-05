@@ -2,7 +2,7 @@ import tempfile
 import src.handlers.ansible_executor as ansible_executor
 import yaml
 
-from src.grpc_connector.client_pb2 import ResourceGroupCompose
+from src.grpc_connector.client_pb2 import ResourceGroupProto
 
 def launch_playbook(playbook_contents):
 
@@ -27,7 +27,7 @@ def convert_to_resource_group(r):
     vdus = []
     networks = []
 
-    net = ResourceGroupCompose.NetworkCompose(name="mgmt", cidr="", poPName="ansible", networkId="id")
+    net = ResourceGroupProto.Network(name="mgmt", cidr="", poPName="ansible", networkId="id")
 
     compute_id = r["openstack"]["id"]
     name = r["openstack"]["name"]
@@ -38,11 +38,11 @@ def convert_to_resource_group(r):
 
     ip = r["openstack"]["interface_ip"]
 
-    vdu = ResourceGroupCompose.VDUCompose(name=name, imageName=imageName, netName=net_name, computeId=compute_id, ip=ip,
+    vdu = ResourceGroupProto.VDU(name=name, imageName=imageName, netName=net_name, computeId=compute_id, ip=ip,
                                           metadata=[])
 
     networks.append(net)
     vdus.append(vdu)
 
-    rg = ResourceGroupCompose(name="rg", pops=pops, networks=networks, vdus=vdus)
+    rg = ResourceGroupProto(name="rg", pops=pops, networks=networks, vdus=vdus)
     return rg
