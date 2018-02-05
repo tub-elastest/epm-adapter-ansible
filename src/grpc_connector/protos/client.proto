@@ -8,6 +8,7 @@ message FileMessage {
 
 message ResourceIdentifier {
     string resource_id = 1;
+    Auth auth = 2;
 }
 
 message RuntimeMessage {

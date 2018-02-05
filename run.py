@@ -56,11 +56,13 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     def Remove(self, request, context):
 
         instance_id = request.resource_id
+        auth = request.auth
         ansible_executor.execute_play(
-            delete_instance_play(instance_id, "http://192.168.161.31:5000/v2.0", "admin", "openbaton", "admin"))
+            delete_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
 
         return client_pb2.Empty()
 
+    ''' TODO: FIX
     def StartInstance(self, request, context):
         instance_id = request.resource_id
         print("Starting instance " + instance_id)
@@ -73,7 +75,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         print("Starting instance " + instance_id)
         ansible_executor.execute_play(
             stop_instance_play(instance_id, "http://192.168.161.31:5000/v2.0", "admin", "openbaton", "admin"))
-        return client_pb2.Empty()
+        return client_pb2.Empty()'''
 
     def ExecuteCommand(self, request, context):
         instance_id = request.resource_id

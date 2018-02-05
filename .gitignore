@@ -70,3 +70,5 @@ target/
 .idea/
 /mongodata/
 /.mypy_cache/
+
+tests/play.yml
