@@ -107,8 +107,8 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password, key_file_path=key)
         type = request.property[0]
         if(type == "withPath"):
-            remotePath = request.property[4]
-            hostPath = request.property[5]
+            remotePath = request.property[5]
+            hostPath = request.property[4]
             print("Uploading a file " + hostPath + " to " + remotePath)
             ssh_exec.upload_file_from_path(hostPath=hostPath, remotePath=remotePath)
             return client_pb2.Empty()
