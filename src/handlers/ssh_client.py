@@ -5,7 +5,7 @@ class SSHExecutor():
 
     def __init__(self,
                  ip_address,
-                 username,
+                 username="ubuntu",
                  password="",
                  key=None,
                  key_file_path=None):

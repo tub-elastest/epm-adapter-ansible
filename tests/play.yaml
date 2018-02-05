@@ -5,7 +5,7 @@
       os_server:
         state: present
         auth:
-          auth_url: http://192.168.161.31:5000/v2.0
+          auth_url: http://192.168.161.151:5000/v2.0
           username: admin
           password: openbaton
           project_name: admin

@@ -84,7 +84,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password, key_file_path=key)
 
         print("Executing command " + command)
-        output = ssh_exec.execute_command("ls /")
+        output = ssh_exec.execute_command(command)
         return client_pb2.StringResponse(response=output)
 
     def DownloadFile(self, request, context):
@@ -116,7 +116,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             path = request.property[0]
             print("Uploading a file to " + path)
             file = request.file
-            ssh_exec.upload_file("docker-compose.yml", file)
+            ssh_exec.upload_file(path, file)
             return client_pb2.Empty()
 
 
