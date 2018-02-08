@@ -2,6 +2,7 @@ import tempfile
 import src.handlers.ansible_executor as ansible_executor
 import yaml
 import random
+import shelve
 
 from src.grpc_connector.client_pb2 import ResourceGroupProto, Auth
 
@@ -25,8 +26,6 @@ def launch_play(play_contents):
 
     auth = play_as_dict["tasks"][0]["os_server"]["auth"]
 
-    rg_auth = Auth(auth_url=auth["auth_url"], username=auth["username"], password=auth["password"], project=auth["project_name"])
-
     r = ansible_executor.execute_play(play_as_dict, with_metadata=True)
 
     pops = []
@@ -44,11 +43,19 @@ def launch_play(play_contents):
 
     ip = r["openstack"]["interface_ip"]
 
+    save_to_db(name, auth)
+
     vdu = ResourceGroupProto.VDU(name=name, imageName=imageName, netName=net_name, computeId=compute_id, ip=ip,
                                           metadata=[])
 
     networks.append(net)
     vdus.append(vdu)
 
-    rg = ResourceGroupProto(name=rg_name, pops=pops, networks=networks, vdus=vdus, auth=rg_auth)
+    rg = ResourceGroupProto(name=rg_name, pops=pops, networks=networks, vdus=vdus)
     return rg
+
+
+def save_to_db(name, auth):
+    db = shelve.open('auths.db')
+    db[str(name)] = auth
+    db.close()

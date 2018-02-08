@@ -4,6 +4,7 @@ import tarfile
 import tempfile
 import time
 import yaml
+import shelve
 
 import grpc
 import src.grpc_connector.client_pb2_grpc as client_pb2_grpc
@@ -53,26 +54,35 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
     def Remove(self, request, context):
         instance_id = request.resource_id
-        auth = request.auth
+
+        db = shelve.open('auths.db')
+        auth = db[str(instance_id)]
+        db.close()
+
         ansible_executor.execute_play(
-            delete_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
+            delete_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"], auth["project_name"]))
         return client_pb2.Empty()
 
 
     def StartContainer(self, request, context):
         instance_id = request.resource_id
-        auth = request.auth
+        db = shelve.open('auths.db')
+        auth = db[str(instance_id)]
+        db.close()
         print("Starting instance " + instance_id)
         ansible_executor.execute_play(
-            start_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
+            start_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"], auth["project_name"]))
         return client_pb2.Empty()
 
     def StopContainer(self, request, context):
         instance_id = request.resource_id
-        auth = request.auth
+        db = shelve.open('auths.db')
+        auth = db[str(instance_id)]
+        db.close()
+
         print("Stoping instance " + instance_id)
         ansible_executor.execute_play(
-            stop_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
+            stop_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"], auth["project_name"]))
         return client_pb2.Empty()
 
     def ExecuteCommand(self, request, context):
