@@ -62,8 +62,6 @@ def full_test(key_path):
 
 
 if __name__ == "__main__":
-    url = sys.argv[1]
-    password = sys.argv[2]
-    key_path = sys.argv[3]
+    key_path = sys.argv[1]
 
     full_test(key_path=key_path)

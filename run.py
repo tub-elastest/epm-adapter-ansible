@@ -13,7 +13,7 @@ from concurrent import futures
 import src.grpc_connector.client_pb2 as client_pb2
 from src.utils import epm_utils as utils
 from src.handlers import ansible_executor, ssh_client, ansible_handler
-from src.handlers.plays import  *
+from src.handlers.plays import *
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
