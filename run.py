@@ -62,20 +62,22 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
         return client_pb2.Empty()
 
-    ''' TODO: FIX
-    def StartInstance(self, request, context):
+
+    def StartContainer(self, request, context):
         instance_id = request.resource_id
+        auth = request.auth
         print("Starting instance " + instance_id)
         ansible_executor.execute_play(
-            start_instance_play(instance_id, "http://192.168.161.31:5000/v2.0", "admin", "openbaton", "admin"))
+            start_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
         return client_pb2.Empty()
 
-    def StopInstance(self, request, context):
+    def StopContainer(self, request, context):
         instance_id = request.resource_id
-        print("Starting instance " + instance_id)
+        auth = request.auth
+        print("Stoping instance " + instance_id)
         ansible_executor.execute_play(
-            stop_instance_play(instance_id, "http://192.168.161.31:5000/v2.0", "admin", "openbaton", "admin"))
-        return client_pb2.Empty()'''
+            stop_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
+        return client_pb2.Empty()
 
     def ExecuteCommand(self, request, context):
         instance_id = request.resource_id

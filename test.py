@@ -5,8 +5,8 @@ from src.grpc_connector import client_pb2_grpc
 from src.grpc_connector import client_pb2
 import time
 
-def full_test(auth_url, password, username="admin",
-                           project="admin"):
+def full_test(auth_url, password, key_path, username="admin",
+                           project="admin",):
     ip = "192.168.161.164"
     user = "ubuntu"
     passphrase = ""
@@ -22,12 +22,19 @@ def full_test(auth_url, password, username="admin",
     rg = stub.Create(dc)
 
     print(rg)
-    #r = ansible_executor.execute_play(get_data_play("vm1","http://192.168.161.31:5000/v2.0", "admin", "openbaton", "admin"), with_metadata=True)
 
     # Wait a bit so that the vm has time to init
     time.sleep(5)
+    auth = client_pb2.Auth(auth_url=auth_url, username=username, password=password,
+                           project=project)
+    identifier = client_pb2.ResourceIdentifier(resource_id="vm1", auth=auth)
 
-    key_path = "/net/u/rvl/mykey"
+    stub.StopContainer(identifier)
+
+    time.sleep(2)
+
+    stub.StartContainer(identifier)
+    time.sleep(5)
     
     # UPLOAD FILES
     f = open("README.md", "rb")
@@ -52,10 +59,7 @@ def full_test(auth_url, password, username="admin",
     print(output)
 
     # TERMINATE
-    auth = client_pb2.Auth(auth_url=auth_url, username=username, password=password,
-                           project=project)
-    terminate = client_pb2.ResourceIdentifier(resource_id="vm1", auth=auth)
-    stub.Remove(terminate)
+    stub.Remove(identifier)
 
     print("Test finished in: " + str(time.time() - start_time))
 
@@ -63,5 +67,6 @@ def full_test(auth_url, password, username="admin",
 if __name__ == "__main__":
     url = sys.argv[1]
     password = sys.argv[2]
+    key_path = sys.argv[3]
 
-    full_test(auth_url=url, password=password)
+    full_test(auth_url=url, password=password, key_path=key_path)
