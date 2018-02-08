@@ -30,9 +30,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
         play = package.extractfile("play.yaml").read()
 
-        r = ansible_handler.launch_play(play)
-        rg = ansible_handler.convert_to_resource_group(r)
-
+        rg = ansible_handler.launch_play(play)
         package.close()
         temp.close()
 
@@ -54,12 +52,10 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     '''
 
     def Remove(self, request, context):
-
         instance_id = request.resource_id
         auth = request.auth
         ansible_executor.execute_play(
             delete_instance_play(instance_id, auth.auth_url, auth.username, auth.password, auth.project))
-
         return client_pb2.Empty()
 
 
