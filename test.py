@@ -6,7 +6,6 @@ from src.grpc_connector import client_pb2
 import time
 
 def full_test():
-    key_path = ""
     ip = "192.168.161.164"
     user = "ubuntu"
     passphrase = ""
@@ -37,22 +36,22 @@ def full_test():
     # UPLOAD FILES
     f = open("README.md", "rb")
     upld_message_with_path = client_pb2.RuntimeMessage(resource_id=ip,
-                                                       property=["README.md", key_path, user, passphrase], file=f.read())
+                                                       property=["README.md", user, passphrase], file=f.read())
     stub.UploadFile(upld_message_with_path)
     f.close()
 
     upld_message_with_path = client_pb2.RuntimeMessage(resource_id=ip,
-                                                       property=["withPath", key_path, user, passphrase, ".gitignore", ".gitignore"])
+                                                       property=["withPath", user, passphrase, ".gitignore", ".gitignore"])
     stub.UploadFile(upld_message_with_path)
 
     # EXECUTE LS
     command = "ls"
-    commandMsg = client_pb2.RuntimeMessage(resource_id=ip, property=[command, key_path, user, passphrase], file=None)
+    commandMsg = client_pb2.RuntimeMessage(resource_id=ip, property=[command, user, passphrase], file=None)
     response = stub.ExecuteCommand(commandMsg)
     print(response)
 
     # DOWNLOAD FILE
-    dwnld_message = client_pb2.RuntimeMessage(resource_id=ip, property=[".gitignore", key_path, user, passphrase], file=None)
+    dwnld_message = client_pb2.RuntimeMessage(resource_id=ip, property=[".gitignore", user, passphrase], file=None)
     output = stub.DownloadFile(dwnld_message)
     print(output)
 

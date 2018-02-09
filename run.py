@@ -77,10 +77,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     def ExecuteCommand(self, request, context):
         instance_id = request.resource_id
         command = request.property[0]
-        key = request.property[1]
-        user = request.property[2]
-        password = request.property[3]
-        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password, key_file_path=key)
+        user = request.property[1]
+        password = request.property[2]
+        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
 
         print("Executing command " + command)
         output = ssh_exec.execute_command(command)
@@ -88,10 +87,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
     def DownloadFile(self, request, context):
         instance_id = request.resource_id
-        key = request.property[1]
-        user = request.property[2]
-        password = request.property[3]
-        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password, key_file_path=key)
+        user = request.property[1]
+        password = request.property[2]
+        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         path = request.property[0]
         print("Downloading file " + path)
         output = ssh_exec.download_file_from_container(path)
@@ -100,14 +98,13 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     def UploadFile(self, request, context):
 
         instance_id = request.resource_id
-        key = request.property[1]
-        user = request.property[2]
-        password = request.property[3]
-        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password, key_file_path=key)
+        user = request.property[1]
+        password = request.property[2]
+        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         type = request.property[0]
         if(type == "withPath"):
-            remotePath = request.property[5]
-            hostPath = request.property[4]
+            remotePath = request.property[4]
+            hostPath = request.property[3]
             print("Uploading a file " + hostPath + " to " + remotePath)
             ssh_exec.upload_file_from_path(hostPath=hostPath, remotePath=remotePath)
             return client_pb2.Empty()
