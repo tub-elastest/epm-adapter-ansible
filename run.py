@@ -31,32 +31,21 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
         play = package.extractfile("play.yaml").read()
 
-        rg = ansible_handler.launch_play(play)
+        key = None
+        if "key" in package.getnames():
+            key = package.extractfile("key")
+
+        rg = ansible_handler.launch_play(play, key)
         package.close()
         temp.close()
 
         return rg
 
-    ''' TODO:
-    def CheckIfContainerExists(self, request, context):
-
-        compose_id = request.resource_id
-        result = str(docker_handler.check_container_exists(compose_id, True))
-        return client_pb2.StringResponse(response=result)
-
-    def CheckIfContainerRunning(self, request, context):
-
-        compose_id = request.resource_id
-        result = str(docker_handler.check_container_exists(compose_id, False))
-        return client_pb2.StringResponse(response=result)
-
-    '''
-
     def Remove(self, request, context):
         instance_id = request.resource_id
 
         db = shelve.open('auths.db')
-        auth = db[str(instance_id)]
+        auth = db[str(instance_id) + "_auth"]
         db.close()
 
         ansible_executor.execute_play(
@@ -67,7 +56,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     def StartContainer(self, request, context):
         instance_id = request.resource_id
         db = shelve.open('auths.db')
-        auth = db[str(instance_id)]
+        auth = db[str(instance_id) + "_auth"]
         db.close()
         print("Starting instance " + instance_id)
         ansible_executor.execute_play(
@@ -77,7 +66,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     def StopContainer(self, request, context):
         instance_id = request.resource_id
         db = shelve.open('auths.db')
-        auth = db[str(instance_id)]
+        auth = db[str(instance_id) + "_auth"]
         db.close()
 
         print("Stoping instance " + instance_id)

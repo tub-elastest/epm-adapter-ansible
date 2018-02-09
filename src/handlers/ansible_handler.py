@@ -6,8 +6,8 @@ import shelve
 
 from src.grpc_connector.client_pb2 import ResourceGroupProto, Auth
 
-def launch_playbook(playbook_contents):
 
+def launch_playbook(playbook_contents):
     f = tempfile.NamedTemporaryFile("w")
     f.write(playbook_contents)
     f.seek(0)
@@ -15,14 +15,16 @@ def launch_playbook(playbook_contents):
     r = ansible_executor.execute_playbook(f.name)
     return r
 
-def launch_play(play_contents):
+
+def launch_play(play_contents, key=None):
+
 
     play_as_dict = yaml.load(play_contents)[0]
 
     try:
         rg_name = play_as_dict["name"]
     except:
-        rg_name = str(random.randint(100,999))
+        rg_name = str(random.randint(100, 999))
 
     auth = play_as_dict["tasks"][0]["os_server"]["auth"]
 
@@ -43,10 +45,13 @@ def launch_play(play_contents):
 
     ip = r["openstack"]["interface_ip"]
 
-    save_to_db(name, auth)
+    save_to_db(name, auth, "auth")
+
+    if key is not None:
+        save_to_db(ip, key.read(), "key")
 
     vdu = ResourceGroupProto.VDU(name=name, imageName=imageName, netName=net_name, computeId=compute_id, ip=ip,
-                                          metadata=[])
+                                 metadata=[])
 
     networks.append(net)
     vdus.append(vdu)
@@ -55,7 +60,7 @@ def launch_play(play_contents):
     return rg
 
 
-def save_to_db(name, auth):
+def save_to_db(name, value, type):
     db = shelve.open('auths.db')
-    db[str(name)] = auth
+    db[str(name) + "_" + type] = value
     db.close()

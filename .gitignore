@@ -71,6 +71,7 @@ target/
 /mongodata/
 /.mypy_cache/
 
-tests/play.yml
+tests/
 *.db
+*.tar
 

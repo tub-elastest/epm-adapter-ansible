@@ -5,7 +5,8 @@ from src.grpc_connector import client_pb2_grpc
 from src.grpc_connector import client_pb2
 import time
 
-def full_test(key_path):
+def full_test():
+    key_path = ""
     ip = "192.168.161.164"
     user = "ubuntu"
     passphrase = ""
@@ -62,6 +63,5 @@ def full_test(key_path):
 
 
 if __name__ == "__main__":
-    key_path = sys.argv[1]
 
-    full_test(key_path=key_path)
+    full_test()

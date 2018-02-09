@@ -13,6 +13,7 @@ from ansible.plugins.callback import CallbackBase
 import json
 import time
 
+
 class ResultCallback(CallbackBase):
     """A sample callback plugin used for performing an action as results come in
 
@@ -68,6 +69,7 @@ def execute_playbook(playbook_path):
     results = pbex.run()
     return results
 
+
 def execute_play(play_source, with_metadata=False):
     loader = DataLoader()
 
@@ -91,7 +93,7 @@ def execute_play(play_source, with_metadata=False):
 
     passwords = {}
     # Instantiate our ResultCallback for handling results as they come in
-    if(with_metadata):
+    if (with_metadata):
         results_callback = ResultCallback()
     else:
         results_callback = None
@@ -111,8 +113,8 @@ def execute_play(play_source, with_metadata=False):
         )
         result = tqm.run(play)
 
-        if(with_metadata):
-            while(not results_callback.done):
+        if with_metadata:
+            while (not results_callback.done):
                 time.sleep(1)
                 print("continue")
             result = results_callback.metadata
