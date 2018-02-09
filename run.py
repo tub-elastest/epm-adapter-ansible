@@ -27,6 +27,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
         metadata = yaml.load(package.extractfile("metadata.yaml").read())
         package_name = metadata.get("name")
+        keypath = None
+        if metadata.has_key("keypath"):
+            keypath = metadata.get("keypath")
         print(package_name)
 
         play = package.extractfile("play.yaml").read()
@@ -35,7 +38,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         if "key" in package.getnames():
             key = package.extractfile("key")
 
-        rg = ansible_handler.launch_play(play, key)
+        rg = ansible_handler.launch_play(play, key, keypath)
         package.close()
         temp.close()
 

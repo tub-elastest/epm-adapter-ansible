@@ -16,8 +16,12 @@ def launch_playbook(playbook_contents):
     return r
 
 
-def launch_play(play_contents, key=None):
+def launch_play(play_contents, key=None, keypath=None):
 
+    if key is None and keypath is None:
+        raise Exception("You have to include the private key (for doing runtime operations on the launched instances)! "+
+                        "You can either add it in the package with the name 'key' or set a 'keypath' in the metadata " +
+                        "where the adapater the adapter can find it.")
 
     play_as_dict = yaml.load(play_contents)[0]
 
@@ -49,6 +53,8 @@ def launch_play(play_contents, key=None):
 
     if key is not None:
         save_to_db(ip, key.read(), "key")
+    elif keypath is not None:
+        save_to_db(ip, keypath, "keypath")
 
     vdu = ResourceGroupProto.VDU(name=name, imageName=imageName, netName=net_name, computeId=compute_id, ip=ip,
                                  metadata=[])

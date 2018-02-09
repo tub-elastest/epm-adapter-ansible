@@ -7,38 +7,21 @@ class SSHExecutor():
     def __init__(self,
                  ip_address,
                  username="ubuntu",
-                 password="",
-                 key_file_path=None):
+                 password=""):
         self.ip_address = ip_address
         self.username = username
         self.password = password
-        self._get_key_from_db()
-        self.key_file_path = key_file_path
 
     def _get_client(self):
-
-        if self.key != None:
-            return self._get_client_with_string()
-        elif self.key_file_path != None:
-            return self._get_client_with_file()
-        else:
-            raise Exception(
-                "No private key for authentication provided. Please provide a key as a string or file path.")
-
-    def _get_client_with_file(self):
-        client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self.ip_address, username=self.username, password=self.password,
-                       key_filename=self.key_file_path)
-        return client
-
-    def _get_client_with_string(self):
         temp = tempfile.NamedTemporaryFile(delete=True)
-        temp.write(self.key)
+        key, keypath = self._get_key_from_db()
+        path = keypath
+        if key is not None:
+            temp.write(key)
 
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self.ip_address, username=self.username, password=self.password, key_filename=temp.name)
+        client.connect(self.ip_address, username=self.username, password=self.password, key_filename=path)
         temp.close()
         return client
 
@@ -88,7 +71,14 @@ class SSHExecutor():
 
     def _get_key_from_db(self):
         db = shelve.open('auths.db')
-        key = db[str(self.ip_address) + "_key"]
-        if key is not None:
-            self.key = key
+
+        key = None
+        keypath = None
+
+        if db.has_key(str(self.ip_address) + "_key"):
+            key = db[str(self.ip_address) + "_key"]
+        if db.has_key(str(self.ip_address) + "_keypath"):
+            keypath = db[str(self.ip_address) + "_keypath"]
         db.close()
+
+        return key, keypath
