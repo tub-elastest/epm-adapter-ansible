@@ -1,0 +1,28 @@
+version: '2.1'
+services:
+    elastest-platform-manager:
+        container_name: elastest-epm
+        image: elastest/epm
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock:rw
+        expose:
+            - 8180
+        ports:
+            - 8180:8180
+        networks:
+            - elastest
+    epm-adapter-ansible:
+        container_name: elastest-epm-adapter-ansible
+        image: elastest/epm-adapter-ansible
+        entrypoint: python -m run --register-pop elastest-epm elastest-epm-adapter-ansible
+        depends_on:
+            - elastest-platform-manager
+        expose: 
+            - 50052
+        ports:
+            - 50052:50052
+        networks:
+            - elastest
+networks:
+    elastest:
+        driver: bridge
