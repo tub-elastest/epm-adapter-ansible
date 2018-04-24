@@ -54,7 +54,7 @@ def execute_playbook(playbook_path):
 
     options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False, connection='local',
                       module_path=None,
-                      forks=100, remote_user='stephen', private_key_file=None, ssh_common_args=None,
+                      forks=100, remote_user='root', private_key_file=None, ssh_common_args=None,
                       ssh_extra_args=None,
                       sftp_extra_args=None, scp_extra_args=None, become=False, become_method=None, become_user='root',
                       verbosity=None, check=False, diff=False)
@@ -84,7 +84,7 @@ def execute_play(play_source, with_metadata=False):
 
     options = Options(listtags=False, listtasks=False, listhosts=False, syntax=False, connection='local',
                       module_path=None,
-                      forks=100, remote_user='stephen', private_key_file=None, ssh_common_args=None,
+                      forks=100, remote_user='root', private_key_file=None, ssh_common_args=None,
                       ssh_extra_args=None,
                       sftp_extra_args=None, scp_extra_args=None, become=False, become_method=None, become_user='root',
                       verbosity=None, check=False, diff=False)

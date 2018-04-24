@@ -1,7 +1,6 @@
 import paramiko
 import tempfile
 import shelve
-import StringIO
 
 class SSHExecutor():
     def __init__(self,
