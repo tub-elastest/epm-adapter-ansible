@@ -5,9 +5,9 @@
       os_server:
         state: present
         auth:
-          auth_url: http://192.168.161.31:5000/v2.0
+          auth_url: <REPLACE>
           username: admin
-          password: openbaton
+          password: <REPLACE>
           project_name: admin
         name: vm1
         image: ubuntu-14.04-server-cloudimg-amd64-disk1
