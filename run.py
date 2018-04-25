@@ -140,7 +140,7 @@ def serve(port="50052", register=False, ip="elastest-epm", adapter_ip="elastest-
 
 
 if __name__ == '__main__':
-    if "--register-pop" in sys.argv:
+    if "--register-adapter" in sys.argv:
         if len(sys.argv) == 4:
             serve(register=True, ip=sys.argv[2], adapter_ip=sys.argv[3])
         else:

@@ -14,7 +14,7 @@ services:
     epm-adapter-ansible:
         container_name: elastest-epm-adapter-ansible
         image: elastest/epm-adapter-ansible
-        entrypoint: python -m run --register-pop elastest-epm elastest-epm-adapter-ansible
+        entrypoint: python -m run --register-adapter elastest-epm elastest-epm-adapter-ansible
         depends_on:
             - elastest-platform-manager
         expose: 
