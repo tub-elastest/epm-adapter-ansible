@@ -46,15 +46,7 @@ docker run -p 50052:50052 --expose 50052 -i -t elastest/epm-adapter-ansible
 
 ## Launching the adapter and the EPM with Docker-Compose
 
-If you want to start both the Elastest Platform Manager and the Ansible adapter you can run:
-
-```bash
-docker-compose up
-```
-
-This will create the docker container for both the adapter and the EPM and will also automatically register 
-the adapter to the EPM, so you can start using them straight away.
-
+If you want to start both the Elastest Platform Manager and the Ansible adapter you can use this [docker-compose](https://github.com/elastest/elastest-platform-manager/blob/master/docker-compose-epm.yml).
 
 ## Usage
 
