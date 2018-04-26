@@ -18,7 +18,7 @@ type: ansible
 
 You have to include the private key for doing runtime operations on the launched instances. It should correspond to the 
 key specified in the play. You can either add it in the package with the name 'key' or set a 'keypath' in the metadata
-where the adapater can find it.
+where the adapter can find it.
 
 The adapter is implemented using **python2.7** and the Ansible and gRPC libraries.
 
@@ -34,7 +34,7 @@ If the EPM is already running you can make the adapter register itself on the EP
 is not specified, because it is part of the play.
 
 ```yaml
-python -m run--register-adapter <epm-ip> <compose-adapter-ip>
+python -m run --register-adapter <epm-ip> <compose-adapter-ip>
 ```
 
 ## Launching the adapter in a docker container
