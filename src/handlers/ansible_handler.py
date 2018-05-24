@@ -16,7 +16,7 @@ def launch_playbook(playbook_contents):
     return r
 
 
-def launch_play(play_contents, key=None, keypath=None):
+def launch_play(play_contents, auth, key=None, keypath=None):
 
     if key is None and keypath is None:
         raise Exception("You have to include the private key (for doing runtime operations on the launched instances)! "+
@@ -30,21 +30,16 @@ def launch_play(play_contents, key=None, keypath=None):
     except:
         rg_name = str(random.randint(100, 999))
 
-    auth = play_as_dict["tasks"][0]["os_server"]["auth"]
-
     r = ansible_executor.execute_play(play_as_dict, with_metadata=True)
 
     pops = []
     vdus = []
     networks = []
     net_name = play_as_dict["tasks"][0]["os_server"]["network"]
-
     net = ResourceGroupProto.Network(name=net_name, cidr="", poPName="ansible", networkId="id")
-
     compute_id = r["openstack"]["id"]
     name = r["openstack"]["name"]
     imageName = r["openstack"]["image"]["name"]
-
     nets = r["openstack"]["addresses"]
 
     ip = r["openstack"]["interface_ip"]

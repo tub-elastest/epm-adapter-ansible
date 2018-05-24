@@ -5,6 +5,7 @@ import tempfile
 import time
 import yaml
 import shelve
+import atexit
 
 import grpc
 import src.grpc_connector.client_pb2_grpc as client_pb2_grpc
@@ -37,8 +38,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         key = None
         if "key" in package.getnames():
             key = package.extractfile("key")
+        auth = utils.check_package_pop(play, request.options)
 
-        rg = ansible_handler.launch_play(play, key, keypath)
+        rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()
         temp.close()
 
@@ -119,13 +121,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             return client_pb2.Empty()
 
 
-def serve(port="50052", register=False, ip="elastest-epm", adapter_ip="elastest-epm-adapter-ansible"):
+def serve(port="50052"):
     print("Starting server...")
     print("Listening on port: " + port)
-
-    if register:
-        print("Trying to register pop to EPM instance...")
-        utils.register_pop(ip, adapter_ip)
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     client_pb2_grpc.add_OperationHandlerServicer_to_server(
@@ -138,12 +136,28 @@ def serve(port="50052", register=False, ip="elastest-epm", adapter_ip="elastest-
     except KeyboardInterrupt:
         server.stop(0)
 
+adapter_id = ""
+epm_ip = ""
+
+@atexit.register
+def stop():
+    print("Exiting")
+    if adapter_id != "" and epm_ip != "":
+        print("DELETING ADAPTER")
+        utils.unregister_adapter(epm_ip, adapter_id)
 
 if __name__ == '__main__':
     if "--register-adapter" in sys.argv:
         if len(sys.argv) == 4:
-            serve(register=True, ip=sys.argv[2], adapter_ip=sys.argv[3])
+            print("Trying to register pop to EPM instance...")
+            epm_ip = sys.argv[2]
+            adapter_ip = sys.argv[3]
+            adapter_id = utils.register_adapter(epm_ip, adapter_ip)
+            serve()
         else:
-            serve(register=True)
+            epm_ip = "elastest-epm"
+            adapter_ip = "elastest-epm-adapter-ansible"
+            adapter_id = utils.register_adapter(epm_ip, adapter_ip)
+            serve()
     else:
         serve()

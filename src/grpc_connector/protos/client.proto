@@ -4,16 +4,20 @@ option java_multiple_files = true;
 
 message FileMessage {
     bytes file = 1;
+    repeated string options = 2;
+    PoP pop = 3;
 }
 
 message ResourceIdentifier {
     string resource_id = 1;
+    PoP pop = 2;
 }
 
 message RuntimeMessage {
     string resource_id = 1;
     repeated string property = 2;
     bytes file = 3;
+    PoP pop = 4;
 }
 
 message StringResponse {
@@ -28,19 +32,33 @@ message Empty {
 
 }
 
+message Status {
+    enum ServingStatus {
+        CONFIGURE = 0;
+        ACTIVE = 1;
+        INACTIVE = 2;
+    }
+    ServingStatus status = 1;
+}
+
 message Auth {
-        string auth_url = 1;
-        string username = 2;
-        string password = 3;
-        string project = 4;
+    string auth_url = 1;
+    string username = 2;
+    string password = 3;
+    string project = 4;
+}
+
+message AdapterProto {
+    string type = 1;
+    string endpoint = 2;
+}
+
+message PoP {
+    string name = 1;
+    string interfaceEndpoint = 2;
 }
 
 message ResourceGroupProto {
-
-    message PoP {
-        string name = 1;
-        string interfaceEndpoint = 2;
-    }
 
     message MetadataEntry {
         string key = 1;
@@ -89,4 +107,13 @@ service OperationHandler {
     rpc DownloadFile(RuntimeMessage) returns (FileMessage) {}
 
     rpc UploadFile(RuntimeMessage) returns (Empty) {}
+
+    rpc CheckStatus(Empty) returns (Status) {}
+}
+
+service AdapterHandler {
+
+    rpc RegisterAdapter(AdapterProto) returns (ResourceIdentifier) {}
+
+    rpc DeleteAdapter(ResourceIdentifier) returns (Empty) {}
 }
