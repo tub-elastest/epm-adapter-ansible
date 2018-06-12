@@ -12,9 +12,10 @@ import src.grpc_connector.client_pb2_grpc as client_pb2_grpc
 from concurrent import futures
 
 import src.grpc_connector.client_pb2 as client_pb2
-from src.utils import epm_utils as utils
+from src.utils import epm_utils as epm_utils
 from src.handlers import ansible_executor, ssh_client, ansible_handler
 from src.handlers.plays import *
+from src.utils import utils
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
@@ -26,19 +27,24 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         temp.write(request.file)
         package = tarfile.open(temp.name, "r")
 
-        metadata = yaml.load(package.extractfile("metadata.yaml").read())
+        metadata = utils.extract_metadata(package)
+        if metadata is None:
+            raise Exception("No metadata found in package!")
+
         package_name = metadata.get("name")
         keypath = None
         if metadata.has_key("keypath"):
             keypath = metadata.get("keypath")
         print(package_name)
 
-        play = package.extractfile("play.yaml").read()
+        play = utils.extract_play(package)
+        if play is None:
+            raise Exception("No play found in package!")
 
         key = None
         if "key" in package.getnames():
             key = package.extractfile("key")
-        auth = utils.check_package_pop(play, request.options)
+        auth = epm_utils.check_package_pop(play, request.options)
 
         rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()
@@ -54,9 +60,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         db.close()
 
         ansible_executor.execute_play(
-            delete_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"], auth["project_name"]))
+            delete_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"],
+                                 auth["project_name"]))
         return client_pb2.Empty()
-
 
     def StartContainer(self, request, context):
         instance_id = request.resource_id
@@ -65,7 +71,8 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         db.close()
         print("Starting instance " + instance_id)
         ansible_executor.execute_play(
-            start_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"], auth["project_name"]))
+            start_instance_play(instance_id, auth["auth_url"], auth["username"], auth["password"],
+                                auth["project_name"]))
         return client_pb2.Empty()
 
     def StopContainer(self, request, context):
@@ -107,7 +114,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         password = request.property[2]
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         type = request.property[0]
-        if(type == "withPath"):
+        if (type == "withPath"):
             remotePath = request.property[4]
             hostPath = request.property[3]
             print("Uploading a file " + hostPath + " to " + remotePath)
@@ -136,15 +143,18 @@ def serve(port="50052"):
     except KeyboardInterrupt:
         server.stop(0)
 
+
 adapter_id = ""
 epm_ip = ""
+
 
 @atexit.register
 def stop():
     print("Exiting")
     if adapter_id != "" and epm_ip != "":
         print("DELETING ADAPTER")
-        utils.unregister_adapter(epm_ip, adapter_id)
+        epm_utils.unregister_adapter(epm_ip, adapter_id)
+
 
 if __name__ == '__main__':
     if "--register-adapter" in sys.argv:
@@ -152,12 +162,12 @@ if __name__ == '__main__':
             print("Trying to register pop to EPM instance...")
             epm_ip = sys.argv[2]
             adapter_ip = sys.argv[3]
-            adapter_id = utils.register_adapter(epm_ip, adapter_ip)
+            adapter_id = epm_utils.register_adapter(epm_ip, adapter_ip)
             serve()
         else:
             epm_ip = "elastest-epm"
             adapter_ip = "elastest-epm-adapter-ansible"
-            adapter_id = utils.register_adapter(epm_ip, adapter_ip)
+            adapter_id = epm_utils.register_adapter(epm_ip, adapter_ip)
             serve()
     else:
         serve()
