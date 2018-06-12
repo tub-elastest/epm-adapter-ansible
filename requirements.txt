@@ -1,0 +1,5 @@
+shade
+requests
+grpcio
+grpcio-tools
+ansible==2.5.4

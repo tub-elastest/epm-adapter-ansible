@@ -33,7 +33,8 @@ python -m run
 If the EPM is already running you can make the adapter register itself on the EPM automatically. In this case the PoP
 is not specified, because it is part of the play.
 
-```yaml
+```bash
+pip install -r requirements.txt &&
 python -m run --register-adapter <epm-ip> <compose-adapter-ip>
 ```
 
@@ -63,10 +64,11 @@ At the moment the adapter only fully supports launching OpenStack Plays. Here is
       os_server:
         state: present
         auth:
-          auth_url: <REPLACE>
-          username: admin
+          auth_url: <REPLACE> # Note: The url should look like this http://ip:5000/v3 (or depending on your os config)
+          username: <REPLACE>
           password: <REPLACE>
-          project_name: admin
+          project_name: <REPLACE> # Required for Openstack Identity v2.0
+          project_id: <REPLACE> # Required for OpenStack Identity v3
         name: vm1
         image: ubuntu-14.04-server-cloudimg-amd64-disk1
         key_name: key
