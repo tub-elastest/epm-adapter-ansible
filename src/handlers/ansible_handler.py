@@ -31,7 +31,7 @@ def launch_play(play_contents, auth, key=None, keypath=None):
         rg_name = str(random.randint(100, 999))
 
     r = ansible_executor.execute_play(play_as_dict, with_metadata=True)
-    
+
     if not r.has_key("openstack"):
         print("It was either not possible to execute the play or it was not an openstack play. Please check if everything " +
               " specified in the play is already in the OpenStack instance and that the auth credentials are correct.")
