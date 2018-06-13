@@ -59,14 +59,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         auth = db[str(instance_id) + "_auth"]
         db.close()
 
-        if auth.has_key("project_name") and auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password") and "v2" in auth["auth_url"]:
+        if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
-                delete_instance_play_v2(instance_id, auth["auth_url"], auth["username"], auth["password"],
-                                 auth["project_name"]))
-        elif auth.has_key("project_id") and auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password") and "v3" in auth["auth_url"]:
-            ansible_executor.execute_play(
-                delete_instance_play_v3(instance_id, auth["auth_url"], auth["username"], auth["password"],
-                                        auth["project_id"]))
+                delete_instance_play(instance_id, auth))
         else:
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
@@ -77,14 +72,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         auth = db[str(instance_id) + "_auth"]
         db.close()
         print("Starting instance " + instance_id)
-        if auth.has_key("project_name") and auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password") and "v2" in auth["auth_url"]:
+        if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
-                start_instance_play_v2(instance_id, auth["auth_url"], auth["username"], auth["password"],
-                                   auth["project_name"]))
-        elif auth.has_key("project_id") and auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password") and "v3" in auth["auth_url"]:
-            ansible_executor.execute_play(
-                start_instance_play_v3(instance_id, auth["auth_url"], auth["username"], auth["password"],
-                                   auth["project_id"]))
+                start_instance_play(instance_id, auth))
         else:
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
@@ -96,14 +86,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         db.close()
 
         print("Stoping instance " + instance_id)
-        if auth.has_key("project_name") and auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password") and "v2" in auth["auth_url"]:
+        if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
-                stop_instance_play_v2(instance_id, auth["auth_url"], auth["username"], auth["password"],
-                                   auth["project_name"]))
-        elif auth.has_key("project_id") and auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password") and "v3" in auth["auth_url"]:
-            ansible_executor.execute_play(
-                stop_instance_play_v3(instance_id, auth["auth_url"], auth["username"], auth["password"],
-                                   auth["project_id"]))
+                stop_instance_play(instance_id, auth))
         else:
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()

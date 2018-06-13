@@ -13,54 +13,25 @@ def launch_instance_play(os_auth_url, os_username, os_password, os_project):
 
 
 # start server
-def stop_instance_play_v2(name, os_auth_url, os_username, os_password, os_project):
+def stop_instance_play(name, auth):
     return dict(
         name="stop",
         hosts='localhost',
         gather_facts='no',
         tasks=[
-            dict(os_server_action=dict(action='stop', auth=dict(auth_url=os_auth_url, username=os_username,
-                                                                password=os_password, project_name=os_project),
+            dict(os_server_action=dict(action='stop', auth=auth,
                                        server=name, timeout="200", wait="yes"), register='shell_out')
         ]
     )
 
 
-# start server
-def stop_instance_play_v3(name, os_auth_url, os_username, os_password, os_project):
-    return dict(
-        name="stop",
-        hosts='localhost',
-        gather_facts='no',
-        tasks=[
-            dict(os_server_action=dict(action='stop', auth=dict(auth_url=os_auth_url, username=os_username,
-                                                                password=os_password, project_id=os_project),
-                                       server=name, timeout="200", wait="yes"), register='shell_out')
-        ]
-    )
-
-
-def start_instance_play_v2(name, os_auth_url, os_username, os_password, os_project):
+def start_instance_play(name, auth):
     return dict(
         name="start",
         hosts='localhost',
         gather_facts='no',
         tasks=[
-            dict(os_server_action=dict(action='start', auth=dict(auth_url=os_auth_url, username=os_username,
-                                                                 password=os_password, project_name=os_project),
-                                       server=name, timeout="200", wait="yes"), register='shell_out')
-        ]
-    )
-
-
-def start_instance_play_v3(name, os_auth_url, os_username, os_password, os_project):
-    return dict(
-        name="start",
-        hosts='localhost',
-        gather_facts='no',
-        tasks=[
-            dict(os_server_action=dict(action='start', auth=dict(auth_url=os_auth_url, username=os_username,
-                                                                 password=os_password, project_id=os_project),
+            dict(os_server_action=dict(action='start', auth=auth,
                                        server=name, timeout="200", wait="yes"), register='shell_out')
         ]
     )
@@ -80,23 +51,11 @@ def get_data_play(name, os_auth_url, os_username, os_password, os_project):
     )
 
 
-def delete_instance_play_v2(name, os_auth_url, os_username, os_password, os_project):
-    return dict(name="create",
+def delete_instance_play(name, auth):
+    return dict(name="delete",
                 hosts='localhost',
                 gather_facts='no',
                 tasks=[
-                    dict(os_server=dict(state='absent', auth=dict(auth_url=os_auth_url, username=os_username,
-                                                                  password=os_password, project_name=os_project),
-                                        name=name, timeout="200", wait='yes'), register='shell_out')
-                ])
-
-
-def delete_instance_play_v3(name, os_auth_url, os_username, os_password, os_project):
-    return dict(name="create",
-                hosts='localhost',
-                gather_facts='no',
-                tasks=[
-                    dict(os_server=dict(state='absent', auth=dict(auth_url=os_auth_url, username=os_username,
-                                                                  password=os_password, project_id=os_project),
+                    dict(os_server=dict(state='absent', auth=auth,
                                         name=name, timeout="200", wait='yes'), register='shell_out')
                 ])
