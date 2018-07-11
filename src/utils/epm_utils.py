@@ -4,6 +4,7 @@ import src.grpc_connector.client_pb2 as client_pb2
 import time
 import yaml
 import os
+import logging
 
 max_timeout = 10
 
@@ -18,10 +19,10 @@ def register_adapter(ip, ansible_ip):
     while i < 10:
         try:
             identifier = stub.RegisterAdapter(adapter)
-            print("Adapter registered")
+            logging.info("Adapter registered")
             return identifier.resource_id
         except:
-            print("Still not connected")
+            logging.info("Still not connected")
         time.sleep(11)
         i += 1
     return ""
@@ -35,18 +36,16 @@ def unregister_adapter(ip, id):
 
 
 def check_package_pop(play, options):
-    print options
     if len(options) < 4 :
         # Check if play has cloud / auth specified
         play_as_dict = yaml.load(play)[0]
         if not "auth" in play_as_dict["tasks"][0]["os_server"] and not "cloud" in play_as_dict["tasks"][0]:
-            print("No PoP specified neither in the package nor in the ansible play!")
+            logging.error("No PoP specified neither in the package nor in the ansible play!")
             return {}
         else:
             return play_as_dict["tasks"][0]["os_server"]["auth"]
     else:
         #Export variables
-        print(options)
         os.environ['OS_USERNAME'] = options[2]
         os.environ['OS_PASSWORD'] = options[3]
         os.environ['OS_PROJECT_NAME'] = options[1]
