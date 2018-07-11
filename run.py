@@ -21,6 +21,7 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 
 class Runner(client_pb2_grpc.OperationHandlerServicer):
+
     def Create(self, request, context):
 
         temp = tempfile.NamedTemporaryFile(delete=True)
@@ -53,7 +54,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return rg
 
     def Remove(self, request, context):
-        instance_id = request.resource_id
+        instance_id = request.vdu.computeId
 
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]
@@ -66,7 +67,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
 
-    def StartContainer(self, request, context):
+    def Start(self, request, context):
         instance_id = request.resource_id
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]
@@ -79,7 +80,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
 
-    def StopContainer(self, request, context):
+    def Stop(self, request, context):
         instance_id = request.resource_id
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]

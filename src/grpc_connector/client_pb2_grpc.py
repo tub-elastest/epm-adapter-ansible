@@ -21,26 +21,26 @@ class OperationHandlerStub(object):
         )
     self.Remove = channel.unary_unary(
         '/OperationHandler/Remove',
+        request_serializer=client__pb2.TerminateMessage.SerializeToString,
+        response_deserializer=client__pb2.Empty.FromString,
+        )
+    self.Stop = channel.unary_unary(
+        '/OperationHandler/Stop',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.Empty.FromString,
         )
-    self.StopContainer = channel.unary_unary(
-        '/OperationHandler/StopContainer',
-        request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
-        response_deserializer=client__pb2.Empty.FromString,
-        )
-    self.CheckIfContainerExists = channel.unary_unary(
-        '/OperationHandler/CheckIfContainerExists',
+    self.CheckIfResourceExists = channel.unary_unary(
+        '/OperationHandler/CheckIfResourceExists',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.StringResponse.FromString,
         )
-    self.CheckIfContainerRunning = channel.unary_unary(
-        '/OperationHandler/CheckIfContainerRunning',
+    self.CheckIfResourceRunning = channel.unary_unary(
+        '/OperationHandler/CheckIfResourceRunning',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.StringResponse.FromString,
         )
-    self.StartContainer = channel.unary_unary(
-        '/OperationHandler/StartContainer',
+    self.Start = channel.unary_unary(
+        '/OperationHandler/Start',
         request_serializer=client__pb2.ResourceIdentifier.SerializeToString,
         response_deserializer=client__pb2.Empty.FromString,
         )
@@ -84,28 +84,28 @@ class OperationHandlerServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def StopContainer(self, request, context):
+  def Stop(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def CheckIfContainerExists(self, request, context):
+  def CheckIfResourceExists(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def CheckIfContainerRunning(self, request, context):
+  def CheckIfResourceRunning(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
-  def StartContainer(self, request, context):
+  def Start(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -150,26 +150,26 @@ def add_OperationHandlerServicer_to_server(servicer, server):
       ),
       'Remove': grpc.unary_unary_rpc_method_handler(
           servicer.Remove,
+          request_deserializer=client__pb2.TerminateMessage.FromString,
+          response_serializer=client__pb2.Empty.SerializeToString,
+      ),
+      'Stop': grpc.unary_unary_rpc_method_handler(
+          servicer.Stop,
           request_deserializer=client__pb2.ResourceIdentifier.FromString,
           response_serializer=client__pb2.Empty.SerializeToString,
       ),
-      'StopContainer': grpc.unary_unary_rpc_method_handler(
-          servicer.StopContainer,
-          request_deserializer=client__pb2.ResourceIdentifier.FromString,
-          response_serializer=client__pb2.Empty.SerializeToString,
-      ),
-      'CheckIfContainerExists': grpc.unary_unary_rpc_method_handler(
-          servicer.CheckIfContainerExists,
+      'CheckIfResourceExists': grpc.unary_unary_rpc_method_handler(
+          servicer.CheckIfResourceExists,
           request_deserializer=client__pb2.ResourceIdentifier.FromString,
           response_serializer=client__pb2.StringResponse.SerializeToString,
       ),
-      'CheckIfContainerRunning': grpc.unary_unary_rpc_method_handler(
-          servicer.CheckIfContainerRunning,
+      'CheckIfResourceRunning': grpc.unary_unary_rpc_method_handler(
+          servicer.CheckIfResourceRunning,
           request_deserializer=client__pb2.ResourceIdentifier.FromString,
           response_serializer=client__pb2.StringResponse.SerializeToString,
       ),
-      'StartContainer': grpc.unary_unary_rpc_method_handler(
-          servicer.StartContainer,
+      'Start': grpc.unary_unary_rpc_method_handler(
+          servicer.Start,
           request_deserializer=client__pb2.ResourceIdentifier.FromString,
           response_serializer=client__pb2.Empty.SerializeToString,
       ),
