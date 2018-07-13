@@ -95,10 +95,11 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return client_pb2.Empty()
 
     def ExecuteCommand(self, request, context):
-        instance_id = request.resource_id
+        instance_id = request.vdu.ip
         command = request.property[0]
-        user = request.property[1]
-        password = request.property[2]
+        #TODO: FIX
+        user = "ubuntu"
+        password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
 
         print("Executing command " + command)
@@ -106,9 +107,10 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return client_pb2.StringResponse(response=output)
 
     def DownloadFile(self, request, context):
-        instance_id = request.resource_id
-        user = request.property[1]
-        password = request.property[2]
+        instance_id = request.vdu.ip
+        # TODO: FIX
+        user = "ubuntu"
+        password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         path = request.property[0]
         print("Downloading file " + path)
@@ -117,9 +119,10 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
     def UploadFile(self, request, context):
 
-        instance_id = request.resource_id
-        user = request.property[1]
-        password = request.property[2]
+        instance_id = request.vdu.ip
+        # TODO: FIX
+        user = "ubuntu"
+        password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         type = request.property[0]
         if (type == "withPath"):
