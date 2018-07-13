@@ -45,7 +45,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         key = None
         if "key" in package.getnames():
             key = package.extractfile("key")
-        auth = epm_utils.check_package_pop(play, request.options)
+        auth = epm_utils.check_package_pop(play, request.auth)
 
         rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()

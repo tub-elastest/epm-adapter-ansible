@@ -34,9 +34,9 @@ def unregister_adapter(ip, id):
     stub.DeleteAdapter(identifier)
 
 
-def check_package_pop(play, options):
-    print options
-    if len(options) < 4 :
+def check_package_pop(play, auth):
+    print(auth)
+    if len(auth) < 4 :
         # Check if play has cloud / auth specified
         play_as_dict = yaml.load(play)[0]
         if not "auth" in play_as_dict["tasks"][0]["os_server"] and not "cloud" in play_as_dict["tasks"][0]:
@@ -46,9 +46,18 @@ def check_package_pop(play, options):
             return play_as_dict["tasks"][0]["os_server"]["auth"]
     else:
         #Export variables
-        print(options)
-        os.environ['OS_USERNAME'] = options[2]
-        os.environ['OS_PASSWORD'] = options[3]
-        os.environ['OS_PROJECT_NAME'] = options[1]
-        os.environ['OS_AUTH_URL'] = options[0]
-        return {"username": options[2], "password": options[3], "auth_url": options[0], "project_name": options[1]}
+        out = {}
+        for var in auth:
+            if var.key == "username":
+                os.environ['OS_USERNAME'] = var.value
+                out["username"] = var.value
+            if var.key == "password":
+                os.environ['OS_PASSWORD'] = var.value
+                out["password"] = var.value
+            if var.key == "project_name":
+                os.environ['OS_PROJECT_NAME'] = var.value
+                out["project_name"] = var.value
+            if var.key == "auth_url":
+                os.environ['OS_AUTH_URL'] = var.value
+                out["auth_url"] = var.value
+        return out
