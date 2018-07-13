@@ -49,7 +49,7 @@ def launch_play(play_contents, auth, key=None, keypath=None):
 
     ip = r["openstack"]["interface_ip"]
 
-    save_to_db(name, auth, "auth")
+    save_to_db(compute_id, auth, "auth")
 
     if key is not None:
         save_to_db(ip, key.read(), "key")
