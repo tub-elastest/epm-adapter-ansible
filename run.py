@@ -33,6 +33,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         metadata = utils.extract_metadata(package)
         if metadata is None:
             raise Exception("No metadata found in package!")
+        logging.debug("Package metadata: " + str(metadata))
 
         package_name = metadata.get("name")
         keypath = None
@@ -43,6 +44,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         play = utils.extract_play(package)
         if play is None:
             raise Exception("No play found in package!")
+        logging.debug("Package play: " + str(play))
 
         key = None
         if "key" in package.getnames():
