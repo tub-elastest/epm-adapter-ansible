@@ -1,6 +1,7 @@
 import os
 import sys
 from collections import namedtuple
+import logging
 
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
@@ -31,6 +32,8 @@ class ResultCallback(CallbackBase):
 
         This method could store the result in an instance attribute for retrieval later
         """
+        logging.debug("TASK " + result.task_name + " HAS FAILED: " + str(result.is_failed()))
+        logging.debug("TASK " + result.task_name + " RESULT: " + str(result._result))
         host = result._host
         self.metadata = result._result
         self.done = True
@@ -43,7 +46,7 @@ def execute_playbook(playbook_path):
     variable_manager = VariableManager(loader=loader, inventory=inventory)
 
     if not os.path.exists(playbook_path):
-        print('[INFO] The playbook does not exist')
+        logging.debug('[INFO] The playbook does not exist')
         sys.exit()
 
     Options = namedtuple('Options',
@@ -116,7 +119,7 @@ def execute_play(play_source, with_metadata=False):
         if with_metadata:
             while (not results_callback.done):
                 time.sleep(1)
-                print("continue")
+                logging.debug("continue")
             result = results_callback.metadata
 
         return result

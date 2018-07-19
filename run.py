@@ -1,5 +1,8 @@
 import os
 import sys
+import logging
+from logging.handlers import RotatingFileHandler
+from logging import handlers
 import tarfile
 import tempfile
 import time
@@ -31,16 +34,18 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         metadata = utils.extract_metadata(package)
         if metadata is None:
             raise Exception("No metadata found in package!")
+        logging.debug("Package metadata: " + str(metadata))
 
         package_name = metadata.get("name")
         keypath = None
         if metadata.has_key("keypath"):
             keypath = metadata.get("keypath")
-        print(package_name)
+        logging.info(package_name)
 
         play = utils.extract_play(package)
         if play is None:
             raise Exception("No play found in package!")
+        logging.debug("Package play: " + str(play))
 
         key = None
         if "key" in package.getnames():
@@ -72,7 +77,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]
         db.close()
-        print("Starting instance " + instance_id)
+        logging.info("Starting instance " + instance_id)
         if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
                 start_instance_play(instance_id, auth))
@@ -86,7 +91,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         auth = db[str(instance_id) + "_auth"]
         db.close()
 
-        print("Stoping instance " + instance_id)
+        logging.info("Stoping instance " + instance_id)
         if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
                 stop_instance_play(instance_id, auth))
@@ -102,7 +107,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
 
-        print("Executing command " + command)
+        logging.info("Executing command " + command)
         output = ssh_exec.execute_command(command)
         return client_pb2.StringResponse(response=output)
 
@@ -113,7 +118,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         path = request.property[0]
-        print("Downloading file " + path)
+        logging.info("Downloading file " + path)
         output = ssh_exec.download_file_from_container(path)
         return client_pb2.FileMessage(file=output)
 
@@ -128,20 +133,20 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         if (type == "withPath"):
             remotePath = request.property[4]
             hostPath = request.property[3]
-            print("Uploading a file " + hostPath + " to " + remotePath)
+            logging.info("Uploading a file " + hostPath + " to " + remotePath)
             ssh_exec.upload_file_from_path(hostPath=hostPath, remotePath=remotePath)
             return client_pb2.Empty()
         else:
             path = request.property[0]
-            print("Uploading a file to " + path)
+            logging.info("Uploading a file to " + path)
             file = request.file
             ssh_exec.upload_file(path, file)
             return client_pb2.Empty()
 
 
 def serve(port="50052"):
-    print("Starting server...")
-    print("Listening on port: " + port)
+    logging.info("Starting server...")
+    logging.info("Listening on port: " + port)
 
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     client_pb2_grpc.add_OperationHandlerServicer_to_server(
@@ -161,16 +166,29 @@ epm_ip = ""
 
 @atexit.register
 def stop():
-    print("Exiting")
+    logging.info("Exiting")
     if adapter_id != "" and epm_ip != "":
-        print("DELETING ADAPTER")
+        logging.info("DELETING ADAPTER")
         epm_utils.unregister_adapter(epm_ip, adapter_id)
 
 
 if __name__ == '__main__':
+    log = logging.getLogger('')
+    log.setLevel(logging.DEBUG)
+    format = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
+    ch = logging.StreamHandler(sys.stdout)
+    ch.setFormatter(format)
+    log.addHandler(ch)
+
+    fh = handlers.RotatingFileHandler("epm-adapter-ansible.log", maxBytes=(1048576 * 5), backupCount=7)
+    fh.setFormatter(format)
+    log.addHandler(fh)
+    logging.info("\n")
+
     if "--register-adapter" in sys.argv:
         if len(sys.argv) == 4:
-            print("Trying to register pop to EPM instance...")
+            logging.info("Trying to register pop to EPM instance...")
             epm_ip = sys.argv[2]
             adapter_ip = sys.argv[3]
             adapter_id = epm_utils.register_adapter(epm_ip, adapter_ip)
