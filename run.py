@@ -24,6 +24,7 @@ _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
 
 class Runner(client_pb2_grpc.OperationHandlerServicer):
+
     def Create(self, request, context):
 
         temp = tempfile.NamedTemporaryFile(delete=True)
@@ -49,7 +50,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         key = None
         if "key" in package.getnames():
             key = package.extractfile("key")
-        auth = epm_utils.check_package_pop(play, request.options)
+        auth = epm_utils.check_package_pop(play, request.auth)
 
         rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()
@@ -58,7 +59,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return rg
 
     def Remove(self, request, context):
-        instance_id = request.resource_id
+        instance_id = request.vdu.computeId
 
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]
@@ -71,7 +72,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
 
-    def StartContainer(self, request, context):
+    def Start(self, request, context):
         instance_id = request.resource_id
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]
@@ -84,7 +85,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
 
-    def StopContainer(self, request, context):
+    def Stop(self, request, context):
         instance_id = request.resource_id
         db = shelve.open('auths.db')
         auth = db[str(instance_id) + "_auth"]
@@ -99,10 +100,11 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return client_pb2.Empty()
 
     def ExecuteCommand(self, request, context):
-        instance_id = request.resource_id
+        instance_id = request.vdu.ip
         command = request.property[0]
-        user = request.property[1]
-        password = request.property[2]
+        #TODO: FIX
+        user = "ubuntu"
+        password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
 
         logging.info("Executing command " + command)
@@ -110,9 +112,10 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return client_pb2.StringResponse(response=output)
 
     def DownloadFile(self, request, context):
-        instance_id = request.resource_id
-        user = request.property[1]
-        password = request.property[2]
+        instance_id = request.vdu.ip
+        # TODO: FIX
+        user = "ubuntu"
+        password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         path = request.property[0]
         logging.info("Downloading file " + path)
@@ -121,9 +124,10 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
     def UploadFile(self, request, context):
 
-        instance_id = request.resource_id
-        user = request.property[1]
-        password = request.property[2]
+        instance_id = request.vdu.ip
+        # TODO: FIX
+        user = "ubuntu"
+        password = ""
         ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
         type = request.property[0]
         if (type == "withPath"):
