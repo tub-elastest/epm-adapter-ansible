@@ -33,25 +33,47 @@ def launch_play(play_contents, auth, key=None, keypath=None):
 
     r = ansible_executor.execute_play(play_as_dict, with_metadata=True)
 
-    if not r.has_key("openstack"):
-        logging.error("It was either not possible to execute the play or it was not an openstack play. Please check if everything " +
-              " specified in the play is already in the OpenStack instance and that the auth credentials are correct.")
-        raise ValueError("Could not instantiate VM!")
+   
 
     pops = []
     vdus = []
     networks = []
-    net_name = play_as_dict["tasks"][0]["os_server"]["network"]
-    net = Network(name=net_name, cidr="", poPName="ansible", networkId="id")
-    compute_id = r["openstack"]["id"]
-    name = r["openstack"]["name"]
-    imageName = r["openstack"]["image"]["name"]
-    nets = r["openstack"]["addresses"]
+    imageName = ""
+    compute_id = ""
+    net = None
+    nets = []
+    ip = ""
+    if "os_server" in play_as_dict["tasks"][0]: #if we have been deploying on openstack
+        if not r.has_key("openstack"):
+            logging.error("It was either not possible to execute the play or it was not an openstack play. Please check if everything " +
+                " specified in the play is already in the OpenStack instance and that the auth credentials are correct.")
+            raise ValueError("Could not instantiate VM!")
 
-    ip = r["openstack"]["interface_ip"]
 
-    save_to_db(compute_id, auth, "auth")
+        net_name = play_as_dict["tasks"][0]["os_server"]["network"]
+        net = Network(name=net_name, cidr="", poPName="ansible", networkId="id")
+        compute_id = r["openstack"]["id"]
+        name = r["openstack"]["name"]
+        imageName = r["openstack"]["image"]["name"]
+        nets = r["openstack"]["addresses"]
 
+        ip = r["openstack"]["interface_ip"]
+        save_to_db(compute_id, auth, "auth")
+    else: #if we are deploying on aws
+        pops = []
+        vdus = []
+        networks = []
+        net_name = play_as_dict["tasks"][0]["ec2"]["vpc_subnet_id"]
+        net = Network(name=net_name, cidr="", poPName="ansible-aws", networkId=net_name)
+        compute_id = r["instances"][0]["id"]
+        name = r["instances"][0]["id"]
+        imageName = play_as_dict["tasks"][0]["ec2"]["image"]
+    
+
+        ip = r["instances"][0]["public_ip"]    
+        save_to_db(compute_id, play_as_dict["tasks"][0]["ec2"], "auth")
+    
+    
     if key is not None:
         save_to_db(ip, key.read(), "key")
     elif keypath is not None:

@@ -59,3 +59,12 @@ def delete_instance_play(name, auth):
                     dict(os_server=dict(state='absent', auth=auth,
                                         name=name, timeout="200", wait='yes'), register='shell_out')
                 ])
+
+def delete_instance_play_aws(id, data):
+    return dict(name="delete",
+                hosts='localhost',
+                gather_facts='no',
+                tasks=[
+                    dict(ec2=dict(state='absent', region=data["region"], aws_access_key=data["aws_access_key"], aws_secret_key=data["aws_secret_key"],
+                                        instance_ids=id, wait='yes'), register='shell_out')
+                ])

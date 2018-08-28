@@ -48,9 +48,12 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         logging.debug("Package play: " + str(play))
 
         key = None
+        auth = None
         if "key" in package.getnames():
             key = package.extractfile("key")
-        auth = epm_utils.check_package_pop(play, request.auth)
+        logging.info(yaml.load(play))
+        if "os_server" in yaml.load(play)[0]["tasks"][0]:
+            auth = epm_utils.check_package_pop(play, request.auth)
 
         rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()
@@ -68,6 +71,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
                 delete_instance_play(instance_id, auth))
+        elif auth.has_key("aws_access_key") and auth.has_key("aws_secret_key"):
+            ansible_executor.execute_play(
+                delete_instance_play_aws(instance_id, auth))
         else:
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()

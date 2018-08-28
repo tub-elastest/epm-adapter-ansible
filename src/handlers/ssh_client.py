@@ -1,6 +1,7 @@
 import paramiko
 import tempfile
 import shelve
+import StringIO
 
 class SSHExecutor():
     def __init__(self,
@@ -16,11 +17,14 @@ class SSHExecutor():
         key, keypath = self._get_key_from_db()
         path = keypath
         if key is not None:
-            temp.write(key)
+            private_key = StringIO.StringIO(key)
+            pkey=paramiko.RSAKey.from_private_key(private_key)
+        else: 
+            pkey = paramiko.RSAKey.from_private_key_file(keypath)
 
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self.ip_address, username=self.username, password=self.password, key_filename=path)
+        client.connect(self.ip_address, username=self.username, pkey=pkey)
         temp.close()
         return client
 
