@@ -46,7 +46,7 @@ def start_instance_play(name, auth):
     )
 
 
-def start_instance_play_aws(name, auth):
+def start_instance_play_aws(name, data):
     return dict(name="delete",
                 hosts='localhost',
                 gather_facts='no',
