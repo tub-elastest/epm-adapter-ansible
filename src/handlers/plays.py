@@ -24,6 +24,15 @@ def stop_instance_play(name, auth):
         ]
     )
 
+def stop_instance_play_aws(name, data):
+    return dict(name="delete",
+                hosts='localhost',
+                gather_facts='no',
+                tasks=[
+                    dict(ec2=dict(state='stopped', region=data["region"], aws_access_key=data["aws_access_key"], aws_secret_key=data["aws_secret_key"],
+                                        instance_ids=id, wait='yes'), register='shell_out')
+                ])
+
 
 def start_instance_play(name, auth):
     return dict(
@@ -36,6 +45,15 @@ def start_instance_play(name, auth):
         ]
     )
 
+
+def start_instance_play_aws(name, auth):
+    return dict(name="delete",
+                hosts='localhost',
+                gather_facts='no',
+                tasks=[
+                    dict(ec2=dict(state='running', region=data["region"], aws_access_key=data["aws_access_key"], aws_secret_key=data["aws_secret_key"],
+                                        instance_ids=id, wait='yes'), register='shell_out')
+                ])
 
 def get_data_play(name, os_auth_url, os_username, os_password, os_project):
     return dict(
