@@ -25,7 +25,7 @@ def stop_instance_play(name, auth):
     )
 
 def stop_instance_play_aws(name, data):
-    return dict(name="delete",
+    return dict(name="stop",
                 hosts='localhost',
                 gather_facts='no',
                 tasks=[
@@ -47,7 +47,7 @@ def start_instance_play(name, auth):
 
 
 def start_instance_play_aws(name, data):
-    return dict(name="delete",
+    return dict(name="start",
                 hosts='localhost',
                 gather_facts='no',
                 tasks=[
