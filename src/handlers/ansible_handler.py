@@ -60,18 +60,22 @@ def launch_play(play_contents, auth, key=None, keypath=None):
         ip = r["openstack"]["interface_ip"]
         save_to_db(compute_id, auth, "auth")
     else: #if we are deploying on aws
+        logging.debug("-----------------------------------------------------------------")
+        logging.debug(r)
         pops = []
         vdus = []
         networks = []
         net_name = play_as_dict["tasks"][0]["ec2"]["vpc_subnet_id"]
-        net = Network(name=net_name, cidr="", poPName="ansible-aws", networkId=net_name)
-        compute_id = r["instances"][0]["id"]
-        name = r["instances"][0]["id"]
         imageName = play_as_dict["tasks"][0]["ec2"]["image"]
-    
-
-        ip = r["instances"][0]["public_ip"]    
-        save_to_db(compute_id, play_as_dict["tasks"][0]["ec2"], "auth")
+        net = Network(name=net_name, cidr="", poPName="ansible-aws", networkId=net_name)
+        for instance in r["instances"]:           
+            compute_id = instance["id"]
+            name = instance["id"]
+            ip = instance["public_ip"]    
+            vdu = VDU(name=name, imageName=imageName, netName=net_name, computeId=compute_id, ip=ip,
+                                 metadata=[])   
+            vdus.append(vdu)    
+            save_to_db(compute_id, play_as_dict["tasks"][0]["ec2"], "auth")
     
     
     if key is not None:
@@ -83,7 +87,7 @@ def launch_play(play_contents, auth, key=None, keypath=None):
                                  metadata=[])
 
     networks.append(net)
-    vdus.append(vdu)
+    
 
     rg = ResourceGroupProto(name=rg_name, pops=pops, networks=networks, vdus=vdus)
     return rg

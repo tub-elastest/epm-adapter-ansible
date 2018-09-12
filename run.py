@@ -27,10 +27,13 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
     def Create(self, request, context):
 
+        logging.info(str(request))
+        logging.info(str(request.auth))
+        exit()
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.write(request.file)
         package = tarfile.open(temp.name, "r")
-
+        
         metadata = utils.extract_metadata(package)
         if metadata is None:
             raise Exception("No metadata found in package!")
@@ -52,8 +55,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         if "key" in package.getnames():
             key = package.extractfile("key")
         logging.info(yaml.load(play))
-        if "os_server" in yaml.load(play)[0]["tasks"][0]:
-            auth = epm_utils.check_package_pop(play, request.auth)
+        
+        #if "os_server" in yaml.load(play)[0]["tasks"][0]:
+        auth = epm_utils.check_package_pop(request.pop.auth)
 
         rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()
@@ -62,6 +66,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return rg
 
     def Remove(self, request, context):
+        logging.debug(request)
         instance_id = request.vdu.computeId
 
         db = shelve.open('auths.db')
