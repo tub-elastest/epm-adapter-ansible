@@ -61,7 +61,7 @@ message AdapterProto {
 message PoP {
     string name = 1;
     string interfaceEndpoint = 2;
-    repeated MetadataEntry auth = 4;
+    repeated MetadataEntry auth = 3;
 }
 
 message VDU {

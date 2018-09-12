@@ -27,8 +27,8 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
 
     def Create(self, request, context):
 
-        logging.info(str(request))
-        logging.info(str(request.auth))
+        logging.info(str(request.pop.auth))
+        #logging.info(str(request.auth))
         exit()
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.write(request.file)
