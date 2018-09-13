@@ -10,7 +10,6 @@ import json
 
 max_timeout = 10
 
-pop_ansible = {"name": "aws", "interfaceEndpoint": "amazon", "interfaceInfo" : [{"key": "type", "value": "aws"},  {"key": "aws_access_key", "value": "AKIAJRRMWNVCLD4JOVMA"}, {"key": "aws_secret_key", "value": "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"}], "status": "active"}
 headers = {"accept": "application/json","content-type": "application/json"}
 def register_adapter(ip, ansible_ip):
     channel = grpc.insecure_channel(ip + ":50050")
