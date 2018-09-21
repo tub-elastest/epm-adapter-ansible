@@ -26,6 +26,7 @@ class ResultCallback(CallbackBase):
     def __init__(self):
         self.done = False
         self.metadata = {}
+        self.batch_result = []
 
     def v2_runner_on_ok(self, result, **kwargs):
         """Print a json representation of the result
@@ -37,6 +38,7 @@ class ResultCallback(CallbackBase):
         host = result._host
         self.metadata = result._result
         self.done = True
+        self.batch_result.append(self.metadata)
 
 
 def execute_playbook(playbook_path):
@@ -120,8 +122,8 @@ def execute_play(play_source, with_metadata=False):
             while (not results_callback.done):
                 time.sleep(1)
                 logging.debug("continue")
-            result = results_callback.metadata
-
+            result = results_callback.batch_result
+            
         return result
 
     finally:

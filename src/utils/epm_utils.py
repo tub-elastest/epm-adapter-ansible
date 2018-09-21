@@ -7,10 +7,12 @@ import os
 import logging
 import requests
 import json
+import subprocess
 
 max_timeout = 10
 
-headers = {"accept": "application/json","content-type": "application/json"}
+
+
 def register_adapter(ip, ansible_ip):
     channel = grpc.insecure_channel(ip + ":50050")
     stub = client_pb2_grpc.AdapterHandlerStub(channel)
@@ -27,12 +29,6 @@ def register_adapter(ip, ansible_ip):
             logging.info("Still not connected")
         time.sleep(11)
         i += 1
-    
-    logging.info("Register pop")
-    r = requests.post('http://' + ip + ':8180/v1/pop', data=json.dumps(pop_ansible), headers=headers)
-    logging.info("Pop registered")
-    logging.debug(str(r.status_code) + " " + r.reason)
-    logging.debug(r.json())
     return ""
 
 
@@ -44,33 +40,33 @@ def unregister_adapter(ip, id):
 
 
 def check_package_pop(auth):
-    print(auth)
-    if len(auth) < 4 :
-       raise Exception("No authorisation for the PoP provided")
-    else:
         #Export variables
-        if auth.type == "openstack":
-            out = {}
-            for var in auth:
-                if var.key == "username":
-                    os.environ['OS_USERNAME'] = var.value
-                    out["username"] = var.value
-                if var.key == "password":
-                    os.environ['OS_PASSWORD'] = var.value
-                    out["password"] = var.value
-                if var.key == "project_name":
-                    os.environ['OS_PROJECT_NAME'] = var.value
-                    out["project_name"] = var.value
-                if var.key == "auth_url":
-                    os.environ['OS_AUTH_URL'] = var.value
-                    out["auth_url"] = var.value
-            return out
-        elif auth.type == "aws":
-            for var in auth:
-                if var.key.lower() == "aws_secret_key":
-                    os.environ['AWS_SECRET_KEY'] = var.value
-                    out["aws_secret_key"] = var.value
-                if var.key.lower() == "aws_access_key":
-                    os.environ['AWS_ACCESS_KEY'] = var.value
-                    out["aws_access_key"] = var.value
-            return out
+    type = list(filter((lambda x: x.key == "type"), auth))
+    out = {}
+    if type[0].value == "openstack":
+     
+        for var in auth:
+            if var.key == "username":
+                os.environ['OS_USERNAME'] = var.value
+                out["username"] = var.value
+            if var.key == "password":
+                os.environ['OS_PASSWORD'] = var.value
+                out["password"] = var.value
+            if var.key == "project_name":
+                os.environ['OS_PROJECT_NAME'] = var.value
+                out["project_name"] = var.value
+            if var.key == "auth_url":
+                os.environ['OS_AUTH_URL'] = var.value
+                out["auth_url"] = var.value
+        out['type'] = 'openstack'
+        return out
+    elif type[0].value == "aws":
+        for var in auth:
+            if var.key.lower() == "aws_secret_key":
+                out["aws_secret_key"] = var.value
+            if var.key.lower() == "aws_access_key":
+                out["aws_access_key"] = var.value
+            if var.key.lower() == "region":
+                out["region"] = var.value
+        out['type'] = 'aws' 
+        return out

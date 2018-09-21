@@ -70,11 +70,13 @@ def get_data_play(name, os_auth_url, os_username, os_password, os_project):
 
 
 def delete_instance_play(name, auth):
+    new_auth = dict(auth)
+    del new_auth["type"]
     return dict(name="delete",
                 hosts='localhost',
                 gather_facts='no',
                 tasks=[
-                    dict(os_server=dict(state='absent', auth=auth,
+                    dict(os_server=dict(state='absent', auth=new_auth,
                                         name=name, timeout="200", wait='yes'), register='shell_out')
                 ])
 

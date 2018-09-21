@@ -12,7 +12,7 @@ message FileMessage {
 message TerminateMessage {
     string resource_id = 1;
     PoP pop = 2;
-    VDU vdu = 3;
+    repeated VDU vdu = 3;
 }
 
 message ResourceIdentifier {
@@ -72,6 +72,7 @@ message VDU {
     string computeId = 5;
     string ip = 6;
     repeated MetadataEntry metadata = 7;
+    Key key = 8;
 }
 
 
@@ -92,6 +93,10 @@ message ResourceGroupProto {
     repeated PoP pops = 2;
     repeated Network networks = 3;
     repeated VDU vdus = 4;
+}
+
+message Key {
+    bytes key = 1;
 }
 
 service OperationHandler {
