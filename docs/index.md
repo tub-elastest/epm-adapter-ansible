@@ -53,8 +53,48 @@ If you want to start both the Elastest Platform Manager and the Ansible adapter 
 
 **Note:** The ansible adapter is still in development and therefore provides only a limited number of use cases
  (considering the number of Virtual Environments supported by ansible). 
- 
-At the moment the adapter supports launching OpenStack and Amazon Plays with these modules: ec2, ec2_instance, ec2_subnet, os_server, os_floating_ip, os_keypair, os_network, os_subnet, os_user. Other modules can still be used but if they do not require authorisation. Here is an example of such a plays with one task, multiple tasks are supported:
+
+
+At the moment the adapter supports launching OpenStack and Amazon Plays with these modules: ec2, ec2_instance, ec2_subnet, os_server, os_floating_ip, os_keypair, os_network, os_subnet, os_user. Other modules can still be used but only if they do not require authorisation or the authorisation should be provdied inside the play. 
+
+In order to use the adapter the pop must be registered to EPM:
+
+Example for AWS
+
+```json
+{
+  "name": "aws", 
+  "interfaceEndpoint": "amazon", 
+  "interfaceInfo" : [
+    {"key": "type", "value": "aws"},  
+    {"key": "aws_access_key", "value": "<value>"}, 
+    {"key": "aws_secret_key", "value": "<value>"}
+  ], 
+  "status": "active"
+}
+```
+Example for Openstack
+
+```json
+{
+  "name": "openstack-1", 
+  "interfaceEndpoint": "openstack", 
+  "interfaceInfo" : [
+    {"key": "type", "value": "openstack"},  
+    {"key": "username", "value": "<value>"}, 
+    {"key": "password", "value": "<value>"}, 
+    {"key": "project_name", "value": "<value>"}, 
+    {"key": "auth_url", "value": "<value>"}
+  ], 
+  "status": "active"
+}
+```
+The PoP should be sent via POST to http://ip-of-the-epm:8180/api/v1/pop
+
+If you include any authorisation data inside play, as ansible allows to do, the authorisation data in supported modules described above will be updated to the one you have added as PoP
+
+Here is an example of such a plays with one task, multiple tasks are supported but should all be executre on one PoP (AWS or Openstack):
+
 
 ```yaml
 - name: launch
