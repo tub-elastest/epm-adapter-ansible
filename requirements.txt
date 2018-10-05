@@ -1,5 +1,5 @@
 shade
-requests
+openstacksdk==0.13.0
 grpcio
 grpcio-tools
 ansible==2.5.4
