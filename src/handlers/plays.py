@@ -24,6 +24,15 @@ def stop_instance_play(name, auth):
         ]
     )
 
+def stop_instance_play_aws(name, data):
+    return dict(name="stop",
+                hosts='localhost',
+                gather_facts='no',
+                tasks=[
+                    dict(ec2=dict(state='stopped', region=data["region"], aws_access_key=data["aws_access_key"], aws_secret_key=data["aws_secret_key"],
+                                        instance_ids=id, wait='yes'), register='shell_out')
+                ])
+
 
 def start_instance_play(name, auth):
     return dict(
@@ -36,6 +45,15 @@ def start_instance_play(name, auth):
         ]
     )
 
+
+def start_instance_play_aws(name, data):
+    return dict(name="start",
+                hosts='localhost',
+                gather_facts='no',
+                tasks=[
+                    dict(ec2=dict(state='running', region=data["region"], aws_access_key=data["aws_access_key"], aws_secret_key=data["aws_secret_key"],
+                                        instance_ids=id, wait='yes'), register='shell_out')
+                ])
 
 def get_data_play(name, os_auth_url, os_username, os_password, os_project):
     return dict(
@@ -52,10 +70,21 @@ def get_data_play(name, os_auth_url, os_username, os_password, os_project):
 
 
 def delete_instance_play(name, auth):
+    new_auth = dict(auth)
+    del new_auth["type"]
     return dict(name="delete",
                 hosts='localhost',
                 gather_facts='no',
                 tasks=[
-                    dict(os_server=dict(state='absent', auth=auth,
+                    dict(os_server=dict(state='absent', auth=new_auth,
                                         name=name, timeout="200", wait='yes'), register='shell_out')
+                ])
+
+def delete_instance_play_aws(id, data):
+    return dict(name="delete",
+                hosts='localhost',
+                gather_facts='no',
+                tasks=[
+                    dict(ec2=dict(state='absent', region=data["region"], aws_access_key=data["aws_access_key"], aws_secret_key=data["aws_secret_key"],
+                                        instance_ids=id, wait='yes'), register='shell_out')
                 ])

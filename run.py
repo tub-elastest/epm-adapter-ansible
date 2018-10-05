@@ -30,7 +30,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.write(request.file)
         package = tarfile.open(temp.name, "r")
-
+        
         metadata = utils.extract_metadata(package)
         if metadata is None:
             raise Exception("No metadata found in package!")
@@ -48,10 +48,11 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         logging.debug("Package play: " + str(play))
 
         key = None
+        auth = None
         if "key" in package.getnames():
             key = package.extractfile("key")
-        auth = epm_utils.check_package_pop(play, request.auth)
-
+        logging.info(yaml.load(play))
+        auth = epm_utils.check_package_pop(request.pop.auth)
         rg = ansible_handler.launch_play(play, auth, key, keypath)
         package.close()
         temp.close()
@@ -59,17 +60,19 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         return rg
 
     def Remove(self, request, context):
-        instance_id = request.vdu.computeId
-
-        db = shelve.open('auths.db')
-        auth = db[str(instance_id) + "_auth"]
-        db.close()
-
-        if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
-            ansible_executor.execute_play(
-                delete_instance_play(instance_id, auth))
-        else:
-            raise ValueError("No proper auth found!")
+        logging.debug(request)
+        for vdu in request.vdu:
+            instance_id = vdu.computeId
+            auth = epm_utils.check_package_pop(request.pop.auth)
+            if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
+                ansible_executor.execute_play(
+                    delete_instance_play(instance_id, auth))
+            elif auth.has_key("aws_access_key") and auth.has_key("aws_secret_key"):
+                ansible_executor.execute_play(
+                    delete_instance_play_aws(instance_id, auth))
+            else:
+                raise ValueError("No proper auth found!")
+        logging.info("Removed all VDUs")
         return client_pb2.Empty()
 
     def Start(self, request, context):
@@ -81,6 +84,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
                 start_instance_play(instance_id, auth))
+        elif auth.has_key("aws_access_key") and auth.has_key("aws_secret_key"):
+            ansible_executor.execute_play(
+                start_instance_play_aws(instance_id, auth))
         else:
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
@@ -95,6 +101,9 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         if auth.has_key("auth_url") and auth.has_key("username") and auth.has_key("password"):
             ansible_executor.execute_play(
                 stop_instance_play(instance_id, auth))
+        elif auth.has_key("aws_access_key") and auth.has_key("aws_secret_key"):
+            ansible_executor.execute_play(
+                stop_instance_play_aws(instance_id, auth))
         else:
             raise ValueError("No proper auth found!")
         return client_pb2.Empty()
@@ -105,7 +114,8 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         #TODO: FIX
         user = "ubuntu"
         password = ""
-        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password=password)
+        auth = epm_utils.check_package_pop(request.pop.auth)
+        ssh_exec = ssh_client.SSHExecutor(instance_id, user, password, request.vdu.key.key)
 
         logging.info("Executing command " + command)
         output = ssh_exec.execute_command(command)

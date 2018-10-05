@@ -1,35 +1,32 @@
 import paramiko
 import tempfile
 import shelve
+import StringIO
 
 class SSHExecutor():
-    def __init__(self,
-                 ip_address,
-                 username="ubuntu",
-                 password=""):
+    def __init__(self, ip_address, username="ubuntu", password="", key=None):
         self.ip_address = ip_address
         self.username = username
         self.password = password
+        self.key = key
 
     def _get_client(self):
-        temp = tempfile.NamedTemporaryFile(delete=True)
-        key, keypath = self._get_key_from_db()
-        path = keypath
-        if key is not None:
-            temp.write(key)
-
+        private_key = StringIO.StringIO(self.key)
+        pkey=paramiko.RSAKey.from_private_key(private_key)
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(self.ip_address, username=self.username, password=self.password, key_filename=path)
-        temp.close()
+        client.connect(self.ip_address, username=self.username, pkey=pkey)
         return client
 
     def execute_command(self, command):
 
         client = self._get_client()
         stdin, stdout, stderr = client.exec_command(command)
-        output = ""
+        output = "stdout:"
         for line in stdout:
+            output += ' ' + line.strip('\n') + " " 
+        output += " stderror:"
+        for line in stderr:
             output += ' ' + line.strip('\n') + " "
         client.close()
         return output

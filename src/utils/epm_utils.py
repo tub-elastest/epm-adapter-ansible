@@ -5,8 +5,12 @@ import time
 import yaml
 import os
 import logging
+import requests
+import json
+import subprocess
 
 max_timeout = 10
+
 
 
 def register_adapter(ip, ansible_ip):
@@ -20,7 +24,7 @@ def register_adapter(ip, ansible_ip):
         try:
             identifier = stub.RegisterAdapter(adapter)
             logging.info("Adapter registered")
-            return identifier.resource_id
+            break
         except:
             logging.info("Still not connected")
         time.sleep(11)
@@ -35,19 +39,12 @@ def unregister_adapter(ip, id):
     stub.DeleteAdapter(identifier)
 
 
-def check_package_pop(play, auth):
-    print(auth)
-    if len(auth) < 4 :
-        # Check if play has cloud / auth specified
-        play_as_dict = yaml.load(play)[0]
-        if not "auth" in play_as_dict["tasks"][0]["os_server"] and not "cloud" in play_as_dict["tasks"][0]:
-            logging.error("No PoP specified neither in the package nor in the ansible play!")
-            return {}
-        else:
-            return play_as_dict["tasks"][0]["os_server"]["auth"]
-    else:
+def check_package_pop(auth):
         #Export variables
-        out = {}
+    type = list(filter((lambda x: x.key == "type"), auth))
+    out = {}
+    if type[0].value == "openstack":
+     
         for var in auth:
             if var.key == "username":
                 os.environ['OS_USERNAME'] = var.value
@@ -61,4 +58,15 @@ def check_package_pop(play, auth):
             if var.key == "auth_url":
                 os.environ['OS_AUTH_URL'] = var.value
                 out["auth_url"] = var.value
+        out['type'] = 'openstack'
+        return out
+    elif type[0].value == "aws":
+        for var in auth:
+            if var.key.lower() == "aws_secret_key":
+                out["aws_secret_key"] = var.value
+            if var.key.lower() == "aws_access_key":
+                out["aws_access_key"] = var.value
+            if var.key.lower() == "region":
+                out["region"] = var.value
+        out['type'] = 'aws' 
         return out
