@@ -4,11 +4,6 @@
     - name: launch an instance
       os_server:
         state: present
-        auth:
-          auth_url: <REPLACE>
-          username: admin
-          password: <REPLACE>
-          project_name: admin
         name: vm1
         image: ubuntu-14.04-server-cloudimg-amd64-disk1
         key_name: rvl
