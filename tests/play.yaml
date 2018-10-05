@@ -12,14 +12,3 @@
         security_groups: default
         auto_ip: yes
         network: mgmt
-    - name: launch another instance
-      os_server:
-        state: present
-        name: vm2
-        image: ubuntu-14.04-server-cloudimg-amd64-disk1
-        key_name: 
-        timeout: 200
-        flavor: m1.small
-        security_groups: default
-        auto_ip: yes
-        network: mgmt
