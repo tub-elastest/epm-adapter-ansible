@@ -55,7 +55,7 @@ If you want to start both the Elastest Platform Manager and the Ansible adapter 
  (considering the number of Virtual Environments supported by ansible). 
 
 
-At the moment the adapter supports launching OpenStack and Amazon Plays with these modules: ec2, ec2_instance, ec2_subnet, os_server, os_floating_ip, os_keypair, os_network, os_subnet, os_user. Other modules can still be used but only if they do not require authorisation or the authorisation should be provdied inside the play. 
+At the moment the adapter supports launching OpenStack and Amazon Plays with these modules: ec2 and os_server. Other modules can still be used but only if they do not require authorisation or the authorisation should be provdied inside the play. 
 
 In order to use the adapter the pop must be registered to EPM:
 
