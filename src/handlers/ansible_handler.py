@@ -55,13 +55,8 @@ def launch_play(play_contents, auth, key=None, keypath=None):
 
     response = ansible_executor.execute_play(play_as_dict, with_metadata=True)
 
-   
-
     pops = []
     vdus = []
-    networks = []
-    imageName = ""
-    compute_id = ""
     ssh_key = Key(key=key.read())
     logging.debug("-----------------------------------------------------------------")
     #logging.debug(response)
@@ -89,10 +84,6 @@ def launch_play(play_contents, auth, key=None, keypath=None):
                 vdus.append(vdu)    
 
     networks = prepare_networks(play_as_dict)
-
-    
-    
-    
 
     rg = ResourceGroupProto(name=rg_name, pops=pops, networks=networks, vdus=vdus)
     return rg

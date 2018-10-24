@@ -1,0 +1,87 @@
+
+- name: Check for existing kubelet configuration
+  stat:
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf
+
+- name: kubeadm init
+  command: "kubeadm init --kubernetes-version v1.10.3 --apiserver-advertise-address {{ hostvars[groups.master[0]].ansible_ssh_host }}"
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+  when: kubelet_conf.stat.exists == False
+
+- name: generate a join token
+  command: kubeadm token create --print-join-command
+  register: joincommand
+
+- name: set fact joincommand
+  set_fact:
+    joincommand: "{{ joincommand.stdout }}"
+
+- name: Upload the openstack-cloud-controller-manager pod descriptor
+  copy:
+    dest: /etc/kubernetes/manifests/cloud-controller-manager-pod.yaml
+    src: files/cloud-controller-manager-pod.yaml
+
+- name: Configure kube-controller-manager cloud provider integration
+  copy:
+    dest: /etc/kubernetes/manifests/kube-controller-manager.yaml
+    src: files/kube-controller-manager.yaml
+
+- name: Upload webook kubeconfig file
+  copy:
+    dest: /etc/kubernetes/pki/webhook.kubeconfig.yaml
+    src: files/webhook.kubeconfig.yaml
+
+- name: Configure keystone integration
+  blockinfile:
+    insertbefore: 'image: '
+    block: "    - --authentication-token-webhook-config-file=/etc/kubernetes/pki/webhook.kubeconfig.yaml\n    - --authorization-mode=Node,Webhook,RBAC\n    - --authorization-webhook-config-file=/etc/kubernetes/pki/webhook.kubeconfig.yaml"
+    path: /etc/kubernetes/manifests/kube-apiserver.yaml
+
+- name: In case of upgrade make sure container versions are right for kube-apiserver
+  replace:
+    path: /etc/kubernetes/manifests/kube-apiserver.yaml
+    regexp: v1.[0-9]{1,2}.[0-9]{1,2}
+    replace: v1.10.3
+
+- name: In case of upgrade make sure container versions are right for kube-controller-manager
+  replace:
+    path: /etc/kubernetes/manifests/kube-controller-manager.yaml
+    regexp: v1.[0-9]{1,2}.[0-9]{1,2}
+    replace: v1.10.3
+
+- name: In case of upgrade make sure container versions are right for kube-scheduler
+  replace:
+    path: /etc/kubernetes/manifests/kube-scheduler.yaml
+    regexp: v1.[0-9]{1,2}.[0-9]{1,2}
+    replace: v1.10.3
+
+- name: Ensure kubectl configuration directory is present
+  become: True
+  file:
+    path: /home/ubuntu/.kube
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+    mode: 0700
+
+- name: Copy kubectl configuration for the default user
+  become: True
+  copy:
+    remote_src: True
+    src: /etc/kubernetes/admin.conf
+    dest: /home/ubuntu/.kube/config
+    owner: ubuntu
+    group: ubuntu
+    mode: 0600
+
+- name: Check for existing kubectl bash completion
+  stat:
+    path: /etc/bash_completion.d/kubectl
+  register: kubectl_bash_completion
+
+- name: Ensure kubectl bash_completion is present
+  become: True
+  shell: kubectl completion bash > /etc/bash_completion.d/kubectl
+  when: kubectl_bash_completion.stat.exists == False

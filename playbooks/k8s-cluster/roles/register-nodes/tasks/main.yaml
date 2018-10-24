@@ -1,0 +1,15 @@
+- name: Get cloud configuration
+  tags: bootstrap
+  os_client_config:
+
+- name: Update inventory
+  add_host:
+    name: "{{ item }}"
+    groupname: nodes
+    ansible_ssh_host: "{{ item }}"
+    ansible_ssh_user: ubuntu
+  with_items: "{{ node_ips }}"
+
+- name: Allow SSH keys on first connection
+  shell: "ssh-keyscan {{ item }} >> ~/.ssh/known_hosts"
+  with_items: "{{ node_ips }}"

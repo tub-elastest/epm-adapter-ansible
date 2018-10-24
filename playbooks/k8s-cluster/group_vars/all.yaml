@@ -1,0 +1,6 @@
+master_ip: !!python/unicode '192.168.161.36'
+master_name: '{{ name }}-master'
+name: '{{ lookup(''env'',''NAME'') | default(''k8s'', true) }}'
+node_ips:
+- !!python/unicode '192.168.161.34'
+nodes_name: '{{ name }}-'
