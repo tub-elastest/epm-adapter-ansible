@@ -66,7 +66,7 @@ class OperationHandlerStub(object):
         )
     self.CreateCluster = channel.unary_unary(
         '/OperationHandler/CreateCluster',
-        request_serializer=client__pb2.CreateClusterMessage.SerializeToString,
+        request_serializer=client__pb2.InstallMessage.SerializeToString,
         response_deserializer=client__pb2.StringResponse.FromString,
         )
 
@@ -207,7 +207,7 @@ def add_OperationHandlerServicer_to_server(servicer, server):
       ),
       'CreateCluster': grpc.unary_unary_rpc_method_handler(
           servicer.CreateCluster,
-          request_deserializer=client__pb2.CreateClusterMessage.FromString,
+          request_deserializer=client__pb2.InstallMessage.FromString,
           response_serializer=client__pb2.StringResponse.SerializeToString,
       ),
   }

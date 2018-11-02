@@ -74,7 +74,7 @@
     dest: /home/ubuntu/.kube/config
     owner: ubuntu
     group: ubuntu
-    mode: 0600
+    mode: 0644
 
 - name: Check for existing kubectl bash completion
   stat:

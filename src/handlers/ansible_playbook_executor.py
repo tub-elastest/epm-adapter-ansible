@@ -56,17 +56,32 @@ def modify_vars(playbook_path, master_ip, nodes_ip):
         yaml.dump(group_vars, f, default_flow_style=False)
 
 
-def create_kubernetes_cluster(playbooks_path, master_ip, nodes_ip, key):
-    logging.debug("Master IP: " + master_ip)
-    logging.debug("Nodes IP: " + str(nodes_ip[:]))
+def install(playbooks_path, type, master_ip, nodes_ip, key):
+    response = "Nothing installed"
+    if type == "kubernetes" :
+        logging.debug("Master IP: " + master_ip)
+        logging.debug("Nodes IP: " + str(nodes_ip[:]))
 
-    temp = tempfile.NamedTemporaryFile()
-    with open(temp.name, 'w') as f:
-        f.write(key)
+        temp = tempfile.NamedTemporaryFile()
+        with open(temp.name, 'w') as f:
+            f.write(key)
 
-    playbook_path = playbooks_path + "k8s-cluster/"
-    modify_vars(playbook_path, master_ip, nodes_ip)
+        playbook_path = playbooks_path + "k8s-cluster/"
+        modify_vars(playbook_path, master_ip, nodes_ip)
 
-    response = execute_playbook(playbook_path + "site.yaml", temp.name)
-    temp.close()
+        response = execute_playbook(playbook_path + "site.yaml", temp.name)
+        temp.close()
+    elif type == "kubernetes-node":
+        logging.debug("Master IP: " + master_ip)
+        logging.debug("Node IP: " + str(nodes_ip[0]))
+
+        temp = tempfile.NamedTemporaryFile()
+        with open(temp.name, 'w') as f:
+            f.write(key)
+
+        playbook_path = playbooks_path + "k8s-cluster/"
+        modify_vars(playbook_path, master_ip, nodes_ip)
+
+        response = execute_playbook(playbook_path + "add_node.yaml", temp.name)
+        temp.close()
     return response

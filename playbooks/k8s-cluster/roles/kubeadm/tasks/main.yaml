@@ -53,12 +53,6 @@
   when: hostvars[item].ansible_hostname is defined
   with_items: "{{groups['all'] | default([])}}"
 
-#- name: Create OpenStack cloud configuration
- # template:
-  #  src: files/cloud-config.j2
-   # dest: /etc/kubernetes/cloud-config
-    #mode: 0600
-
 - name: Override default kubeadm configuration to use the OpenStack cloud configuration
   copy:
     src: files/10-kubeadm.conf

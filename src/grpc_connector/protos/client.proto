@@ -99,10 +99,11 @@ message Key {
     bytes key = 1;
 }
 
-message CreateClusterMessage {
-    string master_ip = 1;
-    repeated string nodes_ip = 2;
-    Key key = 3;
+message InstallMessage {
+    string type = 1;
+    string master_ip = 2;
+    repeated string nodes_ip = 3;
+    Key key = 4;
 }
 
 service OperationHandler {
@@ -127,7 +128,7 @@ service OperationHandler {
 
     rpc CheckStatus(Empty) returns (Status) {}
 
-    rpc CreateCluster(CreateClusterMessage) returns (StringResponse) {}
+    rpc CreateCluster(InstallMessage) returns (StringResponse) {}
 }
 
 service AdapterHandler {

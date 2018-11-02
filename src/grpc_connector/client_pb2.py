@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='client.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x0c\x63lient.proto\"n\n\x0b\x46ileMessage\x12\x0c\n\x04\x66ile\x18\x01 \x01(\x0c\x12 \n\x08metadata\x18\x02 \x03(\x0b\x32\x0e.MetadataEntry\x12\x11\n\x03pop\x18\x03 \x01(\x0b\x32\x04.PoP\x12\x1c\n\x04\x61uth\x18\x04 \x03(\x0b\x32\x0e.MetadataEntry\"M\n\x10TerminateMessage\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x11\n\x03pop\x18\x02 \x01(\x0b\x32\x04.PoP\x12\x11\n\x03vdu\x18\x03 \x03(\x0b\x32\x04.VDU\"O\n\x12ResourceIdentifier\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x11\n\x03pop\x18\x02 \x01(\x0b\x32\x04.PoP\x12\x11\n\x03vdu\x18\x03 \x01(\x0b\x32\x04.VDU\"k\n\x0eRuntimeMessage\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x10\n\x08property\x18\x02 \x03(\t\x12\x0c\n\x04\x66ile\x18\x03 \x01(\x0c\x12\x11\n\x03pop\x18\x04 \x01(\x0b\x32\x04.PoP\x12\x11\n\x03vdu\x18\x05 \x01(\x0b\x32\x04.VDU\"\"\n\x0eStringResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"i\n\x06Status\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.Status.ServingStatus\"8\n\rServingStatus\x12\r\n\tCONFIGURE\x10\x00\x12\n\n\x06\x41\x43TIVE\x10\x01\x12\x0c\n\x08INACTIVE\x10\x02\"M\n\x04\x41uth\x12\x10\n\x08\x61uth_url\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0f\n\x07project\x18\x04 \x01(\t\".\n\x0c\x41\x64\x61pterProto\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x10\n\x08\x65ndpoint\x18\x02 \x01(\t\"L\n\x03PoP\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x11interfaceEndpoint\x18\x02 \x01(\t\x12\x1c\n\x04\x61uth\x18\x03 \x03(\x0b\x32\x0e.MetadataEntry\"\x9c\x01\n\x03VDU\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x11\n\timageName\x18\x02 \x01(\t\x12\x0f\n\x07netName\x18\x03 \x01(\t\x12\x0f\n\x07poPName\x18\x04 \x01(\t\x12\x11\n\tcomputeId\x18\x05 \x01(\t\x12\n\n\x02ip\x18\x06 \x01(\t\x12 \n\x08metadata\x18\x07 \x03(\x0b\x32\x0e.MetadataEntry\x12\x11\n\x03key\x18\x08 \x01(\x0b\x32\x04.Key\"+\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"I\n\x07Network\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07poPName\x18\x02 \x01(\t\x12\x0c\n\x04\x63idr\x18\x03 \x01(\t\x12\x11\n\tnetworkId\x18\x04 \x01(\t\"f\n\x12ResourceGroupProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\x04pops\x18\x02 \x03(\x0b\x32\x04.PoP\x12\x1a\n\x08networks\x18\x03 \x03(\x0b\x32\x08.Network\x12\x12\n\x04vdus\x18\x04 \x03(\x0b\x32\x04.VDU\"\x12\n\x03Key\x12\x0b\n\x03key\x18\x01 \x01(\x0c\"N\n\x14\x43reateClusterMessage\x12\x11\n\tmaster_ip\x18\x01 \x01(\t\x12\x10\n\x08nodes_ip\x18\x02 \x03(\t\x12\x11\n\x03key\x18\x03 \x01(\x0b\x32\x04.Key2\xa7\x04\n\x10OperationHandler\x12-\n\x06\x43reate\x12\x0c.FileMessage\x1a\x13.ResourceGroupProto\"\x00\x12%\n\x06Remove\x12\x11.TerminateMessage\x1a\x06.Empty\"\x00\x12%\n\x04Stop\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12?\n\x15\x43heckIfResourceExists\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12@\n\x16\x43heckIfResourceRunning\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12&\n\x05Start\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12\x34\n\x0e\x45xecuteCommand\x12\x0f.RuntimeMessage\x1a\x0f.StringResponse\"\x00\x12/\n\x0c\x44ownloadFile\x12\x0f.RuntimeMessage\x1a\x0c.FileMessage\"\x00\x12\'\n\nUploadFile\x12\x0f.RuntimeMessage\x1a\x06.Empty\"\x00\x12 \n\x0b\x43heckStatus\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x39\n\rCreateCluster\x12\x15.CreateClusterMessage\x1a\x0f.StringResponse\"\x00\x32y\n\x0e\x41\x64\x61pterHandler\x12\x37\n\x0fRegisterAdapter\x12\r.AdapterProto\x1a\x13.ResourceIdentifier\"\x00\x12.\n\rDeleteAdapter\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x42\x02P\x01\x62\x06proto3')
+  serialized_pb=_b('\n\x0c\x63lient.proto\"n\n\x0b\x46ileMessage\x12\x0c\n\x04\x66ile\x18\x01 \x01(\x0c\x12 \n\x08metadata\x18\x02 \x03(\x0b\x32\x0e.MetadataEntry\x12\x11\n\x03pop\x18\x03 \x01(\x0b\x32\x04.PoP\x12\x1c\n\x04\x61uth\x18\x04 \x03(\x0b\x32\x0e.MetadataEntry\"M\n\x10TerminateMessage\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x11\n\x03pop\x18\x02 \x01(\x0b\x32\x04.PoP\x12\x11\n\x03vdu\x18\x03 \x03(\x0b\x32\x04.VDU\"O\n\x12ResourceIdentifier\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x11\n\x03pop\x18\x02 \x01(\x0b\x32\x04.PoP\x12\x11\n\x03vdu\x18\x03 \x01(\x0b\x32\x04.VDU\"k\n\x0eRuntimeMessage\x12\x13\n\x0bresource_id\x18\x01 \x01(\t\x12\x10\n\x08property\x18\x02 \x03(\t\x12\x0c\n\x04\x66ile\x18\x03 \x01(\x0c\x12\x11\n\x03pop\x18\x04 \x01(\x0b\x32\x04.PoP\x12\x11\n\x03vdu\x18\x05 \x01(\x0b\x32\x04.VDU\"\"\n\x0eStringResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"\x07\n\x05\x45mpty\"i\n\x06Status\x12%\n\x06status\x18\x01 \x01(\x0e\x32\x15.Status.ServingStatus\"8\n\rServingStatus\x12\r\n\tCONFIGURE\x10\x00\x12\n\n\x06\x41\x43TIVE\x10\x01\x12\x0c\n\x08INACTIVE\x10\x02\"M\n\x04\x41uth\x12\x10\n\x08\x61uth_url\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t\x12\x10\n\x08password\x18\x03 \x01(\t\x12\x0f\n\x07project\x18\x04 \x01(\t\".\n\x0c\x41\x64\x61pterProto\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x10\n\x08\x65ndpoint\x18\x02 \x01(\t\"L\n\x03PoP\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x19\n\x11interfaceEndpoint\x18\x02 \x01(\t\x12\x1c\n\x04\x61uth\x18\x03 \x03(\x0b\x32\x0e.MetadataEntry\"\x9c\x01\n\x03VDU\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x11\n\timageName\x18\x02 \x01(\t\x12\x0f\n\x07netName\x18\x03 \x01(\t\x12\x0f\n\x07poPName\x18\x04 \x01(\t\x12\x11\n\tcomputeId\x18\x05 \x01(\t\x12\n\n\x02ip\x18\x06 \x01(\t\x12 \n\x08metadata\x18\x07 \x03(\x0b\x32\x0e.MetadataEntry\x12\x11\n\x03key\x18\x08 \x01(\x0b\x32\x04.Key\"+\n\rMetadataEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\"I\n\x07Network\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0f\n\x07poPName\x18\x02 \x01(\t\x12\x0c\n\x04\x63idr\x18\x03 \x01(\t\x12\x11\n\tnetworkId\x18\x04 \x01(\t\"f\n\x12ResourceGroupProto\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\x04pops\x18\x02 \x03(\x0b\x32\x04.PoP\x12\x1a\n\x08networks\x18\x03 \x03(\x0b\x32\x08.Network\x12\x12\n\x04vdus\x18\x04 \x03(\x0b\x32\x04.VDU\"\x12\n\x03Key\x12\x0b\n\x03key\x18\x01 \x01(\x0c\"V\n\x0eInstallMessage\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x11\n\tmaster_ip\x18\x02 \x01(\t\x12\x10\n\x08nodes_ip\x18\x03 \x03(\t\x12\x11\n\x03key\x18\x04 \x01(\x0b\x32\x04.Key2\xa1\x04\n\x10OperationHandler\x12-\n\x06\x43reate\x12\x0c.FileMessage\x1a\x13.ResourceGroupProto\"\x00\x12%\n\x06Remove\x12\x11.TerminateMessage\x1a\x06.Empty\"\x00\x12%\n\x04Stop\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12?\n\x15\x43heckIfResourceExists\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12@\n\x16\x43heckIfResourceRunning\x12\x13.ResourceIdentifier\x1a\x0f.StringResponse\"\x00\x12&\n\x05Start\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x12\x34\n\x0e\x45xecuteCommand\x12\x0f.RuntimeMessage\x1a\x0f.StringResponse\"\x00\x12/\n\x0c\x44ownloadFile\x12\x0f.RuntimeMessage\x1a\x0c.FileMessage\"\x00\x12\'\n\nUploadFile\x12\x0f.RuntimeMessage\x1a\x06.Empty\"\x00\x12 \n\x0b\x43heckStatus\x12\x06.Empty\x1a\x07.Status\"\x00\x12\x33\n\rCreateCluster\x12\x0f.InstallMessage\x1a\x0f.StringResponse\"\x00\x32y\n\x0e\x41\x64\x61pterHandler\x12\x37\n\x0fRegisterAdapter\x12\r.AdapterProto\x1a\x13.ResourceIdentifier\"\x00\x12.\n\rDeleteAdapter\x12\x13.ResourceIdentifier\x1a\x06.Empty\"\x00\x42\x02P\x01\x62\x06proto3')
 )
 
 
@@ -727,30 +727,37 @@ _KEY = _descriptor.Descriptor(
 )
 
 
-_CREATECLUSTERMESSAGE = _descriptor.Descriptor(
-  name='CreateClusterMessage',
-  full_name='CreateClusterMessage',
+_INSTALLMESSAGE = _descriptor.Descriptor(
+  name='InstallMessage',
+  full_name='InstallMessage',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='master_ip', full_name='CreateClusterMessage.master_ip', index=0,
+      name='type', full_name='InstallMessage.type', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='nodes_ip', full_name='CreateClusterMessage.nodes_ip', index=1,
-      number=2, type=9, cpp_type=9, label=3,
+      name='master_ip', full_name='InstallMessage.master_ip', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='nodes_ip', full_name='InstallMessage.nodes_ip', index=2,
+      number=3, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='key', full_name='CreateClusterMessage.key', index=2,
-      number=3, type=11, cpp_type=10, label=1,
+      name='key', full_name='InstallMessage.key', index=3,
+      number=4, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -768,7 +775,7 @@ _CREATECLUSTERMESSAGE = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=1157,
-  serialized_end=1235,
+  serialized_end=1243,
 )
 
 _FILEMESSAGE.fields_by_name['metadata'].message_type = _METADATAENTRY
@@ -788,7 +795,7 @@ _VDU.fields_by_name['key'].message_type = _KEY
 _RESOURCEGROUPPROTO.fields_by_name['pops'].message_type = _POP
 _RESOURCEGROUPPROTO.fields_by_name['networks'].message_type = _NETWORK
 _RESOURCEGROUPPROTO.fields_by_name['vdus'].message_type = _VDU
-_CREATECLUSTERMESSAGE.fields_by_name['key'].message_type = _KEY
+_INSTALLMESSAGE.fields_by_name['key'].message_type = _KEY
 DESCRIPTOR.message_types_by_name['FileMessage'] = _FILEMESSAGE
 DESCRIPTOR.message_types_by_name['TerminateMessage'] = _TERMINATEMESSAGE
 DESCRIPTOR.message_types_by_name['ResourceIdentifier'] = _RESOURCEIDENTIFIER
@@ -804,7 +811,7 @@ DESCRIPTOR.message_types_by_name['MetadataEntry'] = _METADATAENTRY
 DESCRIPTOR.message_types_by_name['Network'] = _NETWORK
 DESCRIPTOR.message_types_by_name['ResourceGroupProto'] = _RESOURCEGROUPPROTO
 DESCRIPTOR.message_types_by_name['Key'] = _KEY
-DESCRIPTOR.message_types_by_name['CreateClusterMessage'] = _CREATECLUSTERMESSAGE
+DESCRIPTOR.message_types_by_name['InstallMessage'] = _INSTALLMESSAGE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FileMessage = _reflection.GeneratedProtocolMessageType('FileMessage', (_message.Message,), dict(
@@ -912,12 +919,12 @@ Key = _reflection.GeneratedProtocolMessageType('Key', (_message.Message,), dict(
   ))
 _sym_db.RegisterMessage(Key)
 
-CreateClusterMessage = _reflection.GeneratedProtocolMessageType('CreateClusterMessage', (_message.Message,), dict(
-  DESCRIPTOR = _CREATECLUSTERMESSAGE,
+InstallMessage = _reflection.GeneratedProtocolMessageType('InstallMessage', (_message.Message,), dict(
+  DESCRIPTOR = _INSTALLMESSAGE,
   __module__ = 'client_pb2'
-  # @@protoc_insertion_point(class_scope:CreateClusterMessage)
+  # @@protoc_insertion_point(class_scope:InstallMessage)
   ))
-_sym_db.RegisterMessage(CreateClusterMessage)
+_sym_db.RegisterMessage(InstallMessage)
 
 
 DESCRIPTOR.has_options = True
@@ -929,8 +936,8 @@ _OPERATIONHANDLER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=1238,
-  serialized_end=1789,
+  serialized_start=1246,
+  serialized_end=1791,
   methods=[
   _descriptor.MethodDescriptor(
     name='Create',
@@ -1027,7 +1034,7 @@ _OPERATIONHANDLER = _descriptor.ServiceDescriptor(
     full_name='OperationHandler.CreateCluster',
     index=10,
     containing_service=None,
-    input_type=_CREATECLUSTERMESSAGE,
+    input_type=_INSTALLMESSAGE,
     output_type=_STRINGRESPONSE,
     options=None,
   ),
@@ -1043,8 +1050,8 @@ _ADAPTERHANDLER = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=1,
   options=None,
-  serialized_start=1791,
-  serialized_end=1912,
+  serialized_start=1793,
+  serialized_end=1914,
   methods=[
   _descriptor.MethodDescriptor(
     name='RegisterAdapter',

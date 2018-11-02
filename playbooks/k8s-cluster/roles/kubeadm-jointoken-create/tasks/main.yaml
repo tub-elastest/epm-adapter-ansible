@@ -1,0 +1,8 @@
+
+- name: generate a join token
+  command: kubeadm token create --print-join-command --kubeconfig /home/ubuntu/.kube/config
+  register: joincommand
+
+- name: set fact joincommand
+  set_fact:
+    joincommand: "{{ joincommand.stdout }}"
