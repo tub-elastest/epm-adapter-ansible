@@ -39,8 +39,3 @@
     - bootstrap
   roles:
     - kubeadm-nodes
-
-- name: Health check
-  hosts: master
-  roles:
-    - healthcheck
