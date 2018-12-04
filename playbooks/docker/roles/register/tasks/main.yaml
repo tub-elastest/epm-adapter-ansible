@@ -1,0 +1,10 @@
+
+- name: Update inventory
+  add_host:
+    name: "worker"
+    ansible_ssh_host: "{{ ip }}"
+    ansible_ssh_user: ubuntu
+    groupname: worker
+
+- name: Allow SSH keys on first connection
+  shell: "ssh-keyscan {{ ip }} >> ~/.ssh/known_hosts"

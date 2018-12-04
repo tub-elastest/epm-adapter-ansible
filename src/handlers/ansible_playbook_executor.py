@@ -69,7 +69,7 @@ def install(playbooks_path, type, master_ip, nodes_ip, key):
         playbook_path = playbooks_path + "k8s-cluster/"
         modify_vars(playbook_path, master_ip, nodes_ip)
 
-        response = execute_playbook(playbook_path + "site.yaml", temp.name)
+        response = execute_playbook(playbook_path + "create_cluster.yaml", temp.name)
         temp.close()
     elif type == "kubernetes-node":
         logging.debug("Master IP: " + master_ip)
