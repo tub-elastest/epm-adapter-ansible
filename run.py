@@ -156,6 +156,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             return client_pb2.Empty()
 
     def CreateCluster(self, request, context):
+
         response = ansible_playbook_executor.install(playbooks_path, request.type, request.master_ip,
                                                                        request.nodes_ip, request.key.key)
         return client_pb2.StringResponse(response=str(response))

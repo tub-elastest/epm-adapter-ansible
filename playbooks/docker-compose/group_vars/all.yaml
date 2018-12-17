@@ -1,3 +1,4 @@
+
 docker__edition: "ce"
 docker__channel: "stable"
 docker__version: "latest"

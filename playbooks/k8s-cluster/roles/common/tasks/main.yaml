@@ -1,4 +1,7 @@
 
+- name: Update repositories cache
+  raw: sudo apt update
+
 - name: Install python 2
   raw: test -e /usr/bin/python || (sudo apt install -y python python-simplejson)
 

@@ -104,6 +104,7 @@ message InstallMessage {
     string master_ip = 2;
     repeated string nodes_ip = 3;
     Key key = 4;
+    repeated MetadataEntry metadata = 5;
 }
 
 service OperationHandler {

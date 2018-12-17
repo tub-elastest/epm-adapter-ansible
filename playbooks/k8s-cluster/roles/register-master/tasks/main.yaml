@@ -1,6 +1,3 @@
-- name: Get cloud configuration
-  tags: bootstrap
-  os_client_config:
 
 - name: Update inventory
   add_host:
@@ -8,6 +5,3 @@
     ansible_ssh_host: "{{ master_ip }}"
     ansible_ssh_user: ubuntu
     groupname: master
-
-- name: Allow SSH keys on first connection
-  shell: "ssh-keyscan {{ master_ip }} >> ~/.ssh/known_hosts"
