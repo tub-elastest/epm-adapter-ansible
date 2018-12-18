@@ -99,6 +99,14 @@ message Key {
     bytes key = 1;
 }
 
+message InstallMessage {
+    string type = 1;
+    string master_ip = 2;
+    repeated string nodes_ip = 3;
+    Key key = 4;
+    repeated MetadataEntry metadata = 5;
+}
+
 service OperationHandler {
 
     rpc Create(FileMessage) returns (ResourceGroupProto) {}
@@ -120,6 +128,8 @@ service OperationHandler {
     rpc UploadFile(RuntimeMessage) returns (Empty) {}
 
     rpc CheckStatus(Empty) returns (Status) {}
+
+    rpc CreateCluster(InstallMessage) returns (StringResponse) {}
 }
 
 service AdapterHandler {

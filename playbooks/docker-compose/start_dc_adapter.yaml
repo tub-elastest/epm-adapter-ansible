@@ -1,0 +1,38 @@
+# Ansible playbook to start the EPM Docker Compose Adapter
+# To run the playbook use: ansible-playbook start_dc_adapter.yaml --private-key=key.pem --extra-vars ip=${WORKER_IP} --extra-vars epm_ip=${EPM_IP}
+# WORKER_IP - ip of the machine where the adapter will be installed
+# EPM_IP - ip of the EPM so that the adapter can register
+
+---
+- name: Register worker
+  hosts: localhost
+  roles:
+    - register
+
+- name: Worker preparation
+  hosts: worker
+  pre_tasks:
+    - name: Set variables
+      set_fact:
+        state: present
+  tags:
+    - bootstrap
+  gather_facts: false
+  roles:
+    - common
+
+- name: Install repo and packages
+  hosts: worker
+  become: true
+  tags:
+    - bootstrap
+  roles:
+    - docker
+
+- name: Start adapter
+  hosts: worker
+  tags:
+    - bootstrap
+  roles:
+    - start-adapter
+  become: true

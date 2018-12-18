@@ -64,6 +64,11 @@ class OperationHandlerStub(object):
         request_serializer=client__pb2.Empty.SerializeToString,
         response_deserializer=client__pb2.Status.FromString,
         )
+    self.CreateCluster = channel.unary_unary(
+        '/OperationHandler/CreateCluster',
+        request_serializer=client__pb2.InstallMessage.SerializeToString,
+        response_deserializer=client__pb2.StringResponse.FromString,
+        )
 
 
 class OperationHandlerServicer(object):
@@ -140,6 +145,13 @@ class OperationHandlerServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def CreateCluster(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_OperationHandlerServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -192,6 +204,11 @@ def add_OperationHandlerServicer_to_server(servicer, server):
           servicer.CheckStatus,
           request_deserializer=client__pb2.Empty.FromString,
           response_serializer=client__pb2.Status.SerializeToString,
+      ),
+      'CreateCluster': grpc.unary_unary_rpc_method_handler(
+          servicer.CreateCluster,
+          request_deserializer=client__pb2.InstallMessage.FromString,
+          response_serializer=client__pb2.StringResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

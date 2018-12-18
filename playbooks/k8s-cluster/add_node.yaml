@@ -1,0 +1,41 @@
+---
+- name: Register k8s master
+  hosts: localhost
+  roles:
+    - register-master
+
+- name: Create
+  hosts: master
+  tags:
+    - bootstrap
+  roles:
+    - kubeadm-jointoken-create
+
+- name: Register k8s nodes
+  hosts: localhost
+  roles:
+    - register-nodes
+
+- name: Nodes preparation
+  hosts: nodes
+  tags:
+    - bootstrap
+  gather_facts: false
+  roles:
+    - common
+
+- name: Install repo and packages nodes
+  hosts: nodes
+  tags:
+    - bootstrap
+  become: true
+  roles:
+    - kubeadm
+
+- name: k8s nodes setup
+  hosts: nodes
+  become: true
+  tags:
+    - bootstrap
+  roles:
+    - kubeadm-nodes

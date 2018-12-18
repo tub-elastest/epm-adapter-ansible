@@ -16,11 +16,14 @@ from concurrent import futures
 
 import src.grpc_connector.client_pb2 as client_pb2
 from src.utils import epm_utils as epm_utils
-from src.handlers import ansible_executor, ssh_client, ansible_handler
+from src.handlers import ansible_executor, ssh_client, ansible_handler, ansible_playbook_executor
 from src.handlers.plays import *
 from src.utils import utils
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
+
+
+playbooks_path = os.path.dirname(__file__) + "/playbooks/"
 
 
 class Runner(client_pb2_grpc.OperationHandlerServicer):
@@ -48,7 +51,6 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
         logging.debug("Package play: " + str(play))
 
         key = None
-        auth = None
         if "key" in package.getnames():
             key = package.extractfile("key")
         logging.info(yaml.load(play))
@@ -152,6 +154,12 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
             file = request.file
             ssh_exec.upload_file(path, file)
             return client_pb2.Empty()
+
+    def CreateCluster(self, request, context):
+
+        response = ansible_playbook_executor.install(playbooks_path, request.type, request.master_ip,
+                                                                       request.nodes_ip, request.key.key)
+        return client_pb2.StringResponse(response=str(response))
 
 
 def serve(port="50052"):

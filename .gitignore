@@ -74,3 +74,6 @@ target/
 tests/
 *.db
 *.tar
+
+*.retry
+playbooks/k8s-cluster/admin.conf

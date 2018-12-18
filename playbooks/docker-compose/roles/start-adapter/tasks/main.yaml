@@ -1,0 +1,12 @@
+
+---
+
+- name: Start Docker Compose Adapter
+  docker_container:
+    name: elastest-epm-adapter-docker-compose
+    image: elastest/epm-adapter-docker-compose
+    entrypoint: "python run.py --register-adapter {{ epm_ip }} {{ ip }}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    ports:
+      - 50051:50051

@@ -1,0 +1,87 @@
+---
+- name: Register k8s master
+  hosts: localhost
+  roles:
+    - register-master
+
+- name: Master preparation
+  hosts: master
+  pre_tasks:
+    - name: Set variables
+      set_fact:
+        state: present
+  tags:
+    - bootstrap
+  gather_facts: false
+  roles:
+    - common
+
+- name: Register k8s nodes
+  hosts: localhost
+  roles:
+    - register-nodes
+
+- name: Nodes preparation
+  hosts: nodes
+  tags:
+    - bootstrap
+  gather_facts: false
+  roles:
+    - common
+
+- name: Install repo and packages master
+  hosts: master
+  tags:
+    - bootstrap
+  become: true
+  roles:
+    - kubeadm
+
+- name: Install repo and packages nodes
+  hosts: nodes
+  tags:
+    - bootstrap
+  become: true
+  roles:
+    - kubeadm
+
+
+- name: k8s master setup
+  hosts: master
+  tags:
+    - bootstrap
+  become: true
+  roles:
+    - kubeadm-master
+
+- name: k8s nodes setup
+  hosts: nodes
+  become: true
+  tags:
+    - bootstrap
+  roles:
+    - kubeadm-nodes
+
+- name: k8s rbac
+  hosts: master
+  tags:
+    - bootstrap
+  roles:
+    - k8s-rbac
+
+- name: k8s addons
+  hosts: master
+  tags:
+    - bootstrap
+  roles:
+    - k8s-addons
+
+- name: Health check
+  hosts: master
+  roles:
+    - healthcheck
+
+- name: Local kubectl configuration
+  hosts: master
+  roles:
+    - kubectl
