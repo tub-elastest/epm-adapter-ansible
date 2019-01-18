@@ -24,7 +24,6 @@ spec:
     - --cluster-signing-key-file=/etc/kubernetes/pki/ca.key
     - --allocate-node-cidrs=true
     - --cluster-cidr=10.96.0.0/16
-    - --cloud-provider=external
     - --allocate-node-cidrs=true
     - --cluster-cidr=10.96.0.0/16
     image: gcr.io/google_containers/kube-controller-manager-amd64:v1.10.3
