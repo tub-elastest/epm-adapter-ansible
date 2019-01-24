@@ -68,7 +68,8 @@ Example for AWS
   "interfaceInfo" : [
     {"key": "type", "value": "aws"},  
     {"key": "aws_access_key", "value": "<value>"}, 
-    {"key": "aws_secret_key", "value": "<value>"}
+    {"key": "aws_secret_key", "value": "<value>"},
+    {"key":"region", "value":"<value>"}
   ], 
   "status": "active"
 }
