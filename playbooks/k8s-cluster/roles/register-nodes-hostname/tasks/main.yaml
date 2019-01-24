@@ -1,0 +1,8 @@
+
+- name: Update inventory
+  add_host:
+    name: "{{ ansible_hostname }}"
+    groupname: nodes2
+    ansible_ssh_host: "{{ inventory_hostname }}"
+    ansible_ssh_user: ubuntu
+

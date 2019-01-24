@@ -1,0 +1,5 @@
+---
+
+- name: drain
+  command: "kubectl drain {{ hostvars[item].inventory_hostname }} --ignore-daemonsets"
+  with_items: " {{ groups['nodes2'] }}"

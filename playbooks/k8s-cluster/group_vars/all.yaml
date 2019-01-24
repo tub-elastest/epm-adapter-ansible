@@ -1,6 +1,0 @@
-master_ip: !!python/unicode ''
-master_name: '{{ name }}-master'
-name: '{{ lookup(''env'',''NAME'') | default(''k8s'', true) }}'
-node_ips:
-- !!python/unicode ''
-nodes_name: '{{ name }}-'
