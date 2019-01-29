@@ -86,6 +86,20 @@ def install(playbooks_path, type, master_ip, nodes_ip, key):
         response = execute_playbook(playbook_path + "add_node.yaml", temp.name)
         temp.close()
 
+    elif type == "kubernetes-node-remove":
+        logging.debug("Master IP: " + master_ip)
+        logging.debug("Node IP: " + str(nodes_ip[0]))
+
+        temp = tempfile.NamedTemporaryFile()
+        with open(temp.name, 'w') as f:
+            f.write(key)
+
+        playbook_path = playbooks_path + "k8s-cluster/"
+        modify_vars_kubernetes(playbook_path, master_ip, nodes_ip)
+
+        response = execute_playbook(playbook_path + "remove_node.yaml", temp.name)
+        temp.close()
+
     elif type == "docker-compose":
         logging.debug("Master IP: " + master_ip)
 
