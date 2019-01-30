@@ -11,7 +11,7 @@ Copyright © 2017-2019 [ElasTest]. Licensed under [Apache 2.0 License].
 epm-adapter-ansible
 ==============================
 
-This repository contains an adapter to be used by the ElasTest Platform Manager to support ansible as a virtualization technology. Further documentation can be found [here](https://github.com/mpauls/epm-adapter-ansible/blob/master/docs/index.md).
+This repository contains an adapter to be used by the ElasTest Platform Manager to support ansible as a virtualization technology. Further documentation can be found [here](https://github.com/tub-elastest/epm-adapter-ansible/blob/master/docs/index.md).
 
 The ElasTest Platform Manager (EPM) is the interface between the ElasTest testing components (e.g. TORM, Test Support Services, etc.) and the cloud infrastructure where ElasTest is deployed. Hence, this Platform Manager must abstract the cloud services so that ElasTest becomes fully agnostic to them and provide this abstraction via Software Development Toolkits (SDK) or REST APIs to the northbound consumers (i.e. the TORM). The ElasTest Platform Manager enabling ElasTest to be deployed and to execute seamlessly in the target cloud infrastructure that the consortium considers as appropriate (e.g. OpenStack, CloudStack, Mantl, AWS, etc.).
 

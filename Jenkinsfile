@@ -5,7 +5,7 @@ node('docker'){
 
         mycontainer.inside("-u jenkins -v /var/run/docker.sock:/var/run/docker.sock:rw") {
 
-            git 'https://github.com/mpauls/epm-adapter-ansible'
+            git 'https://github.com/tub-elastest/epm-adapter-ansible'
 
             stage "Build image - Package"
                 echo ("Building docker image...")
