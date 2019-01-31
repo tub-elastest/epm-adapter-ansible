@@ -1,8 +1,6 @@
 [![License badge](https://img.shields.io/badge/license-Apache2-green.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Documentation badge](https://img.shields.io/badge/docs-latest-brightgreen.svg)](http://elastest.io/docs/)
 [![Build Status](https://ci.elastest.io/jenkins/buildStatus/icon?job=elastest-platform-manager/epm-adapter-ansible)](https://ci.elastest.io/jenkins/job/elastest-platform-manager/job/epm-adapter-ansible)
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=io.elastest:epm-adapter-ansible)](https://sonarcloud.io/dashboard/index/io.elastest:epm-adapter-ansible)
-[![codecov](https://codecov.io/gh/elastest/elastest-platform-manager-adapter-ansible/branch/master/graph/badge.svg)](https://codecov.io/gh/elastest/elastest-platform-manager-adapter-ansible)
 
 [![][ElasTest Logo]][ElasTest]
 
