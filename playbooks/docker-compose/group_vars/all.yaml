@@ -50,3 +50,13 @@ docker__apt_repository: >
   deb [arch=amd64]
   https://download.docker.com/linux/{{ ansible_distribution|lower }}
   {{ ansible_distribution_release }} {{ docker__channel }}
+
+################# KEYSTONE #################
+
+KEYSTONE_ENDPOINT: ""
+KEYSTONE_PORT: ""
+KEYSTONE_VERSION: ""
+KEYSTONE_USERNAME: ""
+KEYSTONE_PASSWORD: ""
+KEYSTONE_DOMAIN: ""
+KEYSTONE_ENABLED: "false"

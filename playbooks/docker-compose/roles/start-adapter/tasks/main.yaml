@@ -10,3 +10,12 @@
       - /var/run/docker.sock:/var/run/docker.sock:rw
     ports:
       - 50051:50051
+    env:
+      KEYSTONE_ENDPOINT: "{{ KEYSTONE_ENDPOINT }}"
+      KEYSTONE_PORT: '{{ KEYSTONE_PORT }}'
+      KEYSTONE_VERSION: '{{ KEYSTONE_VERSION }}'
+      KEYSTONE_USERNAME: '{{ KEYSTONE_USERNAME }}'
+      KEYSTONE_PASSWORD: '{{ KEYSTONE_PASSWORD }}'
+      KEYSTONE_DOMAIN: '{{ KEYSTONE_DOMAIN }}'
+      KEYSTONE_ENABLED: '{{ KEYSTONE_ENABLED }}'
+

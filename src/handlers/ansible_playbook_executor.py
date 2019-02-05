@@ -56,8 +56,18 @@ def modify_vars_kubernetes(playbook_path, master_ip, nodes_ip):
     with open(playbook_path + "group_vars/all.yaml", "w") as f:
         yaml.dump(group_vars, f, default_flow_style=False)
 
+def add_metadata_to_group_vars(playbook_path, metadata):
+    with open(playbook_path + "group_vars/all.yaml") as f:
+        group_vars = yaml.load(f.read())
 
-def install(playbooks_path, type, master_ip, nodes_ip, key):
+    for entry in metadata:
+        group_vars[entry.key] = entry.value
+
+    with open(playbook_path + "group_vars/all.yaml", "w") as f:
+        yaml.dump(group_vars, f, default_flow_style=False)
+
+
+def install(playbooks_path, type, master_ip, nodes_ip, key, metadata):
     response = "Nothing installed"
     if type == "kubernetes" :
         logging.debug("Master IP: " + master_ip)
@@ -108,6 +118,7 @@ def install(playbooks_path, type, master_ip, nodes_ip, key):
             f.write(key)
 
         playbook_path = playbooks_path + "docker-compose/"
+        add_metadata_to_group_vars(playbook_path, metadata)
 
         response = execute_playbook(playbook_path + "start_dc_adapter.yaml", temp.name, extra_vars={"ip":master_ip, "epm_ip":nodes_ip[0], })
         temp.close()
