@@ -1,4 +1,4 @@
-FROM python:2.7.12
+FROM python:2.7.16-stretch
 
 RUN apt-get update && apt-get install -y build-essential autoconf libtool software-properties-common
 
