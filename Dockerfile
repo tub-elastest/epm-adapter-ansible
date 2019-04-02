@@ -10,4 +10,4 @@ WORKDIR ansible-client
 
 EXPOSE 50052
 
-ENTRYPOINT python -m run --register-adapter
+ENTRYPOINT python -m run --register-adapter $EPM_IP $ADAPTER_IP
