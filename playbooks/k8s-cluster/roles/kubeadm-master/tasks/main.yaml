@@ -5,52 +5,28 @@
   register: kubelet_conf
 
 - name: kubeadm init
-  command: "kubeadm init --kubernetes-version v1.10.3 --apiserver-advertise-address {{ hostvars[groups.master[0]].ansible_ssh_host }}"
+  command: "kubeadm init --kubernetes-version v1.11.3 --pod-network-cidr=10.244.10.0/16 --apiserver-advertise-address {{ hostvars[groups.master[0]].ansible_ssh_host }}"
   args:
     creates: /etc/kubernetes/kubelet.conf
   when: kubelet_conf.stat.exists == False
-
-- name: generate a join token
-  command: kubeadm token create --print-join-command
-  register: joincommand
-
-- name: set fact joincommand
-  set_fact:
-    joincommand: "{{ joincommand.stdout }}"
-
-- name: Configure kube-controller-manager cloud provider integration
-  copy:
-    dest: /etc/kubernetes/manifests/kube-controller-manager.yaml
-    src: files/kube-controller-manager.yaml
-
-- name: Upload webook kubeconfig file
-  copy:
-    dest: /etc/kubernetes/pki/webhook.kubeconfig.yaml
-    src: files/webhook.kubeconfig.yaml
-
-- name: Configure keystone integration
-  blockinfile:
-    insertbefore: 'image: '
-    block: "    - --authentication-token-webhook-config-file=/etc/kubernetes/pki/webhook.kubeconfig.yaml\n    - --authorization-mode=Node,Webhook,RBAC\n    - --authorization-webhook-config-file=/etc/kubernetes/pki/webhook.kubeconfig.yaml"
-    path: /etc/kubernetes/manifests/kube-apiserver.yaml
 
 - name: In case of upgrade make sure container versions are right for kube-apiserver
   replace:
     path: /etc/kubernetes/manifests/kube-apiserver.yaml
     regexp: v1.[0-9]{1,2}.[0-9]{1,2}
-    replace: v1.10.3
+    replace: v1.11.3
 
 - name: In case of upgrade make sure container versions are right for kube-controller-manager
   replace:
     path: /etc/kubernetes/manifests/kube-controller-manager.yaml
     regexp: v1.[0-9]{1,2}.[0-9]{1,2}
-    replace: v1.10.3
+    replace: v1.11.3
 
 - name: In case of upgrade make sure container versions are right for kube-scheduler
   replace:
     path: /etc/kubernetes/manifests/kube-scheduler.yaml
     regexp: v1.[0-9]{1,2}.[0-9]{1,2}
-    replace: v1.10.3
+    replace: v1.11.3
 
 - name: Ensure kubectl configuration directory is present
   become: True
@@ -69,7 +45,27 @@
     dest: /home/ubuntu/.kube/config
     owner: ubuntu
     group: ubuntu
-    mode: 0644
+    mode: 0777
+
+- name: Change ownership
+  file:
+    path: /home/ubuntu/.kube/config
+    owner: ubuntu
+    group: ubuntu
+
+- name: kubectl apply fannnel
+  become: True
+  become_user: ubuntu
+  command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+- name: generate a join token
+  command: kubeadm token create --print-join-command
+  register: joincommand
+
+- name: set fact joincommand
+  set_fact:
+    joincommand: "{{ joincommand.stdout }}"
+
 
 - name: Check for existing kubectl bash completion
   stat:

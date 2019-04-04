@@ -6,12 +6,6 @@
     src: "{{ role_path }}/files/manifests/"
     dest: "/home/ubuntu/manifests/"
 
-
-- name: Upload webook kubeconfig file
-  template:
-    dest: /home/ubuntu/manifests/k8s-keystone-auth.yaml
-    src: "{{ role_path }}/templates/k8s-keystone-auth.yaml.j2"
-
 - name: kubectl apply nginx-ingress-controller
   command: kubectl apply -f /home/ubuntu/manifests/nginx-ingress-controller.yaml
 
@@ -23,6 +17,3 @@
   copy:
    src: "{{ role_path }}/files/syncconfig.yaml"
    dest: "/etc/kubernetes/syncconfig.yaml"
-
-#- name: kubectl apply k8s-keystone-auth
- # command: kubectl apply -f /home/ubuntu/manifests/k8s-keystone-auth.yaml
