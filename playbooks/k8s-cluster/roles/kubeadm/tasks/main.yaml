@@ -55,3 +55,8 @@
     state: present
   when: hostvars[item].ansible_hostname is defined
   with_items: "{{groups['all'] | default([])}}"
+
+- name: add localhost to system hosts
+  lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1 localhost'
