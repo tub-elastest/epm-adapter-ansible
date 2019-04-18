@@ -5,7 +5,7 @@
   register: kubelet_conf
 
 - name: kubeadm init
-  command: "kubeadm init --kubernetes-version v1.11.3 --pod-network-cidr=10.244.10.0/16 --apiserver-advertise-address {{ hostvars[groups.master[0]].ansible_ssh_host }}"
+  command: "kubeadm init --kubernetes-version v1.11.9 --pod-network-cidr=10.244.10.0/16 --apiserver-advertise-address {{ hostvars[groups.master[0]].ansible_ssh_host }}"
   args:
     creates: /etc/kubernetes/kubelet.conf
   when: kubelet_conf.stat.exists == False
@@ -14,19 +14,19 @@
   replace:
     path: /etc/kubernetes/manifests/kube-apiserver.yaml
     regexp: v1.[0-9]{1,2}.[0-9]{1,2}
-    replace: v1.11.3
+    replace: v1.11.9
 
 - name: In case of upgrade make sure container versions are right for kube-controller-manager
   replace:
     path: /etc/kubernetes/manifests/kube-controller-manager.yaml
     regexp: v1.[0-9]{1,2}.[0-9]{1,2}
-    replace: v1.11.3
+    replace: v1.11.9
 
 - name: In case of upgrade make sure container versions are right for kube-scheduler
   replace:
     path: /etc/kubernetes/manifests/kube-scheduler.yaml
     regexp: v1.[0-9]{1,2}.[0-9]{1,2}
-    replace: v1.11.3
+    replace: v1.11.9
 
 - name: Ensure kubectl configuration directory is present
   become: True

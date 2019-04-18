@@ -12,6 +12,47 @@
 - name: kubectl apply admin-user for dashboard
   command: kubectl apply -f /home/ubuntu/manifests/admin-user.yaml
 
+- name: Clone metrics server
+  git:
+    repo: 'https://github.com/kubernetes-incubator/metrics-server.git'
+    dest: "/home/ubuntu/metrics-server"
+    version: v0.3.2
+
+- name: Copy metrics deployment
+  copy:
+    src: "{{ role_path }}/files/manifests/metrics-server-deployment.yaml"
+    dest: "/home/ubuntu/metrics-server/deploy/1.8+/metrics-server-deployment.yaml"
+
+- name: kubectl create metrics-server
+  command: kubectl create -f /home/ubuntu/metrics-server/deploy/1.8+/
+
+- name: Start emp sentinel
+  become: True
+  docker_container:
+    name: k8s-agent
+    image: elastest/emp-k8s-agent:latest
+    volumes:
+      - /etc/kubernetes/pki/:/root/.kube/
+    env:
+      host: "{{ EMP_ENDPOINT }}"
+      port: "{{ EMP_PORT }}"
+      topic: "{{ EMP_TOPIC }}"
+      series: "{{ EMP_SERIES }}"
+      clientid: sentinel-k8s-client
+      periodicity: 30
+      clustername: kubernetes
+      clusterserver: "https://{{ master_ip }}:6443"
+      clusterca: ca.crt
+      contextname: kubernetes-admin@kubernetes
+      contextcluster: kubernetes
+      contextuser: kubernetes-admin
+      currentcontext: kubernetes-admin@kubernetes
+      username: kubernetes-admin
+      userclientcertificate: apiserver-kubelet-client.crt
+      userclientkey: apiserver-kubelet-client.key
+      configpath: /tmp/kube_config
+
+
 - name: copy syncconfig.yaml
   become: true
   copy:
