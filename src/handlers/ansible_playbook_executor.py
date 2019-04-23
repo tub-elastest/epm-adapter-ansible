@@ -79,6 +79,7 @@ def install(playbooks_path, type, master_ip, nodes_ip, key, metadata):
 
         playbook_path = playbooks_path + "k8s-cluster/"
         modify_vars_kubernetes(playbook_path, master_ip, nodes_ip)
+        add_metadata_to_group_vars(playbook_path, metadata)
 
         response = execute_playbook(playbook_path + "create_cluster.yaml", temp.name)
         temp.close()
