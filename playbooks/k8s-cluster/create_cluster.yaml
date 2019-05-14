@@ -73,8 +73,3 @@
   hosts: master
   roles:
     - healthcheck
-
-- name: Local kubectl configuration
-  hosts: master
-  roles:
-    - kubectl

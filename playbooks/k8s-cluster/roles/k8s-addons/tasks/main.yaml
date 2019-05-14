@@ -17,17 +17,23 @@
     repo: 'https://github.com/kubernetes-incubator/metrics-server.git'
     dest: "/home/ubuntu/metrics-server"
     version: v0.3.2
+  when: EMP_ENABLED is defined
+
 
 - name: Copy metrics deployment
   copy:
     src: "{{ role_path }}/files/manifests/metrics-server-deployment.yaml"
     dest: "/home/ubuntu/metrics-server/deploy/1.8+/metrics-server-deployment.yaml"
+  when: EMP_ENABLED is defined
 
 - name: kubectl create metrics-server
   command: kubectl create -f /home/ubuntu/metrics-server/deploy/1.8+/
+  when: EMP_ENABLED is defined
+
 
 - name: Start emp sentinel
   become: True
+  when: EMP_ENABLED is defined
   docker_container:
     name: k8s-agent
     image: elastest/emp-k8s-agent:latest
@@ -58,3 +64,47 @@
   copy:
    src: "{{ role_path }}/files/syncconfig.yaml"
    dest: "/etc/kubernetes/syncconfig.yaml"
+
+# Service Account
+
+- name: create service account
+  command: kubectl create serviceaccount api-service-account
+
+- name: rbac binding to account
+  command: kubectl create -f /home/ubuntu/manifests/api-access-role-binding.yaml
+
+- name: install jq
+  become: true
+  apt:
+    name: "jq"
+    state: present
+    update_cache: yes
+
+- name: get secret json
+  become: True
+  become_user: ubuntu
+  raw: kubectl get serviceaccount api-service-account -o json | jq -Mr .secrets[].name
+  register: secret
+
+- debug: msg="{{ secret }}"
+
+- name: get token
+  become: True
+  become_user: ubuntu
+  raw: "kubectl get secrets {{secret.stdout_lines[0]}} -o json | jq -Mr '.data.token' | base64"
+  register: token
+
+- debug: msg="{{ token.stdout }}"
+
+- name: copy token
+  become: True
+  copy:
+    content: "{{ token.stdout }}"
+    dest: /token.txt
+
+- name: Retrieve token configuration
+  become: yes
+  fetch:
+    src: /token.txt
+    dest: token
+  when: state == 'present'
