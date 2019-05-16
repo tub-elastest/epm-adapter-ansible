@@ -91,7 +91,7 @@
 - name: get token
   become: True
   become_user: ubuntu
-  raw: "kubectl get secrets {{secret.stdout_lines[0]}} -o json | jq -Mr '.data.token' | base64"
+  raw: "kubectl get secrets {{secret.stdout_lines[0]}} -o json | jq -Mr '.data.token' | base64 -d"
   register: token
 
 - debug: msg="{{ token.stdout }}"
