@@ -74,6 +74,8 @@ def launch_play(play_contents, auth, key=None, keypath=None):
                 
         else: #if we are deploying on aws
             imageName = play_as_dict["tasks"][0]["ec2"]["image"]
+            if not r.has_key("instances"):
+                continue
             for instance in r["instances"]:           
                 compute_id = instance["id"]
                 name = instance["id"]
