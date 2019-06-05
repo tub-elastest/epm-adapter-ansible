@@ -3,4 +3,4 @@ openstacksdk==0.13.0
 grpcio
 grpcio-tools
 ansible>=2.5.5
-boto
+boto==2.49
