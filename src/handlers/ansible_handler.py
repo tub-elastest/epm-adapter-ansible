@@ -41,10 +41,9 @@ def launch_play(play_contents, auth, key=None, keypath=None):
             for module in task:
                 if module in supported_modules_openstack:
                     task[module]['auth'] = {}
-                    task[module]['auth']['username'] = auth['username']
-                    task[module]['auth']['password'] = auth['password']
-                    task[module]['auth']['auth_url'] = auth['auth_url']
-                    task[module]['auth']['project_name'] = auth['project_name']
+                    for auth_key in auth:
+                        if auth_key != "type":
+                            task[module]['auth'][auth_key] = auth[auth_key]
                 else:
                     logging.warn('%s either does not require or is not officially supported for authentification'%module)
     logging.info(play_as_dict)

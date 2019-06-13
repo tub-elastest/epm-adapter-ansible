@@ -46,18 +46,8 @@ def check_package_pop(auth):
     if type[0].value == "openstack":
      
         for var in auth:
-            if var.key == "username":
-                os.environ['OS_USERNAME'] = var.value
-                out["username"] = var.value
-            if var.key == "password":
-                os.environ['OS_PASSWORD'] = var.value
-                out["password"] = var.value
-            if var.key == "project_name":
-                os.environ['OS_PROJECT_NAME'] = var.value
-                out["project_name"] = var.value
-            if var.key == "auth_url":
-                os.environ['OS_AUTH_URL'] = var.value
-                out["auth_url"] = var.value
+            os.environ['OS_' + var.key.upper()] = var.value
+            out[var.key] = var.value
         out['type'] = 'openstack'
         return out
     elif type[0].value == "aws":
