@@ -22,18 +22,16 @@ from src.utils import utils
 
 _ONE_DAY_IN_SECONDS = 60 * 60 * 24
 
-
 playbooks_path = os.path.dirname(__file__) + "/playbooks/"
 
 
 class Runner(client_pb2_grpc.OperationHandlerServicer):
-
     def Create(self, request, context):
 
         temp = tempfile.NamedTemporaryFile(delete=True)
         temp.write(request.file)
         package = tarfile.open(temp.name, "r")
-        
+
         metadata = utils.extract_metadata(package)
         if metadata is None:
             raise Exception("No metadata found in package!")
@@ -158,7 +156,7 @@ class Runner(client_pb2_grpc.OperationHandlerServicer):
     def CreateCluster(self, request, context):
 
         response = ansible_playbook_executor.install(playbooks_path, request.type, request.master_ip,
-                                                                       request.nodes_ip, request.key.key, request.metadata)
+                                                     request.nodes_ip, request.key.key, request.metadata)
         return client_pb2.StringResponse(response=str(response))
 
 
@@ -204,11 +202,24 @@ if __name__ == '__main__':
     log.addHandler(fh)
     logging.info("\n")
 
+    if "--register-namespace" in sys.argv and len(sys.argv) > sys.argv.index("--register-namespace") + 1:
+        namespace = sys.argv[sys.argv.index("--register-namespace") + 1]
+        lines = []
+        with open("/etc/resolv.conf", "r") as f:
+            lines = f.readlines()
+        for ln in lines:
+            if "search" in ln:
+                updated_line = ln.replace("\n","") + " " + namespace + "\n"
+                lines[lines.index(ln)] = updated_line
+                break
+        with open("/etc/resolv.conf", "w") as f:
+            f.writelines(lines)
+
     if "--register-adapter" in sys.argv:
-        if len(sys.argv) == 4:
+        if len(sys.argv) > sys.argv.index("--register-adapter") + 2 and sys.argv[sys.argv.index("--register-adapter") + 1] != "--register-namespace":
             logging.info("Trying to register pop to EPM instance...")
-            epm_ip = sys.argv[2]
-            adapter_ip = sys.argv[3]
+            epm_ip = sys.argv[sys.argv.index("--register-adapter") + 1]
+            adapter_ip = sys.argv[sys.argv.index("--register-adapter") + 2]
             adapter_id = epm_utils.register_adapter(epm_ip, adapter_ip)
             serve()
         else:
