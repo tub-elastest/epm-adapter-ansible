@@ -207,11 +207,16 @@ if __name__ == '__main__':
         lines = []
         with open("/etc/resolv.conf", "r") as f:
             lines = f.readlines()
+        found_search = False
         for ln in lines:
-            if "search" in ln:
+            if ln.startswith("search"):
                 updated_line = ln.replace("\n","") + " " + namespace + "\n"
                 lines[lines.index(ln)] = updated_line
+                found_search = True
                 break
+        if not found_search:
+            lines.append("\n")
+            lines.append("search " + " " + namespace + "\n")
         with open("/etc/resolv.conf", "w") as f:
             f.writelines(lines)
 
