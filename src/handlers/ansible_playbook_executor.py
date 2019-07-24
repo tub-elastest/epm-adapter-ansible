@@ -52,6 +52,9 @@ def modify_vars_kubernetes(playbook_path, master_ip, nodes_ip):
 
     group_vars["node_ips"] = list(nodes_ip)
     group_vars["master_ip"] = master_ip
+    group_vars["EPM_PORT_TO"] = os.getenv('EPM_PORT_TO', 40000)
+    group_vars["EPM_PORT_FROM"] = os.getenv('EPM_PORT_FROM', 1000)
+
 
     with open(playbook_path + "group_vars/all.yaml", "w") as f:
         yaml.dump(group_vars, f, default_flow_style=False)

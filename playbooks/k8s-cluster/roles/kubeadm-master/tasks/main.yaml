@@ -10,6 +10,12 @@
     creates: /etc/kubernetes/kubelet.conf
   when: kubelet_conf.stat.exists == False
 
+- name: add ports range
+  lineinfile:
+    path: /etc/kubernetes/manifests/kube-apiserver.yaml
+    line: "    - --service-node-port-range={{ EPM_PORT_FROM }}-{{ EPM_PORT_TO }}"
+    insertafter: "    - kube-apiserver"
+
 - name: In case of upgrade make sure container versions are right for kube-apiserver
   replace:
     path: /etc/kubernetes/manifests/kube-apiserver.yaml
