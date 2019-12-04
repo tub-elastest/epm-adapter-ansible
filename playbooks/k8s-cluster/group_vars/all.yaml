@@ -1,12 +1,12 @@
-master_ip: !!python/unicode ''
+EMP_ENDPOINT: ''
+EMP_PORT: ''
+EMP_SERIES: ''
+EMP_TOPIC: ''
+EPM_PORT_FROM: 1000
+EPM_PORT_TO: 40000
+master_ip: !!python/unicode '192.168.161.40'
 master_name: '{{ name }}-master'
 name: '{{ lookup(''env'',''NAME'') | default(''k8s'', true) }}'
 node_ips:
-- !!python/unicode ''
+- !!python/unicode '192.168.161.47'
 nodes_name: '{{ name }}-'
-EMP_ENDPOINT: ''
-EMP_PORT: ''
-EMP_TOPIC: ''
-EMP_SERIES: ''
-EPM_PORT_FROM: 1000
-EPM_PORT_TO: 40000

@@ -77,3 +77,4 @@ tests/
 
 *.retry
 playbooks/k8s-cluster/admin.conf
+playbooks/k8s-cluster/files/volumes/

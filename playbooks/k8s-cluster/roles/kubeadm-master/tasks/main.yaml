@@ -82,3 +82,6 @@
   become: True
   shell: kubectl completion bash > /etc/bash_completion.d/kubectl
   when: kubectl_bash_completion.stat.exists == False
+
+
+  
