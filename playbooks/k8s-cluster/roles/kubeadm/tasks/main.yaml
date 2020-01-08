@@ -9,7 +9,7 @@
 - name: Install Docker APT repo GPG key
   apt_key:
     id: F76221572C52609D
-    keyserver: keyserver.ubuntu.com
+    keyserver: hkp://p80.pool.sks-keyservers.net:80
     state: present
 
 - name: Setup Docker APT repo
@@ -65,3 +65,24 @@
   lineinfile:
     path: /etc/hosts
     line: '127.0.0.1 localhost'
+
+- name: copy volumes
+  copy:
+    src: files/volumes
+    dest: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    mode: '0777'
+
+
+- name: Create volume directories
+  file:
+    path: "/tmp/data{{ item }}"
+    state: directory
+    owner: ubuntu
+    group: ubuntu 
+    mode: '0777'
+    recurse: yes
+  with_sequence: count=10
+
+

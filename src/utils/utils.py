@@ -18,3 +18,5 @@ def extract_play(tar):
     if play is None:
         return None
     return play.read()
+
+

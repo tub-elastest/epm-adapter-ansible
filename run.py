@@ -10,7 +10,7 @@ import yaml
 import shelve
 import atexit
 
-import grpc
+import grpc 
 import src.grpc_connector.client_pb2_grpc as client_pb2_grpc
 from concurrent import futures
 

@@ -108,3 +108,6 @@
     src: /token.txt
     dest: token
   when: state == 'present'
+
+- name: Create hostpath volumes
+  command: "kubectl create -f volumes/"
