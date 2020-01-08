@@ -83,6 +83,6 @@
     group: ubuntu 
     mode: '0777'
     recurse: yes
-  with_sequence: count=5
+  with_sequence: count=10
 
 

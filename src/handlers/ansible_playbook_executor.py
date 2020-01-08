@@ -85,7 +85,7 @@ def install(playbooks_path, type, master_ip, nodes_ip, key, metadata):
         playbook_path = playbooks_path + "k8s-cluster/"
         modify_vars_kubernetes(playbook_path, master_ip, nodes_ip)
         add_metadata_to_group_vars(playbook_path, metadata)
-        create_volume_definitions(5, playbook_path)
+        create_volume_definitions(10, playbook_path)
 
         response = execute_playbook(playbook_path + "create_cluster.yaml", temp.name)
         temp.close()
@@ -153,6 +153,6 @@ def create_volume_definitions(num, path):
             "labels":{"type":"local"}},
             "spec": {
                 "storageClassName": "standard",
-                "capacity":{"storage":"10Gi"}, "accessModes":["ReadWriteOnce"], "hostPath":{"path":dq("/tmp/data%d"%i)}}}
+                "capacity":{"storage":"30Gi"}, "accessModes":["ReadWriteOnce"], "hostPath":{"path":dq("/tmp/data%d"%i)}}}
 
             yaml_r.dump(volume, f)

@@ -4,9 +4,9 @@ EMP_SERIES: ''
 EMP_TOPIC: ''
 EPM_PORT_FROM: 1000
 EPM_PORT_TO: 40000
-master_ip: !!python/unicode '192.168.161.40'
+master_ip: !!python/unicode '34.241.142.248'
 master_name: '{{ name }}-master'
 name: '{{ lookup(''env'',''NAME'') | default(''k8s'', true) }}'
 node_ips:
-- !!python/unicode '192.168.161.47'
+- !!python/unicode '34.245.80.171'
 nodes_name: '{{ name }}-'
